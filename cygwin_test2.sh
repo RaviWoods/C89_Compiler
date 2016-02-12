@@ -2,7 +2,7 @@
 
 FILETYPE=txt
 
-FILENAME=basictest
+FILENAME=tmp
 
 INPUT=test/input/${FILENAME}.${FILETYPE}
 
