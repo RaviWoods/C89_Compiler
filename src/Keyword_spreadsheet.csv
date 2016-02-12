@@ -1,0 +1,42 @@
+auto ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+double,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+int,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+struct,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+break ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+else ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+long ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+switch,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+case ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+enum ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+register ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+typedef,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+char ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+extern ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+return ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+union,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+const ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+float ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+short ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+unsigned,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+continue ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+for ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+signed ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+void,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+default ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+goto ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+sizeof ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+volatile,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+do ,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+if,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+static,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+while,"printf(""\n",%s,Keyword,%i,SOURCEFILE,"SOURCELINE""",",yytext,linenum);"
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
