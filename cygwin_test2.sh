@@ -12,7 +12,7 @@ if [ -f ${INPUT} ]
 then
 	make
 	printf "\n----------START----------\n"
-	cat ${INPUT}  |  ./bin/c_lexer
+	cat ${INPUT}  |  ./bin/c_parser
 	printf "\n----------END----------\n"
 else
 	echo ${INPUT}

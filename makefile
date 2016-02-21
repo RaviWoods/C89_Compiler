@@ -1,20 +1,20 @@
-src/c_parser: src/c_parser.tab.o src/c_parser.yy.o
-	g++ -o src/c_parser src/c_parser.tab.o src/c_parser.yy.o	
+bin/c_parser: bin/c_parser.tab.o bin/c_parser.yy.o
+	g++ -o bin/c_parser bin/c_parser.tab.o bin/c_parser.yy.o	
 
-src/c_parser.yy.o: src/c_parser.yy.cpp src/c_parser.tab.h
-	g++ -c src/c_parser.yy.cpp -o src/c_parser.yy.o
-	
-src/c_parser.tab.o: src/c_parser.tab.cpp src/c_parser.tab.h
-	g++ -c src/c_parser.tab.cpp -o src/c_parser.tab.o
-	
-src/c_parser.tab.h: src/c_parser.y
-	bison -o src/c_parser.tab.h -d src/c_parser.y
+bin/c_parser.yy.o: bin/c_parser.yy.cpp bin/c_parser.tab.hpp
+	g++ -o bin/c_parser.yy.o -c bin/c_parser.yy.cpp 
 
-src/c_parser.tab.cpp : src/c_parser.y
-	bison -o src/c_parser.tab.cpp -d src/c_parser.y
+bin/c_parser.tab.o: bin/c_parser.tab.cpp bin/c_parser.tab.hpp
+	g++ -o bin/c_parser.tab.o -c bin/c_parser.tab.cpp 
 	
-src/c_parser.yy.cpp: src/c_lexer.l
-	flex -o src/c_parser.yy.cpp src/c_lexer.l
+bin/c_parser.tab.hpp: src/c_parser.y
+	bison -o bin/c_parser.tab.hpp -d src/c_parser.y
+
+bin/c_parser.tab.cpp : src/c_parser.y
+	bison -o bin/c_parser.tab.cpp -d src/c_parser.y
+	
+bin/c_parser.yy.cpp: src/c_lexer.l
+	flex -o bin/c_parser.yy.cpp src/c_lexer.l
 
 clean:
-	rm -f bin/*.cpp bin/*.o bin/c_parser bin/*.h
+	rm -f bin/*.cpp bin/*.o bin/c_parser bin/*.hpp

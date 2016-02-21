@@ -13,7 +13,7 @@ touch ${GOT}
 if [ -f ${INPUT} ]
 then
 	make
-	cat ${INPUT}  |  ./bin/c_lexer  >  ${GOT}
+	cat ${INPUT}  |  ./bin/c_parser  >  ${GOT}
 else
 	echo ${INPUT}
 	echo "WRONG INPUT NAME"
