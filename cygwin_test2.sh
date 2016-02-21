@@ -2,7 +2,7 @@
 
 FILETYPE=txt
 
-FILENAME=tmp
+FILENAME=justints
 
 INPUT=test/input/${FILENAME}.${FILETYPE}
 
