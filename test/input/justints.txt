@@ -1,1 +1,1 @@
-int ravi
+printf("enter",a,5+5)

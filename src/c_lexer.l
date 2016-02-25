@@ -29,7 +29,7 @@ FPCONSTANT {D}*({B}|{A}){SFP}?
 SINT ([u|U]?[l|L]?)|(([i][6][4])?)
 HEXINT 0[x|X]{HEX}+{SINT}
 OCTINT 0{OCT}+{SINT}
-DECINT (([1-9]{1}{D})|0)*{SINT}
+DECINT (([1-9]{1}{D}*)|0)*{SINT}
 
 /*************** Keyword Constant ***************/ 
 KEYWORD auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|extern|return|union|const|float|short|unsigned|continue|for|signed|void|default|goto|volatile|do|if|static|while
@@ -47,7 +47,7 @@ STRINGLIT \"({ES}[^"\\\n])*\"
 
 %%
 
-[ \t\r]
+[ \t\r\n]
 
 auto		{ return TAuto; }
 double		{ return TDouble; }
@@ -80,7 +80,7 @@ do			{ return TDo; }
 if			{ return TIf; }
 static		{ return TStatic; }
 while		{ return TWhile; }
-
+ 
 
 
 sizeof	{ return TSizeof; }
@@ -133,7 +133,7 @@ sizeof	{ return TSizeof; }
 
 
 {CHARCONST} 	{
-					yylval.string = yytext;
+					yylval.string = strdup(yytext);
 					return TCharConstVal;
 				}
 
@@ -158,12 +158,12 @@ sizeof	{ return TSizeof; }
 				}
 
 {STRINGLIT} 	{
-					yylval.string = yytext;
+					yylval.string = strdup(yytext);
 					return TStringLit;
 				}
 
 {IDENTIFIER} 	{
-					yylval.string = yytext;
+					yylval.string = strdup(yytext);
 					return TIdentifier;
 				}
 
