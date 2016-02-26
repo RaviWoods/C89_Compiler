@@ -19,22 +19,7 @@ using namespace std;
 %type <string> TIdentifier
 %type <num> TIntVal
 %type <string> TIncrement
-/*
-the tokens for the language 
 
-below: the grammar production rules
-non-terminating symbols are lowercase
-terminating symbols (tokens) are uppercase
-
-the : is used instead of the BNF -> (or ::=) symbol
-(the | is still a |, rules are terminated by a ;)
-
-next to the rules there are "semantic actions" which are triggered
-when a grammar rule matches 
-
-$$ is the value taken by the left hand side of the rules
-$1...$n are the n values of the n components of the rule rhs
-*/
 
 %%
 
