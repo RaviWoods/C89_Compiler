@@ -1,1 +1,1 @@
-printf("enter",a,5+5)
+ravi=5
