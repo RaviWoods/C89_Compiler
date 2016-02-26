@@ -1,0 +1,6 @@
+while (i>10 {
+	int a =10;
+	int b,c,d = 0;
+	a++;
+	a--:
+}

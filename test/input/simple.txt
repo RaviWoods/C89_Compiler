@@ -1,0 +1,8 @@
+int main (int a,int b){
+	int a = 10;
+	(a++);
+	a;
+	if (a == 10){
+	int b = 3;
+	}
+}

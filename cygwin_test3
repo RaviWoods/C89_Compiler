@@ -1,0 +1,9 @@
+$TESTS = $("ls /test/input/1")
+
+for t in $TESTS
+do
+	make
+	printf "\n----------START----------\n"
+	cat t  |  ./bin/c_parser
+	printf "\n----------END----------\n"
+done

@@ -1,10 +1,8 @@
 #!/bin/bash
 
-FILETYPE=txt
+FILENAME=hard1
 
-FILENAME=justints
-
-INPUT=test/input/${FILENAME}.${FILETYPE}
+INPUT=test/input/${FILENAME}.txt
 
 
 
@@ -19,7 +17,4 @@ else
 	echo "WRONG INPUT NAME"
 	exit 1
 fi
-
- 
-
 

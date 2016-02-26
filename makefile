@@ -11,7 +11,7 @@ bin/c_parser.tab.hpp: src/c_parser.y
 	bison -o bin/c_parser.tab.hpp -d src/c_parser.y
 
 bin/c_parser.tab.cpp : src/c_parser.y
-	bison -o bin/c_parser.tab.cpp -d src/c_parser.y
+	bison -o bin/c_parser.tab.cpp -d -v src/c_parser.y
 	
 bin/c_parser.yy.cpp: src/c_lexer.l
 	flex -o bin/c_parser.yy.cpp src/c_lexer.l

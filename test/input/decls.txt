@@ -1,0 +1,8 @@
+int a,b,c;
+int ravi;
+int ravi = 6++;
+int foo = (1+2*(7+5))%3;
+int ravi=5;
+int a,b,c,d,e = 0;
+
+ravi(a,b,c)

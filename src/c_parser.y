@@ -6,7 +6,17 @@ int yylex();
 int yyerror(const char* s);
 
 using namespace std;
+int spaceNo = 0;
+char* nextID;
+void printSpaces (int spaceNo) {
+	for(int i = 0; i < (4*spaceNo); i++) {
+		cout << " ";
+	} 
+}
+
 %}
+
+%start TranslationUnit
 
 %union{
   char* string;
@@ -18,15 +28,99 @@ using namespace std;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <string> TIncrement
-
 
 %%
+
+/************* FUNCTIONS - START *************/
+
+TranslationUnit : ExternalDec | TranslationUnit ExternalDec;
+
+ExternalDec : Declaration | FuncDef;
+
+FuncDef : TypeName Declarator | Declarator | DecList CompoundStat | CompoundStat;
+
+/************* FUNCTIONS - END *************/
+
+/************* STATEMENTS - START *************/
+
+Stat : LabelledStat | CompoundStat | ExpStat | SelectStat | IterStat | JumpStat;
+
+LabelledStat : TIdentifier TColon Stat | TCase ConditionalExpression TComma Stat | TDefault TComma Stat;
+
+CompoundStat : StartScope DecList StatList EndScope | StartScope DecList EndScope | StartScope StatList EndScope | StartScope EndScope;
+StartScope : TOpenCurlyBrace {
+								printSpaces(spaceNo);
+								cout << "SCOPE" << endl; 	
+								spaceNo++;
+							 }	 
+EndScope : TCloseCurlyBrace {
+								spaceNo--;
+							} 
+SelectStat : TIf TOpenBracket Expression TCloseBracket Stat | TIf TOpenBracket Expression TCloseBracket Stat TElse Stat | TSwitch TOpenBracket Expression TCloseBracket;
+
+ExpStat : Expression TSemicolon | TSemicolon;
+
+IterStat : TWhile TOpenBracket Expression TCloseBracket Stat | TDo Stat TWhile TOpenBracket Expression TCloseBracket | ForStat;
+
+ForStat : 
+TFor TOpenBracket Expression TSemicolon Expression TSemicolon Expression TCloseBracket Stat | 
+TFor TOpenBracket Expression TSemicolon Expression TSemicolon TCloseBracket Stat | 
+TFor TOpenBracket Expression TSemicolon TSemicolon Expression TCloseBracket Stat | 
+TFor TOpenBracket TSemicolon Expression TSemicolon Expression TCloseBracket Stat | 
+TFor TOpenBracket Expression TSemicolon TSemicolon TCloseBracket Stat | 
+TFor TOpenBracket TSemicolon Expression TSemicolon TCloseBracket Stat | 
+TFor TOpenBracket TSemicolon TSemicolon Expression TCloseBracket Stat;
+
+DecList : Declaration | DecList Declaration;
+
+StatList : Stat | StatList Stat;
+
+JumpStat : TGoto TIdentifier TSemicolon | TContinue TSemicolon | TBreak TSemicolon | TReturn TSemicolon | TReturn Expression TSemicolon
+
+/************* STATEMENTS - START *************/
+
+
+/************* DECLARATIONS - START *************/
+
+Declaration : TypeName InitDecList TSemicolon { 
+													printSpaces(spaceNo);
+													cout << "VARIABLE : " << nextID << endl;
+											  }
+			| TypeName TSemicolon;
+
+InitDecList : InitDec | InitDecList TComma InitDec
+
+InitDec : Declarator | Declarator TAssign AssignmentExpression;
+
+ParamTypeList : ParamList | ParamList TComma TEllipsis;
+
+ParamList : ParamDec | ParamList TComma ParamDec;
+
+ParamDec : TypeName ParamName;
+
+IdList : Declarator | IdList TComma Declarator;
+
+IdDec : TIdentifier {nextID = $1;}
+
+ParamName : TIdentifier { 
+							printSpaces(spaceNo);
+							cout << "    PARAMETER : " << $1 << endl;
+						}
+
+FuncStart : TOpenBracket { 
+							printSpaces(spaceNo);
+							cout << "FUNCTION : " << nextID << endl;
+						}
+
+Declarator : IdDec | TOpenBracket Declarator TCloseBracket | Declarator FuncStart ParamTypeList TCloseBracket | Declarator FuncStart IdList TCloseBracket | Declarator FuncStart TCloseBracket;
+
+/************* DECLARATIONS - END *************/
+
 
 /************* EXPRESSIONS - START *************/
 
 
-Expression : AssignmentExpression {cout << "exp" << endl;}| Expression TComma AssignmentExpression;
+Expression : AssignmentExpression | Expression TComma AssignmentExpression;
 
 AssignmentExpression : ConditionalExpression | UnaryExpression AssignmentOperator AssignmentExpression;
 
@@ -46,7 +140,7 @@ AndExp : EqualityExp | AndExp TBitwiseAnd EqualityExp;
 
 EqualityExp : RelationalExp | EqualityExp TEquals RelationalExp | EqualityExp TNotEqual RelationalExp;
 
-RelationalExp : ShiftExp | RelationalExp TGreater ShiftExp | RelationalExp TGreater TLess | RelationalExp TLessEqual ShiftExp | RelationalExp TGreaterEqual ShiftExp;
+RelationalExp : ShiftExp | RelationalExp TGreater ShiftExp | RelationalExp TLess ShiftExp | RelationalExp TLessEqual ShiftExp | RelationalExp TGreaterEqual ShiftExp;
 
 ShiftExp : AdditiveExp | ShiftExp TLeftShift AdditiveExp | ShiftExp TRightShift AdditiveExp;
 
