@@ -1,0 +1,9 @@
+int Keyword TInt 1 "" 1
+main Identifier TIdentifier 1 "" 1
+( Operator TOpenBracket 1 "" 1
+) Operator TCloseBracket 1 "" 1
+{ Operator TOpenCurlyBrace 2 "" 2
+return Keyword TReturn 3 "" 3
+0 Constant TDecInteger 3 "" 3
+; Operator TSemicolon 3 "" 3
+} Operator TCloseCurlyBrace 4 "" 4

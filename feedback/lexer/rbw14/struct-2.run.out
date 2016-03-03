@@ -1,0 +1,10 @@
+struct Keyword TStruct 1 "" 1
+x Identifier TIdentifier 1 "" 1
+{ Operator TOpenCurlyBrace 1 "" 1
+int Keyword TInt 1 "" 1
+x Identifier TIdentifier 1 "" 1
+: Operator TColon 1 "" 1
+10 Constant TDecInteger 1 "" 1
+; Operator TSemicolon 1 "" 1
+} Operator TCloseCurlyBrace 1 "" 1
+; Operator TSemicolon 1 "" 1

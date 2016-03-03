@@ -1,0 +1,125 @@
+  1 : text=@struct@, class=@Keyword@, type=@Struct@, line=2, srcF=@""@, srcL=2
+  2 : text=@x@, class=@Identifier@, type=@Identifier@, line=2, srcF=@""@, srcL=2
+  3 : text=@{@, class=@Operator@, type=@CurlyLeft@, line=2, srcF=@""@, srcL=2
+  4 : text=@int@, class=@Keyword@, type=@Int@, line=3, srcF=@""@, srcL=3
+  5 : text=@f@, class=@Identifier@, type=@Identifier@, line=3, srcF=@""@, srcL=3
+  6 : text=@;@, class=@Operator@, type=@SemiColon@, line=3, srcF=@""@, srcL=3
+  7 : text=@}@, class=@Operator@, type=@CurlyRight@, line=4, srcF=@""@, srcL=4
+  8 : text=@;@, class=@Operator@, type=@SemiColon@, line=4, srcF=@""@, srcL=4
+  9 : text=@int@, class=@Keyword@, type=@Int@, line=7, srcF=@""@, srcL=7
+  10 : text=@main@, class=@Identifier@, type=@Identifier@, line=7, srcF=@""@, srcL=7
+  11 : text=@(@, class=@Operator@, type=@ParenLeft@, line=7, srcF=@""@, srcL=7
+  12 : text=@)@, class=@Operator@, type=@ParenRight@, line=7, srcF=@""@, srcL=7
+  13 : text=@{@, class=@Operator@, type=@CurlyLeft@, line=8, srcF=@""@, srcL=8
+  14 : text=@int@, class=@Keyword@, type=@Int@, line=10, srcF=@""@, srcL=10
+  15 : text=@x@, class=@Identifier@, type=@Identifier@, line=10, srcF=@""@, srcL=10
+  16 : text=@=@, class=@Operator@, type=@Assign@, line=10, srcF=@""@, srcL=10
+  17 : text=@5@, class=@Constant@, type=@IntegerConstant@, line=10, srcF=@""@, srcL=10
+  18 : text=@,@, class=@Operator@, type=@Comma@, line=10, srcF=@""@, srcL=10
+  19 : text=@y@, class=@Identifier@, type=@Identifier@, line=10, srcF=@""@, srcL=10
+  20 : text=@=@, class=@Operator@, type=@Assign@, line=10, srcF=@""@, srcL=10
+  21 : text=@8@, class=@Constant@, type=@IntegerConstant@, line=10, srcF=@""@, srcL=10
+  22 : text=@;@, class=@Operator@, type=@SemiColon@, line=10, srcF=@""@, srcL=10
+  23 : text=@x@, class=@Identifier@, type=@Identifier@, line=12, srcF=@""@, srcL=12
+  24 : text=@=@, class=@Operator@, type=@Assign@, line=12, srcF=@""@, srcL=12
+  25 : text=@x@, class=@Identifier@, type=@Identifier@, line=12, srcF=@""@, srcL=12
+  26 : text=@<@, class=@Operator@, type=@LessThan@, line=12, srcF=@""@, srcL=12
+  27 : text=@y@, class=@Identifier@, type=@Identifier@, line=12, srcF=@""@, srcL=12
+  28 : text=@;@, class=@Operator@, type=@SemiColon@, line=12, srcF=@""@, srcL=12
+  29 : text=@x@, class=@Identifier@, type=@Identifier@, line=13, srcF=@""@, srcL=13
+  30 : text=@=@, class=@Operator@, type=@Assign@, line=13, srcF=@""@, srcL=13
+  31 : text=@x@, class=@Identifier@, type=@Identifier@, line=13, srcF=@""@, srcL=13
+  32 : text=@==@, class=@Operator@, type=@Equal@, line=13, srcF=@""@, srcL=13
+  33 : text=@y@, class=@Identifier@, type=@Identifier@, line=13, srcF=@""@, srcL=13
+  34 : text=@;@, class=@Operator@, type=@SemiColon@, line=13, srcF=@""@, srcL=13
+  35 : text=@y@, class=@Identifier@, type=@Identifier@, line=14, srcF=@""@, srcL=14
+  36 : text=@=@, class=@Operator@, type=@Assign@, line=14, srcF=@""@, srcL=14
+  37 : text=@y@, class=@Identifier@, type=@Identifier@, line=14, srcF=@""@, srcL=14
+  38 : text=@!=@, class=@Operator@, type=@NotEqual@, line=14, srcF=@""@, srcL=14
+  39 : text=@x@, class=@Identifier@, type=@Identifier@, line=14, srcF=@""@, srcL=14
+  40 : text=@;@, class=@Operator@, type=@SemiColon@, line=14, srcF=@""@, srcL=14
+  41 : text=@x@, class=@Identifier@, type=@Identifier@, line=15, srcF=@""@, srcL=15
+  42 : text=@=@, class=@Operator@, type=@Assign@, line=15, srcF=@""@, srcL=15
+  43 : text=@x@, class=@Identifier@, type=@Identifier@, line=15, srcF=@""@, srcL=15
+  44 : text=@<=@, class=@Operator@, type=@LessThanEqual@, line=15, srcF=@""@, srcL=15
+  45 : text=@10@, class=@Constant@, type=@IntegerConstant@, line=15, srcF=@""@, srcL=15
+  46 : text=@<=@, class=@Operator@, type=@LessThanEqual@, line=15, srcF=@""@, srcL=15
+  47 : text=@12@, class=@Constant@, type=@IntegerConstant@, line=15, srcF=@""@, srcL=15
+  48 : text=@;@, class=@Operator@, type=@SemiColon@, line=15, srcF=@""@, srcL=15
+  49 : text=@x@, class=@Identifier@, type=@Identifier@, line=16, srcF=@""@, srcL=16
+  50 : text=@=@, class=@Operator@, type=@Assign@, line=16, srcF=@""@, srcL=16
+  51 : text=@x@, class=@Identifier@, type=@Identifier@, line=16, srcF=@""@, srcL=16
+  52 : text=@>=@, class=@Operator@, type=@GreaterThanEqual@, line=16, srcF=@""@, srcL=16
+  53 : text=@5@, class=@Constant@, type=@IntegerConstant@, line=16, srcF=@""@, srcL=16
+  54 : text=@>@, class=@Operator@, type=@GreaterThan@, line=16, srcF=@""@, srcL=16
+  55 : text=@10@, class=@Constant@, type=@IntegerConstant@, line=16, srcF=@""@, srcL=16
+  56 : text=@;@, class=@Operator@, type=@SemiColon@, line=16, srcF=@""@, srcL=16
+  57 : text=@}@, class=@Operator@, type=@CurlyRight@, line=18, srcF=@""@, srcL=18
+Read 57 lines from file 'test-data/ref/expr-9.run.out'
+  1 : text=@struct@, class=@Keyword@, type=@TStruct@, line=2, srcF=@""@, srcL=2
+  2 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=2, srcF=@""@, srcL=2
+  3 : text=@{@, class=@Operator@, type=@TOpenCurlyBrace@, line=2, srcF=@""@, srcL=2
+  4 : text=@int@, class=@Keyword@, type=@TInt@, line=3, srcF=@""@, srcL=3
+  5 : text=@f@, class=@Identifier@, type=@TIdentifier@, line=3, srcF=@""@, srcL=3
+  6 : text=@;@, class=@Operator@, type=@TSemicolon@, line=3, srcF=@""@, srcL=3
+  7 : text=@}@, class=@Operator@, type=@TCloseCurlyBrace@, line=4, srcF=@""@, srcL=4
+  8 : text=@;@, class=@Operator@, type=@TSemicolon@, line=4, srcF=@""@, srcL=4
+  9 : text=@int@, class=@Keyword@, type=@TInt@, line=7, srcF=@""@, srcL=7
+  10 : text=@main@, class=@Identifier@, type=@TIdentifier@, line=7, srcF=@""@, srcL=7
+  11 : text=@(@, class=@Operator@, type=@TOpenBracket@, line=7, srcF=@""@, srcL=7
+  12 : text=@)@, class=@Operator@, type=@TCloseBracket@, line=7, srcF=@""@, srcL=7
+  13 : text=@{@, class=@Operator@, type=@TOpenCurlyBrace@, line=8, srcF=@""@, srcL=8
+  14 : text=@int@, class=@Keyword@, type=@TInt@, line=10, srcF=@""@, srcL=10
+  15 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=10, srcF=@""@, srcL=10
+  16 : text=@=@, class=@Operator@, type=@TAssign@, line=10, srcF=@""@, srcL=10
+  17 : text=@5@, class=@Invalid@, type=@TInvalid@, line=10, srcF=@""@, srcL=10
+  18 : text=@,@, class=@Operator@, type=@TComma@, line=10, srcF=@""@, srcL=10
+  19 : text=@y@, class=@Identifier@, type=@TIdentifier@, line=10, srcF=@""@, srcL=10
+  20 : text=@=@, class=@Operator@, type=@TAssign@, line=10, srcF=@""@, srcL=10
+  21 : text=@8@, class=@Invalid@, type=@TInvalid@, line=10, srcF=@""@, srcL=10
+  22 : text=@;@, class=@Operator@, type=@TSemicolon@, line=10, srcF=@""@, srcL=10
+  23 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=12, srcF=@""@, srcL=12
+  24 : text=@=@, class=@Operator@, type=@TAssign@, line=12, srcF=@""@, srcL=12
+  25 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=12, srcF=@""@, srcL=12
+  26 : text=@<@, class=@Operator@, type=@TGreater@, line=12, srcF=@""@, srcL=12
+  27 : text=@y@, class=@Identifier@, type=@TIdentifier@, line=12, srcF=@""@, srcL=12
+  28 : text=@;@, class=@Operator@, type=@TSemicolon@, line=12, srcF=@""@, srcL=12
+  29 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=13, srcF=@""@, srcL=13
+  30 : text=@=@, class=@Operator@, type=@TAssign@, line=13, srcF=@""@, srcL=13
+  31 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=13, srcF=@""@, srcL=13
+  32 : text=@==@, class=@Operator@, type=@TEquals@, line=13, srcF=@""@, srcL=13
+  33 : text=@y@, class=@Identifier@, type=@TIdentifier@, line=13, srcF=@""@, srcL=13
+  34 : text=@;@, class=@Operator@, type=@TSemicolon@, line=13, srcF=@""@, srcL=13
+  35 : text=@y@, class=@Identifier@, type=@TIdentifier@, line=14, srcF=@""@, srcL=14
+  36 : text=@=@, class=@Operator@, type=@TAssign@, line=14, srcF=@""@, srcL=14
+  37 : text=@y@, class=@Identifier@, type=@TIdentifier@, line=14, srcF=@""@, srcL=14
+  38 : text=@!=@, class=@Operator@, type=@TNotEqual@, line=14, srcF=@""@, srcL=14
+  39 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=14, srcF=@""@, srcL=14
+  40 : text=@;@, class=@Operator@, type=@TSemicolon@, line=14, srcF=@""@, srcL=14
+  41 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=15, srcF=@""@, srcL=15
+  42 : text=@=@, class=@Operator@, type=@TAssign@, line=15, srcF=@""@, srcL=15
+  43 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=15, srcF=@""@, srcL=15
+  44 : text=@<=@, class=@Operator@, type=@TLessEqual@, line=15, srcF=@""@, srcL=15
+  45 : text=@10@, class=@Constant@, type=@TDecInteger@, line=15, srcF=@""@, srcL=15
+  46 : text=@<=@, class=@Operator@, type=@TLessEqual@, line=15, srcF=@""@, srcL=15
+  47 : text=@12@, class=@Constant@, type=@TDecInteger@, line=15, srcF=@""@, srcL=15
+  48 : text=@;@, class=@Operator@, type=@TSemicolon@, line=15, srcF=@""@, srcL=15
+  49 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=16, srcF=@""@, srcL=16
+  50 : text=@=@, class=@Operator@, type=@TAssign@, line=16, srcF=@""@, srcL=16
+  51 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=16, srcF=@""@, srcL=16
+  52 : text=@>=@, class=@Operator@, type=@TGreaterEqual@, line=16, srcF=@""@, srcL=16
+  53 : text=@5@, class=@Invalid@, type=@TInvalid@, line=16, srcF=@""@, srcL=16
+  54 : text=@>@, class=@Operator@, type=@TLess@, line=16, srcF=@""@, srcL=16
+  55 : text=@10@, class=@Constant@, type=@TDecInteger@, line=16, srcF=@""@, srcL=16
+  56 : text=@;@, class=@Operator@, type=@TSemicolon@, line=16, srcF=@""@, srcL=16
+  57 : text=@}@, class=@Operator@, type=@TCloseCurlyBrace@, line=18, srcF=@""@, srcL=18
+Read 57 lines from file 'output/rbw14/expr-9.run.out'
+Reference: 57 lines, Got: 57 lines.
+Token 17 : Expected class @Constant@, got @Invalid@
+Token 21 : Expected class @Constant@, got @Invalid@
+Token 45 : Expected token type TInvalid, to match previous token on line 17
+Token 47 : Expected token type TInvalid, to match previous token on line 17
+Token 53 : Expected class @Constant@, got @Invalid@
+Token 55 : Expected token type TInvalid, to match previous token on line 17
+    User,             Test, Tokens,   Text,  Class,   Type, LineNo, SrcFil, SrcLin
+   rbw14,           expr-9,     57,  100.0,   94.7,   94.7,  100.0,  100.0,  100.0

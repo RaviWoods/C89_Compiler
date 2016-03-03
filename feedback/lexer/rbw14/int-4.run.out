@@ -1,0 +1,5 @@
+int Keyword TInt 1 "" 1
+x Identifier TIdentifier 1 "" 1
+= Operator TAssign 1 "" 1
+0x1000 Constant THexInteger 1 "" 1
+; Operator TSemicolon 1 "" 1

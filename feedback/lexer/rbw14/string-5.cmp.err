@@ -1,0 +1,30 @@
+  1 : text=@const@, class=@Keyword@, type=@Const@, line=1, srcF=@""@, srcL=1
+  2 : text=@char@, class=@Keyword@, type=@Char@, line=1, srcF=@""@, srcL=1
+  3 : text=@*@, class=@Operator@, type=@Asterix@, line=1, srcF=@""@, srcL=1
+  4 : text=@x@, class=@Identifier@, type=@Identifier@, line=1, srcF=@""@, srcL=1
+  5 : text=@=@, class=@Operator@, type=@Assign@, line=1, srcF=@""@, srcL=1
+  6 : text=@"  X \t   "@, class=@StringLiteral@, type=@StringLiteral@, line=1, srcF=@""@, srcL=1
+  7 : text=@;@, class=@Operator@, type=@SemiColon@, line=1, srcF=@""@, srcL=1
+Read 7 lines from file 'test-data/ref/string-5.run.out'
+  1 : text=@const@, class=@Keyword@, type=@TConst@, line=1, srcF=@""@, srcL=1
+  2 : text=@char@, class=@Keyword@, type=@TChar@, line=1, srcF=@""@, srcL=1
+  3 : text=@*@, class=@Operator@, type=@TStar@, line=1, srcF=@""@, srcL=1
+  4 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=1, srcF=@""@, srcL=1
+  5 : text=@=@, class=@Operator@, type=@TAssign@, line=1, srcF=@""@, srcL=1
+  6 : text=@" Invalid TInvalid 1 "@, class=@"@, type=@1@, line=-1, srcF=@@, srcL=-1
+  7 : text=@X@, class=@Identifier@, type=@TIdentifier@, line=1, srcF=@""@, srcL=1
+  8 : text=@\@, class=@Invalid@, type=@TInvalid@, line=1, srcF=@""@, srcL=1
+  9 : text=@t@, class=@Identifier@, type=@TIdentifier@, line=1, srcF=@""@, srcL=1
+  10 : text=@" Invalid TInvalid 1 "@, class=@"@, type=@1@, line=-1, srcF=@@, srcL=-1
+  11 : text=@;@, class=@Operator@, type=@TSemicolon@, line=1, srcF=@""@, srcL=1
+Read 11 lines from file 'output/rbw14/string-5.run.out'
+Reference: 7 lines, Got: 11 lines.
+Token 6 : Expected text @"  X \t   "@
+Token 6 : Expected class @StringLiteral@, got @"@
+Token 6 : line number is reported as -1
+Token 6 : Expected sourceFile @""@@, got @@
+Token 6 : Expected sourceLine 1, got -1
+Token 7 : Expected text @;@
+Token 7 : Expected class @Operator@, got @Identifier@
+    User,             Test, Tokens,   Text,  Class,   Type, LineNo, SrcFil, SrcLin
+   rbw14,         string-5,      7,   71.4,   71.4,  100.0,   85.7,   85.7,   85.7

@@ -1,0 +1,7 @@
+long Keyword TLong 1 "" 1
+int Keyword TInt 1 "" 1
+y Identifier TIdentifier 1 "" 1
+; Operator TSemicolon 1 "" 1
+float Keyword TFloat 2 "" 2
+z Identifier TIdentifier 2 "" 2
+; Operator TSemicolon 2 "" 2

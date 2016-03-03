@@ -1,0 +1,15 @@
+  1 : text=@int@, class=@Keyword@, type=@Int@, line=1, srcF=@""@, srcL=1
+  2 : text=@x@, class=@Identifier@, type=@Identifier@, line=1, srcF=@""@, srcL=1
+  3 : text=@=@, class=@Operator@, type=@Assign@, line=1, srcF=@""@, srcL=1
+  4 : text=@'\n'@, class=@Constant@, type=@CharacterConstant@, line=1, srcF=@""@, srcL=1
+  5 : text=@;@, class=@Operator@, type=@SemiColon@, line=1, srcF=@""@, srcL=1
+Read 5 lines from file 'test-data/ref/char-5.run.out'
+  1 : text=@int@, class=@Keyword@, type=@TInt@, line=1, srcF=@""@, srcL=1
+  2 : text=@x@, class=@Identifier@, type=@TIdentifier@, line=1, srcF=@""@, srcL=1
+  3 : text=@=@, class=@Operator@, type=@TAssign@, line=1, srcF=@""@, srcL=1
+  4 : text=@'\n'@, class=@Constant@, type=@TCharConstant@, line=1, srcF=@""@, srcL=1
+  5 : text=@;@, class=@Operator@, type=@TSemicolon@, line=1, srcF=@""@, srcL=1
+Read 5 lines from file 'output/rbw14/char-5.run.out'
+Reference: 5 lines, Got: 5 lines.
+    User,             Test, Tokens,   Text,  Class,   Type, LineNo, SrcFil, SrcLin
+   rbw14,           char-5,      5,  100.0,  100.0,  100.0,  100.0,  100.0,  100.0

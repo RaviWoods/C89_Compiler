@@ -1,0 +1,3 @@
+struct Keyword TStruct 1 "" 1
+x Identifier TIdentifier 1 "" 1
+; Operator TSemicolon 1 "" 1

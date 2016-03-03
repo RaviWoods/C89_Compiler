@@ -1,0 +1,7 @@
+int Keyword TInt 1 "" 1
+x Identifier TIdentifier 1 "" 1
+= Operator TAssign 1 "" 1
+' Invalid TInvalid 1 "" 1
+_ Identifier TIdentifier 1 "" 1
+' Invalid TInvalid 1 "" 1
+; Operator TSemicolon 1 "" 1

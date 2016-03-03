@@ -1,0 +1,39 @@
+  1 : text=@long@, class=@Keyword@, type=@Long@, line=1, srcF=@""@, srcL=1
+  2 : text=@int@, class=@Keyword@, type=@Int@, line=1, srcF=@""@, srcL=1
+  3 : text=@y@, class=@Identifier@, type=@Identifier@, line=1, srcF=@""@, srcL=1
+  4 : text=@;@, class=@Operator@, type=@SemiColon@, line=1, srcF=@""@, srcL=1
+  5 : text=@float@, class=@Keyword@, type=@Float@, line=2, srcF=@""@, srcL=2
+  6 : text=@z@, class=@Identifier@, type=@Identifier@, line=2, srcF=@""@, srcL=2
+  7 : text=@;@, class=@Operator@, type=@SemiColon@, line=2, srcF=@""@, srcL=2
+  8 : text=@double@, class=@Keyword@, type=@Double@, line=3, srcF=@""@, srcL=3
+  9 : text=@a@, class=@Identifier@, type=@Identifier@, line=3, srcF=@""@, srcL=3
+  10 : text=@;@, class=@Operator@, type=@SemiColon@, line=3, srcF=@""@, srcL=3
+  11 : text=@char@, class=@Keyword@, type=@Char@, line=4, srcF=@""@, srcL=4
+  12 : text=@zzz@, class=@Identifier@, type=@Identifier@, line=4, srcF=@""@, srcL=4
+  13 : text=@;@, class=@Operator@, type=@SemiColon@, line=4, srcF=@""@, srcL=4
+  14 : text=@unsigned@, class=@Keyword@, type=@Unsigned@, line=5, srcF=@""@, srcL=5
+  15 : text=@u@, class=@Identifier@, type=@Identifier@, line=5, srcF=@""@, srcL=5
+  16 : text=@;@, class=@Operator@, type=@SemiColon@, line=5, srcF=@""@, srcL=5
+Read 16 lines from file 'test-data/ref/var-decl-4.run.out'
+  1 : text=@long@, class=@Keyword@, type=@TLong@, line=1, srcF=@""@, srcL=1
+  2 : text=@int@, class=@Keyword@, type=@TInt@, line=1, srcF=@""@, srcL=1
+  3 : text=@y@, class=@Identifier@, type=@TIdentifier@, line=1, srcF=@""@, srcL=1
+  4 : text=@;@, class=@Operator@, type=@TSemicolon@, line=1, srcF=@""@, srcL=1
+  5 : text=@float@, class=@Keyword@, type=@TFloat@, line=2, srcF=@""@, srcL=2
+  6 : text=@z@, class=@Identifier@, type=@TIdentifier@, line=2, srcF=@""@, srcL=2
+  7 : text=@;@, class=@Operator@, type=@TSemicolon@, line=2, srcF=@""@, srcL=2
+  8 : text=@double@, class=@Keyword@, type=@TDouble@, line=3, srcF=@""@, srcL=3
+  9 : text=@a@, class=@Identifier@, type=@TIdentifier@, line=3, srcF=@""@, srcL=3
+  10 : text=@;@, class=@Operator@, type=@TSemicolon@, line=3, srcF=@""@, srcL=3
+  11 : text=@char@, class=@Keyword@, type=@TChar@, line=4, srcF=@""@, srcL=4
+  12 : text=@zzz@, class=@Identifier@, type=@TIdentifier@, line=4, srcF=@""@, srcL=4
+  13 : text=@;@, class=@Operator@, type=@TSemicolon@, line=4, srcF=@""@, srcL=4
+  14 : text=@unsigned@, class=@Keyword@, type=@TUnsigned@, line=5, srcF=@""@, srcL=5
+  15 : text=@u@, class=@Constant@, type=@TDecInteger@, line=5, srcF=@""@, srcL=5
+  16 : text=@;@, class=@Operator@, type=@TSemicolon@, line=5, srcF=@""@, srcL=5
+Read 16 lines from file 'output/rbw14/var-decl-4.run.out'
+Reference: 16 lines, Got: 16 lines.
+Token 15 : Expected class @Identifier@, got @Constant@
+Token 15 : Expected token type TIdentifier, to match previous token on line 3
+    User,             Test, Tokens,   Text,  Class,   Type, LineNo, SrcFil, SrcLin
+   rbw14,       var-decl-4,     16,  100.0,   93.8,   93.8,  100.0,  100.0,  100.0

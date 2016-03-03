@@ -1,0 +1,19 @@
+  1 : text=@long@, class=@Keyword@, type=@Long@, line=1, srcF=@""@, srcL=1
+  2 : text=@int@, class=@Keyword@, type=@Int@, line=1, srcF=@""@, srcL=1
+  3 : text=@y@, class=@Identifier@, type=@Identifier@, line=1, srcF=@""@, srcL=1
+  4 : text=@;@, class=@Operator@, type=@SemiColon@, line=1, srcF=@""@, srcL=1
+  5 : text=@float@, class=@Keyword@, type=@Float@, line=2, srcF=@""@, srcL=2
+  6 : text=@z@, class=@Identifier@, type=@Identifier@, line=2, srcF=@""@, srcL=2
+  7 : text=@;@, class=@Operator@, type=@SemiColon@, line=2, srcF=@""@, srcL=2
+Read 7 lines from file 'test-data/ref/var-decl-3.run.out'
+  1 : text=@long@, class=@Keyword@, type=@TLong@, line=1, srcF=@""@, srcL=1
+  2 : text=@int@, class=@Keyword@, type=@TInt@, line=1, srcF=@""@, srcL=1
+  3 : text=@y@, class=@Identifier@, type=@TIdentifier@, line=1, srcF=@""@, srcL=1
+  4 : text=@;@, class=@Operator@, type=@TSemicolon@, line=1, srcF=@""@, srcL=1
+  5 : text=@float@, class=@Keyword@, type=@TFloat@, line=2, srcF=@""@, srcL=2
+  6 : text=@z@, class=@Identifier@, type=@TIdentifier@, line=2, srcF=@""@, srcL=2
+  7 : text=@;@, class=@Operator@, type=@TSemicolon@, line=2, srcF=@""@, srcL=2
+Read 7 lines from file 'output/rbw14/var-decl-3.run.out'
+Reference: 7 lines, Got: 7 lines.
+    User,             Test, Tokens,   Text,  Class,   Type, LineNo, SrcFil, SrcLin
+   rbw14,       var-decl-3,      7,  100.0,  100.0,  100.0,  100.0,  100.0,  100.0

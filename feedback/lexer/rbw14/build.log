@@ -1,0 +1,7 @@
+make[1]: Entering directory `/vagrant/_dt10_/documents/teaching/2015/compilers/cw/m1-lexer/curated/rbw14'
+flex -o src/c_lexer.yy.cpp src/c_lexer.l
+g++ src/c_lexer.yy.cpp -o bin/c_lexer
+src/c_lexer.l:7:20: warning: deprecated conversion from string constant to ‘char*’ [-Wwrite-strings]
+ char* sourceFile = "\"\"";
+                    ^
+make[1]: Leaving directory `/vagrant/_dt10_/documents/teaching/2015/compilers/cw/m1-lexer/curated/rbw14'

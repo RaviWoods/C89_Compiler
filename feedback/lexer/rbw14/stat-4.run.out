@@ -1,0 +1,14 @@
+int Keyword TInt 1 "" 1
+main Identifier TIdentifier 1 "" 1
+( Operator TOpenBracket 1 "" 1
+) Operator TCloseBracket 1 "" 1
+{ Operator TOpenCurlyBrace 2 "" 2
+do Keyword TDo 3 "" 3
+{ Operator TOpenCurlyBrace 3 "" 3
+} Operator TCloseCurlyBrace 3 "" 3
+while Keyword TWhile 3 "" 3
+( Operator TOpenBracket 3 "" 3
+1 Invalid TInvalid 3 "" 3
+) Operator TCloseBracket 3 "" 3
+; Operator TSemicolon 3 "" 3
+} Operator TCloseCurlyBrace 4 "" 4
