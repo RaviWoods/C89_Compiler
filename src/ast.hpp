@@ -9,11 +9,13 @@ class Node {
 public:
 	virtual ~Node() 
 	{};
+	virtual std::string print()=0;
+private:
 };
 
 class Expression : public Node {
 public:
-	virtual std::string print();
+	virtual std::string print()=0;
 };
 
 class BinaryExpression : public Expression { 
@@ -29,7 +31,11 @@ public:
 
 	std::string print() {
 		std::stringstream ss;
-		ss << left->print() << op << right->print();
+		ss << "BIN_EXP {" << "\n";
+		ss << left->print() << "\n";
+		ss << op << "\n\n";
+		ss <<  right->print() << "\n";
+		ss << "}" << "\n";
 		return ss.str();
 	}
 };
@@ -43,7 +49,9 @@ public:
 	{};
 
 	std::string print() {
-		return name;
+		std::stringstream ss;
+		ss << name;
+		return ss.str();
 	}
 };
 
