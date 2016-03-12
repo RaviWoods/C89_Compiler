@@ -11,7 +11,7 @@ bool topOfTree=true;
 Node* topNode;
 %}
 
-%start MultExp
+%start AdditiveExp
 
 %union{
   char* string;
@@ -24,7 +24,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <int> TIntVal
-%type <ExpPtr> MultExp Exp
+%type <ExpPtr> AdditiveExp MultExp Exp
 
 %%
 
@@ -32,14 +32,34 @@ Exp :
 TIdentifier  { 
 	$$ =  new Identifier(string($1));
 
-};
+} ;
+
+AdditiveExp :  
+MultExp TPlus AdditiveExp {
+  $$ = new BinaryExpression($1,"plus", $3);
+  topNode = $$;
+} 
+| MultExp TMinus AdditiveExp {
+  $$ = new BinaryExpression($1,"minus", $3);
+  topNode = $$;
+} 
+| MultExp;
 
 MultExp :  
 Exp TStar MultExp {
 	$$ = new BinaryExpression($1,"times", $3);
 	topNode = $$;
 } 
+| Exp TSlash MultExp {
+  $$ = new BinaryExpression($1,"divide", $3);
+  topNode = $$;
+} 
+| Exp TPercent MultExp {
+  $$ = new BinaryExpression($1,"modulo", $3);
+  topNode = $$;
+} 
 | Exp;
+
 
 %%
 
