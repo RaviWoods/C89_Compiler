@@ -1,10 +1,7 @@
-Exp :  
-TIdentifier  { Identifier(string($1)); } 
-| Constant;
-
-AdditiveExp :  MultExp TPlus AdditiveExp | MultExp TMinus AdditiveExp | MultExp;
-
-MultExp :  Exp TStar MultExp | Exp TSlash MultExp | Exp TPercent MultExp | Exp;
-
-Constant : 
-TIntVal  { ConstantValue($1); } ;
+function_definition	: 
+TInt Declarator CompoundStat {
+	
+}
+| Declarator CompoundStat {
+	
+}
