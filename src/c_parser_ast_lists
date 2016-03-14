@@ -1,0 +1,66 @@
+
+
+class DecList : public Node {
+private:
+	std::list<Declarator*> dlist;
+public:
+	DecList() {};
+	addToList(Declarator* dec_in) {
+		dlist.push_front(dec_in);
+	}
+	std::string print() {
+		std::stringstream ss;
+		ss << "DEC_LIST {" << "\n";
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->print());   			
+    		}		
+		} 
+		ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->cprint());   			
+    		}
+		}
+		return ss.str();
+	}
+};
+
+class StatList : public Node {
+private:
+	std::list<Statement*> slist;
+public:
+	StatList() {};
+	addToList(Statement* stat_in) {
+		slist.push_front(stat_in);
+	}
+	std::string print() {
+		std::stringstream ss;
+		ss << "STAT_LIST {" << "\n";
+		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->print());   			
+    		}		
+		} 
+		ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->cprint());   			
+    		}
+		}
+		return ss.str();
+	}
+};
+
+
+Function : TInt TIdentifier TOpenBracket TInt TIdentifier TComma TInt TIdentifier TCloseBracket CompoundStat;
