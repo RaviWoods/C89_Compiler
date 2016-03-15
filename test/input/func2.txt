@@ -1,0 +1,6 @@
+int f(int a, int b) {
+	int x;
+	a = a + 5;
+	b = b + 10;
+	return a;
+}

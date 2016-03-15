@@ -1,0 +1,27 @@
+All expressions not parsed
+
+f(int x, int y)
+
+Variable no of parameters
+
+int a,b;
+
+x=5,y=10;
+
+global variables
+
+scopes
+
+if,while,do_while,switch,for
+jump statements
+
+function calls
+
+other types
+
+structs
+
+arrays
+
+pointers
+

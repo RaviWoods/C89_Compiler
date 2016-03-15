@@ -10,7 +10,7 @@ using namespace std;
 Node* topNode;
 %}
 
-%start CompoundStat
+%start FunctionDef
 
 %union{
   char* string;
@@ -19,8 +19,11 @@ Node* topNode;
   class Expression* ExpPtr;
   class Statement* StatPtr;
   class StatList* StatListPtr;
+  class CompoundStatement* CompoundStatPtr;
   class Declarator* DecPtr;
+  class Parameter* ParamPtr;
   class DecList* DecListPtr;
+  class FuncDef* FuncDefPtr;
 }
 
 %token TAuto TDouble TInt TStruct TBreak TElse TLong TSwitch TCase TEnum TRegister TTypedef TChar TExtern TReturn TUnion TConst TFloat TShort TUnsigned TContinue TFor TSigned TVoid TDefault TGoto TVolatile TDo TIf TStatic TWhile TSizeof TOpenSqBracket TCloseSqBracket TOpenBracket TCloseBracket TDot TBitwiseAnd TStar TPlus TMinus TTilde TBang TSlash TPercent TGreater TLess TCarat TPipe TQuestion TColon TAssign TComma TArrow TIncrement TDecrement TLeftShift TRightShift TLessEqual TGreaterEqual TEquals TNotEqual TLogicalAnd TLogicalOr TStarEquals TSlashEquals TPercentEquals TPlusEquals TMinusEquals TLeftShiftEquals TRightShiftEquals TAndEquals TCaratEquals TPipeEquals TOpenCurlyBrace TCloseCurlyBrace TSemicolon TEllipsis TCharConstVal TIntVal TFloatVal TStringLit TIdentifier TNewline 
@@ -32,37 +35,43 @@ Node* topNode;
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
 %type <DecListPtr> Declaratorlist
+%type <FuncDefPtr> FunctionDef
+%type <CompoundStatPtr> CompoundStat
+%type <ParamPtr> ParamDec
 %%
 
-List : Statementlist | Declaratorlist;
 
-
-CompoundStat: 
-TOpenCurlyBracket Declaratorlist Statementlist TCloseCurlyBracket {
-  
+FunctionDef: TInt TIdentifier TOpenBracket ParamDec TComma ParamDec TCloseBracket CompoundStat {
+  $$ = new FuncDef("int", $2, $4, $6, $8);
+  topNode = $$;
 }
 
+ParamDec: TInt TIdentifier {
+  $$ =  new Parameter("int",$2);
+}
+
+CompoundStat: 
+TOpenCurlyBrace Declaratorlist Statementlist TCloseCurlyBrace {
+  $$ = new CompoundStatement($3,$2);
+  
+}
 
 Statementlist : 
 Statement {
   $$ = new StatList();
   $$->addToList($1);
-  topNode = $$;
 }
 | Statementlist Statement {
   $$->addToList($2);
-  topNode = $$;
 };
 
 Declaratorlist : 
 Declarator {
   $$ = new DecList();
   $$->addToList($1);
-  topNode = $$;
 }
 | Declaratorlist Declarator {
   $$->addToList($2);
-  topNode = $$;
 };
 
 Declarator : 
@@ -73,7 +82,7 @@ TInt PrimaryExp TSemicolon {
   $$ =  new Declarator("int", $2, $4);
 }
 
-Statement : JumpStat {topNode=$1;} | ExpStat {topNode=$1;} ;
+Statement : JumpStat | ExpStat ;
 
 JumpStat : 
 TReturn Exp TSemicolon { 
@@ -138,6 +147,6 @@ int yyerror(const char* s){
 int main(void) {
   int success = yyparse();
   if (success == 0) {
-  	cout << topNode->print() << endl;
+  	cout << topNode->cprint() << endl;
   }
 }

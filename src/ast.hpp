@@ -18,10 +18,26 @@ public:
 class Statement : public Node {};
 class Expression : public Node {};
 
-class Function : public Node {
+class Parameter : public Node {
+private:
+	std::string type;
+	std::string id;
 
+public:
+	Parameter(std::string type_in, std::string id_in) : type(type_in), id(id_in) {};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << "PARAM" << " " << type << " " << id;
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << type << " " << id;
+		return ss.str();
+	}
 };
-
 
 class Declarator : public Node {
 private:
@@ -37,6 +53,7 @@ public:
 		ss << "DECL {" << "\n";
 		ss << type << "\n";
 		ss << id->print() << "\n";
+		ss << "=" << "\n";
 		if(e!=NULL) {
 			ss << e->print() << "\n";
 		}
@@ -56,50 +73,96 @@ public:
 	}
 };
 
-
-class CompoundStat : public Node {
+class DecList : public Node {
 private:
-	std::list<Statement*> slist;
 	std::list<Declarator*> dlist;
 public:
-	CompoundStat() {};
-	addToList(Statement* stat_in, Declarator* dec_in) {
-		if (stat_in != NULL) {
-			slist.push_front(stat_in);
-		} 
-		if (dec_in != NULL) {
-			dlist.push_front(dec_in);
-		}
+	DecList() {};
+	addToList(Declarator* dec_in) {
+		dlist.push_back(dec_in);
 	}
 	std::string print() {
 		std::stringstream ss;
-		ss << "COMPOUND_STAT {" << "\n";
-		for (std::list<Statement*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+		//ss << "DEC_LIST {" << "\n";
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
     		if((*it)!=NULL) {
-    			ss << ((*it)->print());   			
+    			ss << ((*it)->print()) << "\n\n";   			
     		}		
 		} 
-		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			ss << ((*it)->print());   			
-    		}		
-		} 
-		ss << "}" << "\n";
+		//ss << "}" << "\n";
 		return ss.str();
 	}
 
 	std::string cprint() {
 		std::stringstream ss;
-		for (std::list<Statement*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
     		if((*it)!=NULL) {
     			ss << ((*it)->cprint());   			
     		}
 		}
+		return ss.str();
+	}
+};
+
+class StatList : public Node {
+private:
+	std::list<Statement*> slist;
+public:
+	StatList() {};
+	addToList(Statement* stat_in) {
+		slist.push_back(stat_in);
+	}
+	std::string print() {
+		std::stringstream ss;
+		//ss << "STAT_LIST {" << "\n";
+		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->print()) << "\n\n";   			
+    		}		
+		} 
+		//ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
 		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
     		if((*it)!=NULL) {
     			ss << ((*it)->cprint());   			
     		}
 		}
+		return ss.str();
+	}
+};
+
+class CompoundStatement : public Statement {
+private:
+	StatList* sl;
+	DecList* dl;
+public:
+	CompoundStatement(StatList* sl_in, DecList* dl_in) : sl(sl_in), dl(dl_in) {}
+	std::string print() {
+		std::stringstream ss;
+		ss << "{" << "\n\n\n";
+		if(dl!=NULL) {
+			ss << dl->print();
+		}
+		if(sl!=NULL) {
+			ss << sl->print();
+		}
+		ss << "}" << "\n";
+		return ss.str();
+	}
+	std::string cprint() {
+		std::stringstream ss;
+		ss << "{\n";
+		if(dl!=NULL) {
+			ss << dl->cprint();
+		}
+		if(sl!=NULL) {
+			ss << sl->cprint();
+		}
+		ss << "}\n";
 		return ss.str();
 	}
 };
@@ -262,6 +325,34 @@ public:
 		ss << value;
 		return ss.str();
 	}
+};
+
+class FuncDef : public Node {
+private:
+	std::string returnType;
+	std::string name;
+	Parameter* param1;
+	Parameter* param2;
+	CompoundStatement* cs;
+public:
+	FuncDef(std::string returnType_in, std::string name_in, Parameter* param1_in, Parameter* param2_in, CompoundStatement* cs_in) :
+	returnType(returnType_in), name(name_in), param1(param1_in), param2(param2_in), cs(cs_in)
+	{};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << returnType << " " << name << "(" << param1->cprint() << ", " << param2->cprint() << ")\n";
+		ss << cs->cprint();
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << returnType << " " << name << "(" << param1->cprint() << ", " << param2->cprint() << ")\n";
+		ss << cs->cprint();
+		return ss.str();
+	}
+
 };
 
 #endif
