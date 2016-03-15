@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILES="test/c_test/*.c"
+FILES="c_spec_tests/*.c"
 
 for f in $FILES
 do
