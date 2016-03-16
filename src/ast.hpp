@@ -255,7 +255,7 @@ public:
 		if (e!=NULL) {
 			ss << e->codeprint(cont);	
 		} else {
-			"addu $8, $0, $0"
+			ss << "addu $8, $0, $0\n";
 		}	
 		ss << "addu $2, $8, $0\n";
 		ss << "j  $31\n";
