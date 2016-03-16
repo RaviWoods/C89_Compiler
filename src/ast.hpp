@@ -57,7 +57,6 @@ public:
 	}
 
 	std::string codeprint(Context& cont) {
-		return "BLAH";
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
@@ -187,7 +186,8 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		if (e!=NULL) {
-			return e->codeprint(cont);			
+			std::string x = e->codeprint(cont);
+			return x;			
 		}
 	}
 
@@ -273,6 +273,7 @@ public:
 			int b = cont.currentStackOffset;
 			int x = 4*(b-a+1);
 			ss << "lw $9, " << x << "($sp)\n";
+			return ss.str();
 		}
 	}
 

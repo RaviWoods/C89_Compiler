@@ -12,8 +12,13 @@ sw  $6, 0($sp)
 addiu $sp, $sp, -4
 sw  $7, 0($sp)
 addiu $sp, $sp, -4
-#NOT IMPLEMENTED YET
-lw $9, 16($sp)
+li $9, 10
+sw  $9, 0($sp)
+addiu $sp, $sp, +4
+
+sw  $9, 0($sp)
+lw $9, 8($sp)
+lw $9, 8($sp)
 sw $9, 0($sp)
 addiu $sp, $sp, -4
 sw  $9, 0($sp)
