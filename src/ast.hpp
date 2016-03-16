@@ -100,7 +100,7 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << "li $9, " << value << "\n";
-		storeOnStack(9,cont)
+		ss << Helper::storeOnStack(9,cont);
 		return ss.str();
 	}
 };
