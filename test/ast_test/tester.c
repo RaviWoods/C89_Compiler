@@ -1,3 +1,4 @@
+#include <stdio.h>
 
 int f(int a, int b);
 
@@ -11,4 +12,5 @@ int main () {
 			printf("%i\n", x);
 		}
 	}
+	return 0;
 }
