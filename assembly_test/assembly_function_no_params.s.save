@@ -1,0 +1,9 @@
+	.text
+	.align	2
+	.globl	f
+	.ent	f
+	.type	f, @function
+f:
+	li	$
+	j	$31
+	nop

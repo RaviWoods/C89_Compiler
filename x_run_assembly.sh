@@ -1,4 +1,3 @@
-#!/bin/bash
 
 FILES="test/mips_test2/*.c"
 DIR = "test/mips_test2"
