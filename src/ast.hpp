@@ -177,10 +177,11 @@ public:
 
 	}
 	std::string codeprint(Context& cont) {
+		std::stringstream ss;
 		cont.variableMap[id] = cont.currentStackOffset;
 		ss << e->codeprint(cont) << "\n";
-		ss << storeOnStack(8,cont) << "\n";
-
+		ss << Helper::storeOnStack(8,cont) << "\n";
+		return ss.str();
 	}
 
 };

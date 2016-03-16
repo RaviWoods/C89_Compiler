@@ -13,11 +13,8 @@ addiu $sp, $sp, -4
 sw  $7, 0($sp)
 addiu $sp, $sp, -4
 lw $9, 12($sp)
-sw  $9, 0($sp)
-addiu $sp, $sp, -4
-sw  $9, 0($sp)
-addiu $sp, $sp, -4
-addu $2, $9, $0
+addu $8,$9, $0
+addu $2, $8, $0
 j  $31
 nop
 
