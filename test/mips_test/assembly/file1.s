@@ -14,7 +14,7 @@ sw  $7, 0($sp)
 addiu $sp, $sp, -4
 li $9, 5
 sw  $9, 0($sp)
-addiu $sp, $sp, -4
+addiu $sp, $sp, +4
 sw  $9, 0($sp)
 addiu $sp, $sp, -4
 addu $2, $9, $0

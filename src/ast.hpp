@@ -442,8 +442,8 @@ public:
 
 	std::string print() {
 		std::stringstream ss;
-		ss << returnType << " " << name << "(" << param1->cprint() << ", " << param2->cprint() << ")\n";
-		ss << cs->cprint();
+		ss << returnType << " " << name << "(" << param1->print() << ", " << param2->print() << ")\n";
+		ss << cs->print();
 		return ss.str();
 	}
 
