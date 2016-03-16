@@ -16,10 +16,8 @@ li $9, 10
 sw  $9, 0($sp)
 addiu $sp, $sp, -4
 
-lw  $9, 0($sp)
-addiu $sp, $sp, +4
-sw $9, 16($sp)
-lw $9, 16($sp)
+sw $9, 20($sp)
+lw $9, 20($sp)
 sw  $9, 0($sp)
 addiu $sp, $sp, -4
 sw  $9, 0($sp)

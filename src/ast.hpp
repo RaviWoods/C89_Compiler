@@ -40,7 +40,7 @@ namespace Helper {
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
-		ss << "lw $9, " << x << "($sp)\n";
+		ss << "sw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
 }
@@ -285,7 +285,7 @@ public:
 		if(right!=NULL) {
 			std::stringstream ss;
 			ss << right->codeprint(cont) << "\n";
-			ss << writeVar(left, cont);
+			ss << Helper::writeVar(left, cont);
 			return ss.str();
 		}
 	}
