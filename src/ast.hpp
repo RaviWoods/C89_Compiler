@@ -24,7 +24,7 @@ public:
 	virtual std::string print()=0;
 	virtual std::string cprint()=0;
 	virtual std::string codeprint(Context& cont) {
-		return "NOT IMPLEMENTED YET";
+		return "#NOT IMPLEMENTED YET\n";
 	}
 };
 
@@ -169,6 +169,16 @@ public:
 		}
 		return ss.str();
 	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			std::cerr << "STAT2" << std::endl;
+			ss << ((*it)->codeprint(cont)); 
+    		}
+		}
+		return ss.str();
+	}
 };
 
 class CompoundStatement : public Statement {
@@ -202,7 +212,15 @@ public:
 		return ss.str();
 	}
 	std::string codeprint(Context& cont) {
-		return dl->codeprint(cont);
+		std::stringstream ss;
+		if (dl != NULL) {
+			ss << dl->codeprint(cont);
+		}
+		if (sl != NULL) {
+			std::cerr << "STATEMENT" << std::endl;
+			ss << sl->codeprint(cont);
+		}
+		return ss.str();
 	}
 };
 
@@ -284,6 +302,16 @@ public:
 		ss << ";\n";
 		return ss.str();
 	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << e->codeprint(cont);
+		ss << "sw  $9, 0($sp)\n";
+		ss << "addiu $sp, $sp, -4\n";
+		cont.currentStackOffset--; 
+		ss << "addu $2, $9, $0\n";
+		ss << "j  $31\n";
+		ss << "nop\n";
+	}
 };
 
 
@@ -364,6 +392,16 @@ public:
 		ss << value;
 		return ss.str();
 	}
+	std::string codeprint(Context& cont) {
+		std::cerr << "CONST" << std::endl;
+		std::stringstream ss;
+		ss << "li $9, " << value << "\n";
+		ss << "sw  $9, 0($sp)" << "\n";
+		ss << "addiu $sp, $sp, -4\n";
+		cont.currentStackOffset++;
+		std::cerr << "CONST2" << std::endl;
+		return ss.str();
+	}
 };
 
 class FuncDef : public Node {
@@ -406,15 +444,9 @@ public:
 			cont.currentStackOffset++;
 		}
 		ss << cs->codeprint(cont);
-		int a = cont.currentStackOffset;
-		int b = cont.variableMap["a"];
-		int x = 4*(a - b)+4;
-		ss << "lw $8, " << x << "($sp)\n";
-		ss << "addu $2, $8, $0\n";
-		ss << "j	$31\n";
-		ss << "nop\n";
 		return ss.str();
 	}
 };
 
 #endif
+
