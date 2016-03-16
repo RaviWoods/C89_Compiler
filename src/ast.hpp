@@ -397,6 +397,7 @@ public:
 		return ss.str();
 	}
 	std::string codeprint(Context& cont) {
+		std::stringstream ss;
 		ss << "CONST\n";
 		/*
 		std::cerr << "CONST" << std::endl;
