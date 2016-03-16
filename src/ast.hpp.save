@@ -1,4 +1,4 @@
-#ifndef __AST__
+ifndef __AST__
 #define __AST__
 
 #include <iostream>
@@ -11,8 +11,8 @@
 class Context {
 public:
 	int currentStackOffset;
-	std::map <std::string, int> variableMap;
-	Context() {
+	std::map <string, int> variableMap;
+	Parameter() {
 		currentStackOffset = 0;
 	}
 };
@@ -367,7 +367,7 @@ public:
 		ss << cs->cprint();
 		return ss.str();
 	}
-	std::string codeprint(Context& cont) {
+	std::string codeprint(&Context cont) {
 		std::stringstream ss;
 		ss << ".text\n" << ".align 2\n";
 		ss << ".globl  " << name << "\n";
@@ -375,26 +375,21 @@ public:
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
 		ss << "j	$31\n";
-		cont.variableMap[param1->getId()] = 1;
-		cont.variableMap[param2->getId()] = 2;
+		cont.variableMap[param1] = 1;
+		cont.variableMap[param2] = 2;
 		for(int i = 4; i <= 7; i++) {
-			ss << "sw  $" << i << ", $sp" << "\n";
+			ss << "sw  $" << i << ", " << $sp << "\n";
 			ss << "addiu $sp, $sp, -4\n";
 			cont.currentStackOffset++;
 		}
-		codeprint2(cont);
+		codeprint2(&Context cont);
 		ss << "j	$31\n";
-		ss << "nop\n";
-		return ss.str();
+		ss << "nop\n"
 	}
-	std::string codeprint2(Context& cont) {
-		std::stringstream ss;
-		int a = cont.currentStackOffset;
-		int b = cont.variableMap[param2->getId()];
-		int x = a - b;
+	std::string codeprint(&Context cont) {
+		x = cont.currentStackOffset - cont.variableMap.find(param2->getId)
 		ss << "lw $8, " << x << "($sp)\n";
-		ss << "addiu $2, $8, $0\n";
-		return ss.str();
+		ss << "addiu $2, $8, $0"
 	}
 };
 
