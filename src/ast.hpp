@@ -374,13 +374,13 @@ public:
 		std::stringstream ss;
 		ss << ".text\n" << ".align 2\n";
 		ss << ".globl  " << name << "\n";
-		ss << ".end  " << name << "\n";
+		ss << ".ent  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
 		cont.variableMap[param1->getId()] = 1;
 		cont.variableMap[param2->getId()] = 2;
 		for(int i = 4; i <= 7; i++) {
-			ss << "sw  $" << i << ", $sp" << "\n";
+			ss << "sw  $" << i << ", 0($sp)" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
 			cont.currentStackOffset++;
 		}
@@ -393,9 +393,10 @@ public:
 		std::stringstream ss;
 		int a = cont.currentStackOffset;
 		int b = cont.variableMap[param2->getId()];
-		int x = 4*(a - b);
+		int x = 4*(a-b);
+		x += 4;
 		ss << "lw $8, " << x << "($sp)\n";
-		ss << "addiu $2, $8, $0\n";
+		ss << "addu $2, $8, $0\n";
 		return ss.str();
 	}
 };
