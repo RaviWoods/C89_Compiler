@@ -11,8 +11,8 @@
 class Context {
 public:
 	int currentStackOffset;
-	std::map <string, int> variableMap;
-	Parameter() {
+	std::map <std::string, int> variableMap;
+	Context() {
 		currentStackOffset = 0;
 	}
 };
@@ -367,7 +367,7 @@ public:
 		ss << cs->cprint();
 		return ss.str();
 	}
-	std::string codeprint(&Context cont) {
+	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << ".text\n" << ".align 2\n";
 		ss << ".globl  " << name << "\n";
@@ -378,18 +378,21 @@ public:
 		cont.variableMap[param1] = 1;
 		cont.variableMap[param2] = 2;
 		for(int i = 4; i <= 7; i++) {
-			ss << "sw  $" << i << ", " << $sp << "\n";
+			ss << "sw  $" << i << ", $sp" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
 			cont.currentStackOffset++;
 		}
-		codeprint2(&Context cont);
+		codeprint2(cont);
 		ss << "j	$31\n";
-		ss << "nop\n"
+		ss << "nop\n";
+		return ss.str();
 	}
-	std::string codeprint(&Context cont) {
-		x = cont.currentStackOffset - cont.variableMap.find(param2->getId)
+	std::string codeprint2(Context& cont) {
+		std::stringstream ss;
+		int x = cont.currentStackOffset - cont.variableMap.find(param2->getId)
 		ss << "lw $8, " << x << "($sp)\n";
-		ss << "addiu $2, $8, $0"
+		ss << "addiu $2, $8, $0\n"
+		return ss.str();
 	}
 };
 
