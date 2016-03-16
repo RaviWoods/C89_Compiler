@@ -1,4 +1,3 @@
-
 FILES="test/mips_test2/*.c"
 
 for f in $FILES
@@ -8,9 +7,11 @@ do
 	printf "\n"
 	make
 	fname=$(basename $f .c)
+	cat $f  |  ./bin/c_parser > test/mips_test2/assembly/$fname.s
 	printf "START OF ASSEMBLY"
 	printf "\n---------------\n"
-	cat $f  |  ./bin/c_parser > test/mips_test2/assembly/$fname.s
+	cat test/mips_test2/assembly/$fname.s
+	printf "\n---------------\n"
 	mips-linux-gnu-gcc  -S test/mips_test2/tester/tester.c -o test/mips_test2/tester/tester.s
 	mips-linux-gnu-gcc  -static test/mips_test2/assembly/$fname.s test/mips_test2/tester/tester.s -o test/mips_test2/mips_test
 	printf "START OF OUTPUT"
