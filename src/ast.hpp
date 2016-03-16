@@ -78,8 +78,9 @@ private:
 	std::list<Declarator*> dlist;
 public:
 	DecList() {};
-	addToList(Declarator* dec_in) {
+	void addToList(Declarator* dec_in) {
 		dlist.push_back(dec_in);
+		return;
 	}
 	std::string print() {
 		std::stringstream ss;
@@ -109,8 +110,9 @@ private:
 	std::list<Statement*> slist;
 public:
 	StatList() {};
-	addToList(Statement* stat_in) {
+	void addToList(Statement* stat_in) {
 		slist.push_back(stat_in);
+		return;
 	}
 	std::string print() {
 		std::stringstream ss;

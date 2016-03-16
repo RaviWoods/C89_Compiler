@@ -20,12 +20,12 @@ do
 	./1 > test/ast_test/tmporig.txt;
 	make
 	fname=$(basename $f .c)
-	if ! mips-linux-gnu-gcc -S test/mips_test/tester.c -o tester.s $f -o ./1; then
+	if ! mips-linux-gnu-gcc -S test/mips_test/tester.c -o test/mips_test/tester.s; then
 		echo "UH OH"
 		exit
 	fi
-	cat $f |  ./bin/c_parser > test/mips_test/mips_csource/mips_$fname.s
-	if ! mips-linux-gnu-gcc  -static test/mips_test/mips_csource/mips_$fname.s test/mips_test/tester.c -o test/mips_test/mips_testfile -o ./2 >/dev/null 2>&1; then
+	cat $f |  ./bin/c_parser > test/mips_test/mips_source/mips_$fname.s
+	if ! mips-linux-gnu-gcc  -static test/mips_test/mips_csource/mips_$fname.s test/mips_test/tester.s -o test/mips_test/mips_testfile >/dev/null 2>&1; then
 		compileFileNo=`expr $compileFileNo + 1`;
 		printf "\n-----$f COMPILE ERROR-----\n"
 		cat $f 
@@ -45,8 +45,8 @@ do
 	printf "\n--------------------$f END----------------------\n"
 done
 echo "fileNo = $fileNo" 
+echo "correctFileNo = $correctFileNo" 
 echo "compileFileNo = $compileFileNo" 
 echo "diffFileNo = $diffFileNo" 
-echo "correctFileNo = $correctFileNo" 
 
 
