@@ -26,7 +26,25 @@ namespace Helper {
 		cont.currentStackOffset++;
 		return ss.str();
 	}
+	std::string readVar(std::string name, Context& cont) {
+		std::stringstream ss;
+		int a = cont.variableMap[name];
+		int b = cont.currentStackOffset;
+		int x = 4*(b-a+1);
+		ss << "lw $9, " << x << "($sp)\n";
+		return ss.str();
+	}
+
+	std::string writeVar(std::string name, Context& cont) {
+		std::stringstream ss;
+		int a = cont.variableMap[name];
+		int b = cont.currentStackOffset;
+		int x = 4*(b-a+1);
+		ss << "lw $9, " << x << "($sp)\n";
+		return ss.str();
+	}
 }
+
 class Node {
 public:
 	virtual ~Node() 
@@ -68,10 +86,7 @@ public:
 
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		int a = cont.variableMap[name];
-		int b = cont.currentStackOffset;
-		int x = 4*(b-a+1);
-		ss << "lw $9, " << x << "($sp)\n";
+		ss << Helper::readVar(name,cont);
 		ss << Helper::storeOnStack(9,cont);
 		return ss.str();
 	}
@@ -270,13 +285,7 @@ public:
 		if(right!=NULL) {
 			std::stringstream ss;
 			ss << right->codeprint(cont) << "\n";
-			ss << "lw  $9, 0($sp)\n";
-			cont.currentStackOffset--; 
-			ss << "addiu $sp, $sp, +4\n";
-			int a = cont.variableMap[left];
-			int b = cont.currentStackOffset;
-			int x = 4*(b-a+1);
-			ss << "sw $9, " << x << "($sp)\n";
+			ss << writeVar(left, cont);
 			return ss.str();
 		}
 	}
