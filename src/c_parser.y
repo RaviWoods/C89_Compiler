@@ -54,6 +54,10 @@ CompoundStat:
 TOpenCurlyBrace Declaratorlist Statementlist TCloseCurlyBrace {
   $$ = new CompoundStatement($3,$2);
   
+} | TOpenCurlyBrace Statementlist TCloseCurlyBrace {
+  $$ = new CompoundStatement($2,NULL);
+} | TOpenCurlyBrace Declaratorlist TCloseCurlyBrace {
+  $$ = new CompoundStatement(NULL,$2);
 }
 
 Statementlist : 
