@@ -185,9 +185,11 @@ public:
 		return ss.str();
 	}
 	std::string codeprint(Context& cont) {
-		return e->codeprint(cont);
+		if (e!=NULL) {
+			return e->codeprint(cont);			
+		}
 	}
-	
+
 };
 
 
