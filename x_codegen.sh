@@ -7,6 +7,13 @@ mkdir test/mips_test/assembly
 make
 clear
 FILES="test/c_files/*.c"
+echo "Specific? [y/n]"
+read text
+if [ "$text" == "y" ]; then
+	echo "Which?"
+	read filename
+	FILES="test/c_files/$filename.c"
+fi
 for f in $FILES
 do
 	if ! gcc -std=c89 test/mips_test/tester.c $f -o ./1; then
