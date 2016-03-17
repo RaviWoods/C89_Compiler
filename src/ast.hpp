@@ -393,8 +393,7 @@ public:
 		std::stringstream ss;
 		int a = cont.currentStackOffset;
 		int b = cont.variableMap[param2->getId()];
-		int x = 4*(a-b);
-		x += 4;
+		int x = 4*(a - b)+4;
 		ss << "lw $8, " << x << "($sp)\n";
 		ss << "addu $2, $8, $0\n";
 		return ss.str();
