@@ -1,6 +1,5 @@
 
 FILES="test/mips_test2/*.c"
-DIR = "test/mips_test2"
 
 for f in $FILES
 do
@@ -11,11 +10,11 @@ do
 	fname=$(basename $f .c)
 	printf "START OF ASSEMBLY"
 	printf "\n---------------\n"
-	cat $f  |  ./bin/c_parser > $DIR/assembly/$fname.s
-	mips-linux-gnu-gcc  -S $DIR/tester/tester.c -o $DIR/tester/tester.s
-	mips-linux-gnu-gcc  -static $DIR/assembly/$fname.s $DIR/tester/tester.s -o $DIR/mips_test
+	cat $f  |  ./bin/c_parser > test/mips_test2/assembly/$fname.s
+	mips-linux-gnu-gcc  -S test/mips_test2/tester/tester.c -o test/mips_test2/tester/tester.s
+	mips-linux-gnu-gcc  -static test/mips_test2/assembly/$fname.s test/mips_test2/tester/tester.s -o test/mips_test2/mips_test
 	printf "START OF OUTPUT"
 	printf "\n---------------\n"
-	qemu-mips $DIR/mips_test
+	qemu-mips test/mips_test2/mips_test
 	printf "\n--------------------$f END----------------------\n"
 done
