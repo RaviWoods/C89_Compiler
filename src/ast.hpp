@@ -30,7 +30,7 @@ namespace Helper {
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
-		int x = 4*(b-a+1);
+		int x = 4*(b-a);
 		ss << "lw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
