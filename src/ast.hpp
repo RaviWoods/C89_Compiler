@@ -178,8 +178,9 @@ public:
 		std::stringstream ss;
 		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
     		if((*it)!=NULL) {
-    			std::cerr << "STAT2" << std::endl;
-				ss << ((*it)->codeprint(cont)); 
+    			ss << "BLAH\n";
+    			//std::cerr << "STAT2" << std::endl;
+				//ss << ((*it)->codeprint(cont)); 
     		}
 		}
 		return ss.str();
@@ -222,9 +223,7 @@ public:
 			ss << dl->codeprint(cont);
 		}
 		if (sl != NULL) {
-			//std::cerr << "STATEMENT" << std::endl;
-			//ss << sl->codeprint(cont);
-			ss << "BLAH\n";
+			ss << sl->codeprint(cont);;
 		}
 		return ss.str();
 	}
