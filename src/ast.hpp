@@ -222,8 +222,9 @@ public:
 			ss << dl->codeprint(cont);
 		}
 		if (sl != NULL) {
-			std::cerr << "STATEMENT" << std::endl;
-			ss << sl->codeprint(cont);
+			//std::cerr << "STATEMENT" << std::endl;
+			//ss << sl->codeprint(cont);
+			ss << "BLAH\n";
 		}
 		return ss.str();
 	}
