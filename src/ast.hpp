@@ -29,7 +29,12 @@ public:
 };
 
 class Statement : public Node {};
-class Expression : public Node {};
+class Expression : public Node {
+public:
+	virtual std::string codeprint(Context& cont) {
+		return "#NOT IMPLEMENTED YET\n";
+	}
+};
 
 class Parameter : public Node {
 private:
@@ -174,7 +179,7 @@ public:
 		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
     		if((*it)!=NULL) {
     			std::cerr << "STAT2" << std::endl;
-			ss << ((*it)->codeprint(cont)); 
+				ss << ((*it)->codeprint(cont)); 
     		}
 		}
 		return ss.str();
@@ -398,7 +403,7 @@ public:
 		ss << "li $9, " << value << "\n";
 		ss << "sw  $9, 0($sp)" << "\n";
 		ss << "addiu $sp, $sp, -4\n";
-		cont.currentStackOffset++;
+		cont.currentStackOffset--;
 		std::cerr << "CONST2" << std::endl;
 		return ss.str();
 	}
