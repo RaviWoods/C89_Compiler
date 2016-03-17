@@ -178,9 +178,8 @@ public:
 		std::stringstream ss;
 		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
     		if((*it)!=NULL) {
-    			ss << "BLAH\n";
     			//std::cerr << "STAT2" << std::endl;
-				//ss << ((*it)->codeprint(cont)); 
+				ss << ((*it)->codeprint(cont)); 
     		}
 		}
 		return ss.str();
@@ -398,6 +397,8 @@ public:
 		return ss.str();
 	}
 	std::string codeprint(Context& cont) {
+		ss << "CONST\n";
+		/*
 		std::cerr << "CONST" << std::endl;
 		std::stringstream ss;
 		ss << "li $9, " << value << "\n";
@@ -405,6 +406,7 @@ public:
 		ss << "addiu $sp, $sp, -4\n";
 		cont.currentStackOffset--;
 		std::cerr << "CONST2" << std::endl;
+		*/
 		return ss.str();
 	}
 };
