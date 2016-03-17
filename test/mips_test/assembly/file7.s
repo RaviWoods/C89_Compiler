@@ -12,7 +12,13 @@ sw  $6, 0($sp)
 addiu $sp, $sp, -4
 sw  $7, 0($sp)
 addiu $sp, $sp, -4
+li $8, 20
+
+addu $5,$8, $0
 li $8, 10
+
+addu $6,$8, $0
+addu $8,$6, $5
 
 sw  $8, 0($sp)
 addiu $sp, $sp, -4
