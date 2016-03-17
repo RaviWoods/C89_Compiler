@@ -315,6 +315,7 @@ public:
 		ss << "addu $2, $9, $0\n";
 		ss << "j  $31\n";
 		ss << "nop\n";
+		return ss.str();
 	}
 };
 
