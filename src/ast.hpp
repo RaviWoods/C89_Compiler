@@ -256,13 +256,13 @@ public:
 	}
 
 	std::string codeprint(Context& cont) {
-		if(e==NULL) {
-			stringstream ss;
+		if(right!=NULL) {
+			std::stringstream ss;
 			ss << right->codeprint(cont) "\n";
 			ss << "sw  $9, 0($sp)\n";
 			cont.currentStackOffset--; 
 			
-			int a = cont.variableMap[name];
+			int a = cont.variableMap[left];
 			int b = cont.currentStackOffset;
 			int x = 4*(a-b+1);
 			ss << "lw $9, " << x << "($sp)\n";
