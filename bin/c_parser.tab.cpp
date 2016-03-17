@@ -71,7 +71,7 @@
 int yylex();
 int yyerror(const char* s);
 using namespace std;
-
+Context cont = Context();
 Node* topNode;
 
 #line 78 "bin/c_parser.tab.cpp" /* yacc.c:339  */
@@ -1779,6 +1779,6 @@ int yyerror(const char* s){
 int main(void) {
   int success = yyparse();
   if (success == 0) {
-  	cout << topNode->codeprint() << endl;
+  	cout << topNode->codeprint(cont) << endl;
   }
 }

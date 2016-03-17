@@ -23,6 +23,9 @@ public:
 	{};
 	virtual std::string print()=0;
 	virtual std::string cprint()=0;
+	virtual std::string codeprint(Context& cont) {
+		return "NOT IMPLEMENTED YET";
+	}
 };
 
 class Statement : public Node {};
@@ -374,7 +377,6 @@ public:
 		ss << ".end  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
-		ss << "j	$31\n";
 		cont.variableMap[param1->getId()] = 1;
 		cont.variableMap[param2->getId()] = 2;
 		for(int i = 4; i <= 7; i++) {
@@ -382,7 +384,7 @@ public:
 			ss << "addiu $sp, $sp, -4\n";
 			cont.currentStackOffset++;
 		}
-		codeprint2(cont);
+		ss << codeprint2(cont);
 		ss << "j	$31\n";
 		ss << "nop\n";
 		return ss.str();
@@ -391,7 +393,7 @@ public:
 		std::stringstream ss;
 		int a = cont.currentStackOffset;
 		int b = cont.variableMap[param2->getId()];
-		int x = a - b;
+		int x = 4*(a - b);
 		ss << "lw $8, " << x << "($sp)\n";
 		ss << "addiu $2, $8, $0\n";
 		return ss.str();
