@@ -408,7 +408,7 @@ public:
 		ss << cs->codeprint(cont);
 		ss << "j	$31\n";
 		int a = cont.currentStackOffset;
-		int b = cont.variableMap["x"];
+		int b = cont.variableMap["a"];
 		int x = 4*(a - b)+4;
 		ss << "lw $8, " << x << "($sp)\n";
 		ss << "addu $2, $8, $0\n";
