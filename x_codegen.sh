@@ -18,7 +18,11 @@ do
 		echo "UH OH"
 		exit
 	fi
-	cat $f |  ./bin/c_parser > test/mips_test/assembly/$fname.s
+	if ! cat $f |  ./bin/c_parser > test/mips_test/assembly/$fname.s
+		printf "\n-----$f PARSER ERROR-----\n"
+		cat $f 
+ 		printf "\n-----$f PARSER ERROR-----\n"		
+ 		exit
 	if ! mips-linux-gnu-gcc  -static test/mips_test/assembly/$fname.s test/mips_test/tester.s -o test/mips_test/tester >/dev/null 2>&1; then
 		printf "\n-----$f COMPILE ERROR-----\n"
 		cat $f 
@@ -27,7 +31,7 @@ do
 		read text
 		if [ "$text" == "y" ]; then
 			cat test/mips_test/assembly/$fname.s
-		exit
+			exit
 		fi
 	fi
 	qemu-mips test/mips_test/tester > test/mips_test/tmpfin.txt
