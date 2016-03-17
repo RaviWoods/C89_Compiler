@@ -14,9 +14,19 @@ public:
 	std::map <std::string, int> variableMap;
 	Context() {
 		currentStackOffset = 0;
+
 	}
 };
 
+namespace Helper {
+	std::string storeOnStack(int reg, Context& cont) {
+		std::stringstream ss;
+		ss << "sw  $" << reg << ", 0($sp)" << "\n";
+		ss << "addiu $sp, $sp, -4\n";
+		cont.currentStackOffset++;
+		return ss.str();
+	}
+}
 class Node {
 public:
 	virtual ~Node() 
@@ -92,9 +102,7 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << "li $9, " << value << "\n";
-		ss << "sw  $9, 0($sp)" << "\n";
-		ss << "addiu $sp, $sp, -4\n";
-		cont.currentStackOffset++;
+		storeOnStack(9,cont)
 		return ss.str();
 	}
 };
@@ -268,7 +276,7 @@ public:
 			ss << right->codeprint(cont) << "\n";
 			ss << "lw  $9, 0($sp)\n";
 			cont.currentStackOffset--; 
-			
+			ss << "addiu $sp, $sp, +4\n";
 			int a = cont.variableMap[left];
 			int b = cont.currentStackOffset;
 			int x = 4*(b-a+1);
