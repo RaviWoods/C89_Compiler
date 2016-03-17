@@ -68,13 +68,14 @@
 #include <cstdlib>
 #include <string>
 #include "../src/ast.hpp"
+
 int yylex();
 int yyerror(const char* s);
 using namespace std;
 Context cont = Context();
 Node* topNode;
 
-#line 78 "bin/c_parser.tab.cpp" /* yacc.c:339  */
+#line 79 "bin/c_parser.tab.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -201,7 +202,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "src/c_parser.y" /* yacc.c:355  */
+#line 16 "src/c_parser.y" /* yacc.c:355  */
 
   char* string;
   int num;
@@ -215,7 +216,7 @@ union YYSTYPE
   class DecList* DecListPtr;
   class FuncDef* FuncDefPtr;
 
-#line 219 "bin/c_parser.tab.cpp" /* yacc.c:355  */
+#line 220 "bin/c_parser.tab.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -232,7 +233,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 236 "bin/c_parser.tab.cpp" /* yacc.c:358  */
+#line 237 "bin/c_parser.tab.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -538,10 +539,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    44,    44,    49,    54,    57,    59,    64,    68,    73,
-      77,    82,    85,    89,    89,    92,    95,   100,   103,   107,
-     110,   113,   116,   119,   122,   125,   128,   131,   134,   137,
-     140
+       0,    45,    45,    50,    55,    58,    60,    65,    69,    74,
+      78,    83,    86,    90,    90,    93,    96,   101,   104,   108,
+     111,   114,   117,   120,   123,   126,   129,   132,   135,   138,
+     141
 };
 #endif
 
@@ -1371,195 +1372,195 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 44 "src/c_parser.y" /* yacc.c:1646  */
+#line 45 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.FuncDefPtr) = new FuncDef("int", (yyvsp[-6].string), (yyvsp[-4].ParamPtr), (yyvsp[-2].ParamPtr), (yyvsp[0].CompoundStatPtr));
   topNode = (yyval.FuncDefPtr);
 }
-#line 1380 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1381 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 49 "src/c_parser.y" /* yacc.c:1646  */
+#line 50 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.ParamPtr) =  new Parameter("int",(yyvsp[0].string));
 }
-#line 1388 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1389 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 54 "src/c_parser.y" /* yacc.c:1646  */
+#line 55 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.CompoundStatPtr) = new CompoundStatement((yyvsp[-1].StatListPtr),(yyvsp[-2].DecListPtr));
   
 }
-#line 1397 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1398 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 57 "src/c_parser.y" /* yacc.c:1646  */
+#line 58 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.CompoundStatPtr) = new CompoundStatement((yyvsp[-1].StatListPtr),NULL);
 }
-#line 1405 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1406 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 59 "src/c_parser.y" /* yacc.c:1646  */
+#line 60 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.CompoundStatPtr) = new CompoundStatement(NULL,(yyvsp[-1].DecListPtr));
 }
-#line 1413 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1414 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 64 "src/c_parser.y" /* yacc.c:1646  */
+#line 65 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.StatListPtr) = new StatList();
   (yyval.StatListPtr)->addToList((yyvsp[0].StatPtr));
 }
-#line 1422 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1423 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 68 "src/c_parser.y" /* yacc.c:1646  */
+#line 69 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.StatListPtr)->addToList((yyvsp[0].StatPtr));
 }
-#line 1430 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1431 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 73 "src/c_parser.y" /* yacc.c:1646  */
+#line 74 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.DecListPtr) = new DecList();
   (yyval.DecListPtr)->addToList((yyvsp[0].DecPtr));
 }
-#line 1439 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1440 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 77 "src/c_parser.y" /* yacc.c:1646  */
+#line 78 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.DecListPtr)->addToList((yyvsp[0].DecPtr));
 }
-#line 1447 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1448 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 82 "src/c_parser.y" /* yacc.c:1646  */
+#line 83 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.DecPtr) =  new Declarator("int",(yyvsp[-1].string), NULL);
 }
-#line 1455 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1456 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 85 "src/c_parser.y" /* yacc.c:1646  */
+#line 86 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.DecPtr) =  new Declarator("int", (yyvsp[-3].string), (yyvsp[-1].ExpPtr));
 }
-#line 1463 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1464 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 92 "src/c_parser.y" /* yacc.c:1646  */
+#line 93 "src/c_parser.y" /* yacc.c:1646  */
     { 
   (yyval.StatPtr) =  new JumpStatement("return",(yyvsp[-1].ExpPtr));
 }
-#line 1471 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1472 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 95 "src/c_parser.y" /* yacc.c:1646  */
+#line 96 "src/c_parser.y" /* yacc.c:1646  */
     { 
   (yyval.StatPtr) =  new JumpStatement("return", NULL);
 }
-#line 1479 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1480 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 100 "src/c_parser.y" /* yacc.c:1646  */
+#line 101 "src/c_parser.y" /* yacc.c:1646  */
     { 
   (yyval.StatPtr) =  new ExpStatement((yyvsp[-1].ExpPtr));
 }
-#line 1487 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1488 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 103 "src/c_parser.y" /* yacc.c:1646  */
+#line 104 "src/c_parser.y" /* yacc.c:1646  */
     { 
   (yyval.StatPtr) =  new ExpStatement(NULL);
 }
-#line 1495 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1496 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 110 "src/c_parser.y" /* yacc.c:1646  */
+#line 111 "src/c_parser.y" /* yacc.c:1646  */
     { 
   (yyval.ExpPtr) =  new AssignmentExp((yyvsp[-2].ExpPtr),"=", (yyvsp[0].ExpPtr));
 }
-#line 1503 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1504 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 116 "src/c_parser.y" /* yacc.c:1646  */
+#line 117 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.ExpPtr) = new BinaryExpression((yyvsp[-2].ExpPtr),"+", (yyvsp[0].ExpPtr));
 }
-#line 1511 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1512 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 119 "src/c_parser.y" /* yacc.c:1646  */
+#line 120 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.ExpPtr) = new BinaryExpression((yyvsp[-2].ExpPtr),"-", (yyvsp[0].ExpPtr));
 }
-#line 1519 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1520 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 125 "src/c_parser.y" /* yacc.c:1646  */
+#line 126 "src/c_parser.y" /* yacc.c:1646  */
     {
 	(yyval.ExpPtr) = new BinaryExpression((yyvsp[-2].ExpPtr),"*", (yyvsp[0].ExpPtr));
 }
-#line 1527 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1528 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 128 "src/c_parser.y" /* yacc.c:1646  */
+#line 129 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.ExpPtr) = new BinaryExpression((yyvsp[-2].ExpPtr),"/", (yyvsp[0].ExpPtr));
 }
-#line 1535 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1536 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 131 "src/c_parser.y" /* yacc.c:1646  */
+#line 132 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.ExpPtr) = new BinaryExpression((yyvsp[-2].ExpPtr),"%", (yyvsp[0].ExpPtr));
 }
-#line 1543 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1544 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 137 "src/c_parser.y" /* yacc.c:1646  */
+#line 138 "src/c_parser.y" /* yacc.c:1646  */
     { 
   (yyval.ExpPtr) =  new Identifier(string((yyvsp[0].string)));
 }
-#line 1551 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1552 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 140 "src/c_parser.y" /* yacc.c:1646  */
+#line 141 "src/c_parser.y" /* yacc.c:1646  */
     {
   (yyval.ExpPtr) =  new ConstantValue((yyvsp[0].num));  
 }
-#line 1559 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1560 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1563 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
+#line 1564 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1787,7 +1788,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 144 "src/c_parser.y" /* yacc.c:1906  */
+#line 145 "src/c_parser.y" /* yacc.c:1906  */
 
 
 int yyerror(const char* s){ 

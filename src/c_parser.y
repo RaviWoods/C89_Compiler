@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <string>
 #include "../src/ast.hpp"
+
 int yylex();
 int yyerror(const char* s);
 using namespace std;

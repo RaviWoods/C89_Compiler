@@ -137,7 +137,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "src/c_parser.y" /* yacc.c:1909  */
+#line 16 "src/c_parser.y" /* yacc.c:1909  */
 
   char* string;
   int num;

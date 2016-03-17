@@ -36,6 +36,69 @@ public:
 	}
 };
 
+class Identifier : public Expression {
+private:
+	std::string name;
+public:
+	Identifier(std::string name_in) : 
+	name(name_in)
+	{};
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << name;
+		return ss.str();
+	}
+
+	std::string print() {
+		std::stringstream ss;
+		ss << name;
+		return ss.str();
+	}
+
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		int a = cont.variableMap[name];
+		int b = cont.currentStackOffset;
+		int x = 4*(a-b+1);
+		ss << "lw $9, " << x << "($sp)\n";
+		ss << "sw $9, $sp\n";
+		ss << "addiu $sp, $sp, -4\n";
+		cont.currentStackOffset++;
+		return ss.str();
+	}
+};
+
+
+class ConstantValue : public Expression {
+private:
+	int value;
+public:
+	ConstantValue(int value_in) :
+	value(value_in)
+	{};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << value;
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << value;
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << "li $9, " << value << "\n";
+		ss << "sw  $9, 0($sp)" << "\n";
+		ss << "addiu $sp, $sp, +4\n";
+		cont.currentStackOffset--;
+		return ss.str();
+	}
+};
+
 class Parameter : public Node {
 private:
 	std::string type;
@@ -102,153 +165,6 @@ public:
 		}
 	}
 };
-
-class DecList : public Node {
-private:
-	std::list<Declarator*> dlist;
-public:
-	DecList() {};
-	void addToList(Declarator* dec_in) {
-		dlist.push_back(dec_in);
-		return;
-	}
-	std::string print() {
-		std::stringstream ss;
-		//ss << "DEC_LIST {" << "\n";
-		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			ss << ((*it)->print()) << "\n\n";   			
-    		}		
-		} 
-		//ss << "}" << "\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			ss << ((*it)->cprint());   			
-    		}
-		}
-		return ss.str();
-	}
-	std::string codeprint(Context& cont) {
-		std::stringstream ss;
-		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			ss << ((*it)->codeprint(cont));   			
-    		}
-		}
-		return ss.str();
-	}
-};
-
-class StatList : public Node {
-private:
-	std::list<Statement*> slist;
-public:
-	StatList() {};
-	void addToList(Statement* stat_in) {
-		slist.push_back(stat_in);
-		return;
-	}
-	std::string print() {
-		std::stringstream ss;
-		//ss << "STAT_LIST {" << "\n";
-		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			ss << ((*it)->print()) << "\n\n";   			
-    		}		
-		} 
-		//ss << "}" << "\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			ss << ((*it)->cprint());   			
-    		}
-		}
-		return ss.str();
-	}
-	std::string codeprint(Context& cont) {
-		std::stringstream ss;
-		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			//std::cerr << "STAT2" << std::endl;
-				ss << ((*it)->codeprint(cont)); 
-    		}
-		}
-		return ss.str();
-	}
-};
-
-class CompoundStatement : public Statement {
-private:
-	StatList* sl;
-	DecList* dl;
-public:
-	CompoundStatement(StatList* sl_in, DecList* dl_in) : sl(sl_in), dl(dl_in) {}
-	std::string print() {
-		std::stringstream ss;
-		ss << "{" << "\n\n\n";
-		if(dl!=NULL) {
-			ss << dl->print();
-		}
-		if(sl!=NULL) {
-			ss << sl->print();
-		}
-		ss << "}" << "\n";
-		return ss.str();
-	}
-	std::string cprint() {
-		std::stringstream ss;
-		ss << "{\n";
-		if(dl!=NULL) {
-			ss << dl->cprint();
-		}
-		if(sl!=NULL) {
-			ss << sl->cprint();
-		}
-		ss << "}\n";
-		return ss.str();
-	}
-	std::string codeprint(Context& cont) {
-		std::stringstream ss;
-		if (dl != NULL) {
-			ss << dl->codeprint(cont);
-		}
-		if (sl != NULL) {
-			ss << sl->codeprint(cont);;
-		}
-		return ss.str();
-	}
-};
-
-class Identifier : public Expression {
-private:
-	std::string name;
-public:
-	Identifier(std::string name_in) : 
-	name(name_in)
-	{};
-
-	std::string cprint() {
-		std::stringstream ss;
-		ss << name;
-		return ss.str();
-	}
-
-	std::string print() {
-		std::stringstream ss;
-		ss << name;
-		return ss.str();
-	}
-};
-
 
 
 class ExpStatement : public Statement { 
@@ -378,31 +294,128 @@ public:
 
 
 
-class ConstantValue : public Expression {
-private:
-	int value;
-public:
-	ConstantValue(int value_in) :
-	value(value_in)
-	{};
 
+class DecList : public Node {
+private:
+	std::list<Declarator*> dlist;
+public:
+	DecList() {};
+	void addToList(Declarator* dec_in) {
+		dlist.push_back(dec_in);
+		return;
+	}
 	std::string print() {
 		std::stringstream ss;
-		ss << value;
+		//ss << "DEC_LIST {" << "\n";
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->print()) << "\n\n";   			
+    		}		
+		} 
+		//ss << "}" << "\n";
 		return ss.str();
 	}
 
 	std::string cprint() {
 		std::stringstream ss;
-		ss << value;
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->cprint());   			
+    		}
+		}
 		return ss.str();
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		ss << "li $9, " << value << "\n";
-		ss << "sw  $9, 0($sp)" << "\n";
-		ss << "addiu $sp, $sp, -4\n";
-		cont.currentStackOffset--;
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->codeprint(cont));   			
+    		}
+		}
+		return ss.str();
+	}
+};
+
+class StatList : public Node {
+private:
+	std::list<Statement*> slist;
+public:
+	StatList() {};
+	void addToList(Statement* stat_in) {
+		slist.push_back(stat_in);
+		return;
+	}
+	std::string print() {
+		std::stringstream ss;
+		//ss << "STAT_LIST {" << "\n";
+		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->print()) << "\n\n";   			
+    		}		
+		} 
+		//ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->cprint());   			
+    		}
+		}
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			//std::cerr << "STAT2" << std::endl;
+				ss << ((*it)->codeprint(cont)); 
+    		}
+		}
+		return ss.str();
+	}
+};
+
+class CompoundStatement : public Statement {
+private:
+	StatList* sl;
+	DecList* dl;
+public:
+	CompoundStatement(StatList* sl_in, DecList* dl_in) : sl(sl_in), dl(dl_in) {}
+	std::string print() {
+		std::stringstream ss;
+		ss << "{" << "\n\n\n";
+		if(dl!=NULL) {
+			ss << dl->print();
+		}
+		if(sl!=NULL) {
+			ss << sl->print();
+		}
+		ss << "}" << "\n";
+		return ss.str();
+	}
+	std::string cprint() {
+		std::stringstream ss;
+		ss << "{\n";
+		if(dl!=NULL) {
+			ss << dl->cprint();
+		}
+		if(sl!=NULL) {
+			ss << sl->cprint();
+		}
+		ss << "}\n";
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		if (dl != NULL) {
+			ss << dl->codeprint(cont);
+		}
+		if (sl != NULL) {
+			ss << sl->codeprint(cont);;
+		}
 		return ss.str();
 	}
 };
