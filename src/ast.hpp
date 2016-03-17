@@ -72,9 +72,7 @@ public:
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
 		ss << "lw $9, " << x << "($sp)\n";
-		ss << "sw $9, 0($sp)\n";
-		ss << "addiu $sp, $sp, -4\n";
-		cont.currentStackOffset++;
+		ss << Helper::storeOnStack(9,cont);
 		return ss.str();
 	}
 };
@@ -232,9 +230,7 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << e->codeprint(cont);
-		ss << "sw  $9, 0($sp)\n";
-		ss << "addiu $sp, $sp, -4\n";
-		cont.currentStackOffset++; 
+		ss << Helper::storeOnStack(9,cont);
 		ss << "addu $2, $9, $0\n";
 		ss << "j  $31\n";
 		ss << "nop\n";
