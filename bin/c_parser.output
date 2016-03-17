@@ -117,9 +117,9 @@ Grammar
    37              | RelationalExp TLessEqual ShiftExp
    38              | RelationalExp TGreaterEqual ShiftExp
 
-   39 ShiftExp: AdditiveExp
-   40         | ShiftExp TLeftShift AdditiveExp
-   41         | ShiftExp TRightShift AdditiveExp
+   39 ShiftExp: AdditiveExp TLeftShift ShiftExp
+   40         | AdditiveExp TRightShift ShiftExp
+   41         | AdditiveExp
 
    42 AdditiveExp: MultExp TPlus AdditiveExp
    43            | MultExp TMinus AdditiveExp
@@ -194,8 +194,8 @@ TComma (310) 1
 TArrow (311)
 TIncrement (312)
 TDecrement (313)
-TLeftShift (314) 40
-TRightShift (315) 41
+TLeftShift (314) 39
+TRightShift (315) 40
 TLessEqual (316) 37
 TGreaterEqual (317) 38
 TEquals (318) 32
@@ -265,7 +265,7 @@ EqualityExp (104)
 RelationalExp (105)
     on left: 34 35 36 37 38, on right: 31 32 33 35 36 37 38
 ShiftExp (106)
-    on left: 39 40 41, on right: 34 35 36 37 38 40 41
+    on left: 39 40 41, on right: 34 35 36 37 38 39 40
 AdditiveExp (107)
     on left: 42 43 44, on right: 39 40 41 42 43
 MultExp (108)
@@ -647,20 +647,20 @@ State 33
 State 34
 
    34 RelationalExp: ShiftExp .
-   40 ShiftExp: ShiftExp . TLeftShift AdditiveExp
-   41         | ShiftExp . TRightShift AdditiveExp
-
-    TLeftShift   shift, and go to state 59
-    TRightShift  shift, and go to state 60
 
     $default  reduce using rule 34 (RelationalExp)
 
 
 State 35
 
-   39 ShiftExp: AdditiveExp .
+   39 ShiftExp: AdditiveExp . TLeftShift ShiftExp
+   40         | AdditiveExp . TRightShift ShiftExp
+   41         | AdditiveExp .
 
-    $default  reduce using rule 39 (ShiftExp)
+    TLeftShift   shift, and go to state 59
+    TRightShift  shift, and go to state 60
+
+    $default  reduce using rule 41 (ShiftExp)
 
 
 State 36
@@ -964,24 +964,26 @@ State 58
 
 State 59
 
-   40 ShiftExp: ShiftExp TLeftShift . AdditiveExp
+   39 ShiftExp: AdditiveExp TLeftShift . ShiftExp
 
     TIntVal      shift, and go to state 17
     TIdentifier  shift, and go to state 71
 
-    AdditiveExp  go to state 83
+    ShiftExp     go to state 83
+    AdditiveExp  go to state 35
     MultExp      go to state 36
     PrimaryExp   go to state 37
 
 
 State 60
 
-   41 ShiftExp: ShiftExp TRightShift . AdditiveExp
+   40 ShiftExp: AdditiveExp TRightShift . ShiftExp
 
     TIntVal      shift, and go to state 17
     TIdentifier  shift, and go to state 71
 
-    AdditiveExp  go to state 84
+    ShiftExp     go to state 84
+    AdditiveExp  go to state 35
     MultExp      go to state 36
     PrimaryExp   go to state 37
 
@@ -1185,11 +1187,6 @@ State 78
 State 79
 
    35 RelationalExp: RelationalExp TGreater ShiftExp .
-   40 ShiftExp: ShiftExp . TLeftShift AdditiveExp
-   41         | ShiftExp . TRightShift AdditiveExp
-
-    TLeftShift   shift, and go to state 59
-    TRightShift  shift, and go to state 60
 
     $default  reduce using rule 35 (RelationalExp)
 
@@ -1197,11 +1194,6 @@ State 79
 State 80
 
    36 RelationalExp: RelationalExp TLess ShiftExp .
-   40 ShiftExp: ShiftExp . TLeftShift AdditiveExp
-   41         | ShiftExp . TRightShift AdditiveExp
-
-    TLeftShift   shift, and go to state 59
-    TRightShift  shift, and go to state 60
 
     $default  reduce using rule 36 (RelationalExp)
 
@@ -1209,11 +1201,6 @@ State 80
 State 81
 
    37 RelationalExp: RelationalExp TLessEqual ShiftExp .
-   40 ShiftExp: ShiftExp . TLeftShift AdditiveExp
-   41         | ShiftExp . TRightShift AdditiveExp
-
-    TLeftShift   shift, and go to state 59
-    TRightShift  shift, and go to state 60
 
     $default  reduce using rule 37 (RelationalExp)
 
@@ -1221,27 +1208,22 @@ State 81
 State 82
 
    38 RelationalExp: RelationalExp TGreaterEqual ShiftExp .
-   40 ShiftExp: ShiftExp . TLeftShift AdditiveExp
-   41         | ShiftExp . TRightShift AdditiveExp
-
-    TLeftShift   shift, and go to state 59
-    TRightShift  shift, and go to state 60
 
     $default  reduce using rule 38 (RelationalExp)
 
 
 State 83
 
-   40 ShiftExp: ShiftExp TLeftShift AdditiveExp .
+   39 ShiftExp: AdditiveExp TLeftShift ShiftExp .
 
-    $default  reduce using rule 40 (ShiftExp)
+    $default  reduce using rule 39 (ShiftExp)
 
 
 State 84
 
-   41 ShiftExp: ShiftExp TRightShift AdditiveExp .
+   40 ShiftExp: AdditiveExp TRightShift ShiftExp .
 
-    $default  reduce using rule 41 (ShiftExp)
+    $default  reduce using rule 40 (ShiftExp)
 
 
 State 85

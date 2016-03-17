@@ -179,13 +179,13 @@ RelationalExp TGreaterEqual ShiftExp {
 } ;
 
 ShiftExp : 
-AdditiveExp 
-| ShiftExp TLeftShift AdditiveExp {
+AdditiveExp TLeftShift ShiftExp {
   $$ = new BinaryExpression($1,"<<", $3);
 } 
-| ShiftExp TRightShift AdditiveExp {
+| AdditiveExp TRightShift ShiftExp {
   $$ = new BinaryExpression($1,">>", $3);
-} ;
+} |
+AdditiveExp;
 
 AdditiveExp :  
 MultExp TPlus AdditiveExp {
