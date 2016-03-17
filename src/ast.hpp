@@ -340,7 +340,13 @@ public:
 		ss << "addu $6,$8, $0\n";
 		if(op=="+") {
 			ss << "addu $8,$6, $5\n";
-		}
+		} else if(op=="-") {
+			ss << "subu $8,$6, $5\n";
+		} else if(op==">>") {
+			ss << "sra  $8,$6, $5\n";
+		} else if(op=="<<") {
+			ss << "sll  $8,$6, $5\n";
+		} 
 		return ss.str();
 	}
 };

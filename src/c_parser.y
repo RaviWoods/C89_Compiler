@@ -31,7 +31,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp  
+%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp LogicalOrExp LogicalAndExp InclusiveOrExp ExclusiveOrExp AndExp EqualityExp RelationalExp ShiftExp
 %type <StatPtr> ExpStat JumpStat Statement
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
@@ -111,7 +111,81 @@ AssignmentExp :
 TIdentifier TAssign AssignmentExp { 
   $$ =  new AssignmentExp($1,"=", $3);
 } 
-| AdditiveExp;
+| LogicalOrExp;
+
+LogicalOrExp : 
+LogicalAndExp 
+| 
+LogicalOrExp TLogicalOr LogicalAndExp  {
+  $$ = new BinaryExpression($1,"^", $3);
+} ;
+
+LogicalAndExp : 
+InclusiveOrExp 
+| 
+LogicalAndExp TLogicalAnd InclusiveOrExp {
+  $$ = new BinaryExpression($1,"^", $3);
+} ;
+
+InclusiveOrExp : 
+ExclusiveOrExp 
+| 
+InclusiveOrExp TPipe ExclusiveOrExp  {
+  $$ = new BinaryExpression($1,"^", $3);
+} ;
+
+ExclusiveOrExp : 
+AndExp 
+| 
+ExclusiveOrExp TCarat AndExp TBitwiseAnd EqualityExp {
+  $$ = new BinaryExpression($1,"^", $3);
+} ;
+
+AndExp : 
+EqualityExp 
+| 
+AndExp TBitwiseAnd EqualityExp {
+  $$ = new BinaryExpression($1,"&", $3);
+} ;
+
+EqualityExp : 
+RelationalExp 
+| 
+EqualityExp TEquals RelationalExp  {
+  $$ = new BinaryExpression($1,"==", $3);
+}  
+| 
+EqualityExp TNotEqual RelationalExp {
+  $$ = new BinaryExpression($1,"!=", $3);
+}  ;
+
+RelationalExp : 
+ShiftExp 
+| 
+RelationalExp TGreater ShiftExp  {
+  $$ = new BinaryExpression($1,">", $3);
+}  
+| 
+RelationalExp TLess ShiftExp  {
+  $$ = new BinaryExpression($1,"<", $3);
+} 
+| 
+RelationalExp TLessEqual ShiftExp  {
+  $$ = new BinaryExpression($1,"<=", $3);
+} 
+| 
+RelationalExp TGreaterEqual ShiftExp {
+  $$ = new BinaryExpression($1,">=", $3);
+} ;
+
+ShiftExp : 
+AdditiveExp 
+| ShiftExp TLeftShift AdditiveExp {
+  $$ = new BinaryExpression($1,"<<", $3);
+} 
+| ShiftExp TRightShift AdditiveExp {
+  $$ = new BinaryExpression($1,">>", $3);
+} ;
 
 AdditiveExp :  
 MultExp TPlus AdditiveExp {
@@ -140,7 +214,7 @@ TIdentifier  {
 } 
 | TIntVal {
   $$ =  new ConstantValue($1);  
-};
+}
 
 %%
 
@@ -152,6 +226,6 @@ int yyerror(const char* s){
 int main(void) {
   int success = yyparse();
   if (success == 0) {
-  	cout << topNode->codeprint(cont) << endl;
+  	cout << topNode->cprint() << endl;
   }
 }
