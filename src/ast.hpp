@@ -375,8 +375,8 @@ public:
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
 		ss << "j	$31\n";
-		cont.variableMap[param1] = 1;
-		cont.variableMap[param2] = 2;
+		cont.variableMap[param1->getId] = 1;
+		cont.variableMap[param2->getId] = 2;
 		for(int i = 4; i <= 7; i++) {
 			ss << "sw  $" << i << ", $sp" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
@@ -389,9 +389,9 @@ public:
 	}
 	std::string codeprint2(Context& cont) {
 		std::stringstream ss;
-		int x = cont.currentStackOffset - cont.variableMap.find(param2->getId)
+		int x = cont.currentStackOffset - cont.variableMap.find(param2->getId);
 		ss << "lw $8, " << x << "($sp)\n";
-		ss << "addiu $2, $8, $0\n"
+		ss << "addiu $2, $8, $0\n";
 		return ss.str();
 	}
 };
