@@ -108,7 +108,7 @@ Exp TSemicolon {
 Exp: AssignmentExp;
 
 AssignmentExp : 
-PrimaryExp TAssign AssignmentExp { 
+TIdentifier TAssign AssignmentExp { 
   $$ =  new AssignmentExp($1,"=", $3);
 } 
 | AdditiveExp;

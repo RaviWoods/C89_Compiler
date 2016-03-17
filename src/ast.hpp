@@ -62,7 +62,7 @@ public:
 		int b = cont.currentStackOffset;
 		int x = 4*(a-b+1);
 		ss << "lw $9, " << x << "($sp)\n";
-		ss << "sw $9, $sp\n";
+		ss << "sw $9, 0($sp)\n";
 		ss << "addiu $sp, $sp, -4\n";
 		cont.currentStackOffset++;
 		return ss.str();
@@ -238,19 +238,19 @@ public:
 
 class AssignmentExp : public Expression { 
 private:
-	Expression* left;
+	std::string left;
 	std::string op;
 	Expression* right;
 	
 public:
-	AssignmentExp(Expression *left_in, const std::string &op_in, Expression *right_in) : 
+	AssignmentExp(std::string left_in, const std::string &op_in, Expression *right_in) : 
 	left(left_in), op(op_in) , right(right_in)
 	{};
 
 	std::string print() {
 		std::stringstream ss;
 		ss << "ASSIGN_EXP {" << "\n";
-		ss << left->print() << "\n";
+		ss << left << "\n";
 		ss << op << "\n";
 		ss <<  right->print() << "\n";
 		ss << "}" << "\n";
@@ -259,9 +259,11 @@ public:
 
 	std::string cprint() {
 		std::stringstream ss;
-		ss << "(" << left->cprint() << op << right->cprint() << ")";
+		ss << "(" << left << op << right->cprint() << ")";
 		return ss.str();
 	}
+
+
 };
 
 class BinaryExpression : public Expression { 

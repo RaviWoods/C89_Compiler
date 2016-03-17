@@ -102,7 +102,7 @@ Grammar
 
    18 Exp: AssignmentExp
 
-   19 AssignmentExp: PrimaryExp TAssign AssignmentExp
+   19 AssignmentExp: TIdentifier TAssign AssignmentExp
    20              | AdditiveExp
 
    21 AdditiveExp: MultExp TPlus AdditiveExp
@@ -204,7 +204,7 @@ TCharConstVal (336)
 TIntVal (337) 29
 TFloatVal (338)
 TStringLit (339)
-TIdentifier (340) 1 2 10 11 28
+TIdentifier (340) 1 2 10 11 19 28
 TNewline (341)
 
 
@@ -239,7 +239,7 @@ AdditiveExp (99)
 MultExp (100)
     on left: 24 25 26 27, on right: 21 22 23 24 25 26
 PrimaryExp (101)
-    on left: 28 29, on right: 19 24 25 26 27
+    on left: 28 29, on right: 24 25 26 27
 
 
 State 0
@@ -406,7 +406,10 @@ State 17
 
 State 18
 
+   19 AssignmentExp: TIdentifier . TAssign AssignmentExp
    28 PrimaryExp: TIdentifier .
+
+    TAssign  shift, and go to state 33
 
     $default  reduce using rule 28 (PrimaryExp)
 
@@ -417,12 +420,12 @@ State 19
     7 Statementlist: Statementlist . Statement
 
     TReturn           shift, and go to state 15
-    TCloseCurlyBrace  shift, and go to state 33
+    TCloseCurlyBrace  shift, and go to state 34
     TSemicolon        shift, and go to state 16
     TIntVal           shift, and go to state 17
     TIdentifier       shift, and go to state 18
 
-    Statement      go to state 34
+    Statement      go to state 35
     JumpStat       go to state 23
     ExpStat        go to state 24
     Exp            go to state 25
@@ -440,13 +443,13 @@ State 20
 
     TInt              shift, and go to state 14
     TReturn           shift, and go to state 15
-    TCloseCurlyBrace  shift, and go to state 35
+    TCloseCurlyBrace  shift, and go to state 36
     TSemicolon        shift, and go to state 16
     TIntVal           shift, and go to state 17
     TIdentifier       shift, and go to state 18
 
-    Statementlist  go to state 36
-    Declarator     go to state 37
+    Statementlist  go to state 37
+    Declarator     go to state 38
     Statement      go to state 22
     JumpStat       go to state 23
     ExpStat        go to state 24
@@ -489,7 +492,7 @@ State 25
 
    16 ExpStat: Exp . TSemicolon
 
-    TSemicolon  shift, and go to state 38
+    TSemicolon  shift, and go to state 39
 
 
 State 26
@@ -512,24 +515,22 @@ State 28
    22            | MultExp . TMinus AdditiveExp
    23            | MultExp .
 
-    TPlus   shift, and go to state 39
-    TMinus  shift, and go to state 40
+    TPlus   shift, and go to state 40
+    TMinus  shift, and go to state 41
 
     $default  reduce using rule 23 (AdditiveExp)
 
 
 State 29
 
-   19 AssignmentExp: PrimaryExp . TAssign AssignmentExp
    24 MultExp: PrimaryExp . TStar MultExp
    25        | PrimaryExp . TSlash MultExp
    26        | PrimaryExp . TPercent MultExp
    27        | PrimaryExp .
 
-    TStar     shift, and go to state 41
-    TSlash    shift, and go to state 42
-    TPercent  shift, and go to state 43
-    TAssign   shift, and go to state 44
+    TStar     shift, and go to state 42
+    TSlash    shift, and go to state 43
+    TPercent  shift, and go to state 44
 
     $default  reduce using rule 27 (MultExp)
 
@@ -559,37 +560,50 @@ State 32
 
 State 33
 
+   19 AssignmentExp: TIdentifier TAssign . AssignmentExp
+
+    TIntVal      shift, and go to state 17
+    TIdentifier  shift, and go to state 18
+
+    AssignmentExp  go to state 48
+    AdditiveExp    go to state 27
+    MultExp        go to state 28
+    PrimaryExp     go to state 29
+
+
+State 34
+
     4 CompoundStat: TOpenCurlyBrace Statementlist TCloseCurlyBrace .
 
     $default  reduce using rule 4 (CompoundStat)
 
 
-State 34
+State 35
 
     7 Statementlist: Statementlist Statement .
 
     $default  reduce using rule 7 (Statementlist)
 
 
-State 35
+State 36
 
     5 CompoundStat: TOpenCurlyBrace Declaratorlist TCloseCurlyBrace .
 
     $default  reduce using rule 5 (CompoundStat)
 
 
-State 36
+State 37
 
     3 CompoundStat: TOpenCurlyBrace Declaratorlist Statementlist . TCloseCurlyBrace
     7 Statementlist: Statementlist . Statement
 
     TReturn           shift, and go to state 15
-    TCloseCurlyBrace  shift, and go to state 48
+    TCloseCurlyBrace  shift, and go to state 49
     TSemicolon        shift, and go to state 16
     TIntVal           shift, and go to state 17
     TIdentifier       shift, and go to state 18
 
-    Statement      go to state 34
+    Statement      go to state 35
     JumpStat       go to state 23
     ExpStat        go to state 24
     Exp            go to state 25
@@ -599,88 +613,75 @@ State 36
     PrimaryExp     go to state 29
 
 
-State 37
+State 38
 
     9 Declaratorlist: Declaratorlist Declarator .
 
     $default  reduce using rule 9 (Declaratorlist)
 
 
-State 38
+State 39
 
    16 ExpStat: Exp TSemicolon .
 
     $default  reduce using rule 16 (ExpStat)
 
 
-State 39
+State 40
 
    21 AdditiveExp: MultExp TPlus . AdditiveExp
 
     TIntVal      shift, and go to state 17
-    TIdentifier  shift, and go to state 18
-
-    AdditiveExp  go to state 49
-    MultExp      go to state 28
-    PrimaryExp   go to state 50
-
-
-State 40
-
-   22 AdditiveExp: MultExp TMinus . AdditiveExp
-
-    TIntVal      shift, and go to state 17
-    TIdentifier  shift, and go to state 18
+    TIdentifier  shift, and go to state 50
 
     AdditiveExp  go to state 51
     MultExp      go to state 28
-    PrimaryExp   go to state 50
+    PrimaryExp   go to state 29
 
 
 State 41
 
-   24 MultExp: PrimaryExp TStar . MultExp
+   22 AdditiveExp: MultExp TMinus . AdditiveExp
 
     TIntVal      shift, and go to state 17
-    TIdentifier  shift, and go to state 18
+    TIdentifier  shift, and go to state 50
 
-    MultExp     go to state 52
-    PrimaryExp  go to state 50
+    AdditiveExp  go to state 52
+    MultExp      go to state 28
+    PrimaryExp   go to state 29
 
 
 State 42
 
-   25 MultExp: PrimaryExp TSlash . MultExp
+   24 MultExp: PrimaryExp TStar . MultExp
 
     TIntVal      shift, and go to state 17
-    TIdentifier  shift, and go to state 18
+    TIdentifier  shift, and go to state 50
 
     MultExp     go to state 53
-    PrimaryExp  go to state 50
+    PrimaryExp  go to state 29
 
 
 State 43
 
-   26 MultExp: PrimaryExp TPercent . MultExp
+   25 MultExp: PrimaryExp TSlash . MultExp
 
     TIntVal      shift, and go to state 17
-    TIdentifier  shift, and go to state 18
+    TIdentifier  shift, and go to state 50
 
     MultExp     go to state 54
-    PrimaryExp  go to state 50
+    PrimaryExp  go to state 29
 
 
 State 44
 
-   19 AssignmentExp: PrimaryExp TAssign . AssignmentExp
+   26 MultExp: PrimaryExp TPercent . MultExp
 
     TIntVal      shift, and go to state 17
-    TIdentifier  shift, and go to state 18
+    TIdentifier  shift, and go to state 50
 
-    AssignmentExp  go to state 55
-    AdditiveExp    go to state 27
-    MultExp        go to state 28
-    PrimaryExp     go to state 29
+    MultExp     go to state 55
+    PrimaryExp  go to state 29
 
 
 State 45
@@ -713,65 +714,58 @@ State 47
 
 State 48
 
+   19 AssignmentExp: TIdentifier TAssign AssignmentExp .
+
+    $default  reduce using rule 19 (AssignmentExp)
+
+
+State 49
+
     3 CompoundStat: TOpenCurlyBrace Declaratorlist Statementlist TCloseCurlyBrace .
 
     $default  reduce using rule 3 (CompoundStat)
 
 
-State 49
+State 50
+
+   28 PrimaryExp: TIdentifier .
+
+    $default  reduce using rule 28 (PrimaryExp)
+
+
+State 51
 
    21 AdditiveExp: MultExp TPlus AdditiveExp .
 
     $default  reduce using rule 21 (AdditiveExp)
 
 
-State 50
-
-   24 MultExp: PrimaryExp . TStar MultExp
-   25        | PrimaryExp . TSlash MultExp
-   26        | PrimaryExp . TPercent MultExp
-   27        | PrimaryExp .
-
-    TStar     shift, and go to state 41
-    TSlash    shift, and go to state 42
-    TPercent  shift, and go to state 43
-
-    $default  reduce using rule 27 (MultExp)
-
-
-State 51
+State 52
 
    22 AdditiveExp: MultExp TMinus AdditiveExp .
 
     $default  reduce using rule 22 (AdditiveExp)
 
 
-State 52
+State 53
 
    24 MultExp: PrimaryExp TStar MultExp .
 
     $default  reduce using rule 24 (MultExp)
 
 
-State 53
+State 54
 
    25 MultExp: PrimaryExp TSlash MultExp .
 
     $default  reduce using rule 25 (MultExp)
 
 
-State 54
+State 55
 
    26 MultExp: PrimaryExp TPercent MultExp .
 
     $default  reduce using rule 26 (MultExp)
-
-
-State 55
-
-   19 AssignmentExp: PrimaryExp TAssign AssignmentExp .
-
-    $default  reduce using rule 19 (AssignmentExp)
 
 
 State 56
