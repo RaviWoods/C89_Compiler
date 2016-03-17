@@ -30,7 +30,7 @@ namespace Helper {
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
-		int x = 4*(b-a);
+		int x = 4*(b-a+1);
 		ss << "lw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
@@ -39,7 +39,7 @@ namespace Helper {
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
-		int x = 4*(b-a);
+		int x = 4*(b-a+1);
 		ss << "sw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
@@ -178,9 +178,10 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		cont.variableMap[id] = cont.currentStackOffset;
+		
 		ss << e->codeprint(cont) << "\n";
 		ss << Helper::storeOnStack(8,cont) << "\n";
+		cont.variableMap[id] = cont.currentStackOffset;
 		return ss.str();
 	}
 
