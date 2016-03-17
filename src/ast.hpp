@@ -399,16 +399,10 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		ss << "CONST\n";
-		/*
-		std::cerr << "CONST" << std::endl;
-		std::stringstream ss;
 		ss << "li $9, " << value << "\n";
 		ss << "sw  $9, 0($sp)" << "\n";
 		ss << "addiu $sp, $sp, -4\n";
 		cont.currentStackOffset--;
-		std::cerr << "CONST2" << std::endl;
-		*/
 		return ss.str();
 	}
 };
