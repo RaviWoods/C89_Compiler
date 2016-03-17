@@ -75,10 +75,10 @@ Declarator {
 };
 
 Declarator : 
-TInt PrimaryExp TSemicolon {
+TInt TIdentifier TSemicolon {
   $$ =  new Declarator("int",$2, NULL);
 }
-| TInt PrimaryExp TAssign Exp TSemicolon {
+| TInt TIdentifier TAssign Exp TSemicolon {
   $$ =  new Declarator("int", $2, $4);
 }
 

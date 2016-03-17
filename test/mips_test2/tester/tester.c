@@ -4,6 +4,8 @@ int f(int a, int b);
 
 int main () {
 	int i,j,x;
+	int vs[] = [1];
+	int ns = sizeof(vs);
 	for(i = 0; i<=2; i++) {
 	for(j = 0; j<=2; j++) {
 		x = f(i,j);

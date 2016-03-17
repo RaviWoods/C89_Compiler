@@ -58,17 +58,17 @@ public:
 class Declarator : public Node {
 private:
 	std::string type;
-	Expression* id;
+	std::string id;
 	Expression* e;
 
 public:
-	Declarator(std::string type_in, Expression* id_in, Expression* e_in) : type(type_in), id(id_in), e(e_in) {};
+	Declarator(std::string type_in, std::string id_in, Expression* e_in) : type(type_in), id(id_in), e(e_in) {};
 
 	std::string print() {
 		std::stringstream ss;
 		ss << "DECL {" << "\n";
 		ss << type << "\n";
-		ss << id->print() << "\n";
+		ss << id << "\n";
 		ss << "=" << "\n";
 		if(e!=NULL) {
 			ss << e->print() << "\n";
@@ -80,12 +80,21 @@ public:
 	std::string cprint() {
 		
 		std::stringstream ss;
-		ss << type << " " << id->cprint() << " ";
+		ss << type << " " << id << " ";
 		if(e!=NULL) {
 			ss << "= " << e->cprint();
 		}
 		ss << ";\n";
 		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		if(e==NULL) {
+			std::stringstream ss;
+			ss << "addiu $sp, $sp, -4\n";
+			cont.variableMap[id] = cont.currentStackOffset;
+			cont.currentStackOffset++;
+			return ss.str();
+		}
 	}
 };
 
@@ -115,6 +124,15 @@ public:
 		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
     		if((*it)!=NULL) {
     			ss << ((*it)->cprint());   			
+    		}
+		}
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		for (std::list<Declarator*>::iterator it=dlist.begin(); it!=dlist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->codeprint(cont));   			
     		}
 		}
 		return ss.str();
@@ -182,6 +200,9 @@ public:
 		}
 		ss << "}\n";
 		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		return dl->codeprint(cont);
 	}
 };
 
@@ -384,18 +405,14 @@ public:
 			ss << "addiu $sp, $sp, -4\n";
 			cont.currentStackOffset++;
 		}
-		ss << codeprint2(cont);
+		ss << cs->codeprint(cont);
 		ss << "j	$31\n";
-		ss << "nop\n";
-		return ss.str();
-	}
-	std::string codeprint2(Context& cont) {
-		std::stringstream ss;
 		int a = cont.currentStackOffset;
-		int b = cont.variableMap[param2->getId()];
+		int b = cont.variableMap["x"];
 		int x = 4*(a - b)+4;
 		ss << "lw $8, " << x << "($sp)\n";
 		ss << "addu $2, $8, $0\n";
+		ss << "nop\n";
 		return ss.str();
 	}
 };
