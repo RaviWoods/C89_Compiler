@@ -6,6 +6,16 @@
 #include <string>
 #include <sstream>
 #include <list>
+#include <map>
+
+class Context {
+public:
+	int currentStackOffset;
+	std::map <string, int> variableMap;
+	Parameter() {
+		currentStackOffset = 0;
+	}
+};
 
 class Node {
 public:
@@ -36,6 +46,9 @@ public:
 		std::stringstream ss;
 		ss << type << " " << id;
 		return ss.str();
+	}
+	std::string getId() {
+		return id;
 	}
 };
 
@@ -354,7 +367,30 @@ public:
 		ss << cs->cprint();
 		return ss.str();
 	}
-
+	std::string codeprint(&Context cont) {
+		std::stringstream ss;
+		ss << ".text\n" << ".align 2\n";
+		ss << ".globl  " << name << "\n";
+		ss << ".end  " << name << "\n";
+		ss << ".type  " << name << ", @function" << "\n";
+		ss << name << ":\n";
+		ss << "j	$31\n";
+		cont.variableMap[param1] = 1;
+		cont.variableMap[param2] = 2;
+		for(int i = 4; i <= 7; i++) {
+			ss << "sw  $" << i << ", " << $sp << "\n";
+			ss << "addiu $sp, $sp, -4\n";
+			cont.currentStackOffset++;
+		}
+		codeprint2(&Context cont);
+		ss << "j	$31\n";
+		ss << "nop\n"
+	}
+	std::string codeprint(&Context cont) {
+		x = cont.currentStackOffset - cont.variableMap.find(param2->getId)
+		ss << "lw $8, " << x << "($sp)\n";
+		ss << "addiu $2, $8, $0"
+	}
 };
 
 #endif
