@@ -331,6 +331,18 @@ public:
 		ss << "(" << left->cprint() << op << right->cprint() << ")";
 		return ss.str();
 	}
+
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << right->codeprint(cont) << "\n";
+		ss << "addu $5,$8, $0\n";
+		ss << left->codeprint(cont) << "\n";
+		ss << "addu $6,$8, $0\n";
+		if(op=="+") {
+			ss << "addu $8,$6, $5\n";
+		}
+		return ss.str();
+	}
 };
 
 
