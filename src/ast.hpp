@@ -57,6 +57,7 @@ public:
 	}
 
 	std::string codeprint(Context& cont) {
+		return "BLAH";
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
@@ -186,7 +187,6 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		if (e!=NULL) {
-			return "BLAH";
 			return e->codeprint(cont);			
 		}
 	}
