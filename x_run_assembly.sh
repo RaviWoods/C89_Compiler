@@ -12,7 +12,7 @@ do
 	cat $f  |  ./bin/c_parser > test/mips_test/assembly/$fname.s
 	printf "START OF ASSEMBLY"
 	printf "\n---------------\n"
-	cat test/mips_test2/assembly/$fname.s
+	cat test/mips_test/assembly/$fname.s
 	printf "\n---------------\n"
 	mips-linux-gnu-gcc  -S test/mips_test/tester.c -o test/mips_test/tester.s
 	mips-linux-gnu-gcc  -static test/mips_test/assembly/$fname.s test/mips_test/tester.s -o test/mips_test/tester
