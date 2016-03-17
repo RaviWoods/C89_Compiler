@@ -176,14 +176,11 @@ public:
 		return ss.str();
 	}
 
-	std::string cprint() {
-		std::stringstream ss;
-		if(e!=NULL) {
-			ss << e->cprint();
-		}
-		ss << ";\n";
-		return ss.str();
+	std::string codeprint(Context& cont) {
+		return e->codeprint(cont);
 	}
+
+
 };
 
 
