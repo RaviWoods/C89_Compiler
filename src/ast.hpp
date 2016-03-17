@@ -258,7 +258,7 @@ public:
 	std::string codeprint(Context& cont) {
 		if(right!=NULL) {
 			std::stringstream ss;
-			ss << right->codeprint(cont) "\n";
+			ss << right->codeprint(cont) << "\n";
 			ss << "sw  $9, 0($sp)\n";
 			cont.currentStackOffset--; 
 			
