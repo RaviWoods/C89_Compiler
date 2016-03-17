@@ -93,8 +93,8 @@ public:
 		std::stringstream ss;
 		ss << "li $9, " << value << "\n";
 		ss << "sw  $9, 0($sp)" << "\n";
-		ss << "addiu $sp, $sp, +4\n";
-		cont.currentStackOffset--;
+		ss << "addiu $sp, $sp, -4\n";
+		cont.currentStackOffset++;
 		return ss.str();
 	}
 };
@@ -226,7 +226,7 @@ public:
 		ss << e->codeprint(cont);
 		ss << "sw  $9, 0($sp)\n";
 		ss << "addiu $sp, $sp, -4\n";
-		cont.currentStackOffset--; 
+		cont.currentStackOffset++; 
 		ss << "addu $2, $9, $0\n";
 		ss << "j  $31\n";
 		ss << "nop\n";
@@ -266,13 +266,13 @@ public:
 		if(right!=NULL) {
 			std::stringstream ss;
 			ss << right->codeprint(cont) << "\n";
-			ss << "sw  $9, 0($sp)\n";
+			ss << "lw  $9, 0($sp)\n";
 			cont.currentStackOffset--; 
 			
 			int a = cont.variableMap[left];
 			int b = cont.currentStackOffset;
 			int x = 4*(b-a+1);
-			ss << "lw $9, " << x << "($sp)\n";
+			ss << "sw $9, " << x << "($sp)\n";
 			return ss.str();
 		}
 	}
