@@ -155,15 +155,7 @@ public:
 		ss << ";\n";
 		return ss.str();
 	}
-	std::string codeprint(Context& cont) {
-		if(e==NULL) {
-			std::stringstream ss;
-			ss << "addiu $sp, $sp, -4\n";
-			cont.variableMap[id] = cont.currentStackOffset;
-			cont.currentStackOffset++;
-			return ss.str();
-		}
-	}
+
 };
 
 
@@ -261,6 +253,20 @@ public:
 		std::stringstream ss;
 		ss << "(" << left << op << right->cprint() << ")";
 		return ss.str();
+	}
+
+	std::string codeprint(Context& cont) {
+		if(e==NULL) {
+			stringstream ss;
+			ss << right->codeprint(cont) "\n";
+			ss << "sw  $9, 0($sp)\n";
+			cont.currentStackOffset--; 
+			
+			int a = cont.variableMap[name];
+			int b = cont.currentStackOffset;
+			int x = 4*(a-b+1);
+			ss << "lw $9, " << x << "($sp)\n";
+		}
 	}
 
 
