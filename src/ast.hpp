@@ -342,11 +342,7 @@ public:
 			ss << "addu $8,$6, $5\n";
 		} else if(op=="-") {
 			ss << "subu $8,$6, $5\n";
-		} else if(op==">>") {
-			ss << "sra  $8,$6, $5\n";
-		} else if(op=="<<") {
-			ss << "sll  $8,$6, $5\n";
-		} 
+		}
 		return ss.str();
 	}
 };
