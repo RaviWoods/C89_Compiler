@@ -60,7 +60,7 @@ public:
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
-		int x = 4*(a-b+1);
+		int x = 4*(b-a+1);
 		ss << "lw $9, " << x << "($sp)\n";
 		ss << "sw $9, 0($sp)\n";
 		ss << "addiu $sp, $sp, -4\n";
@@ -264,7 +264,7 @@ public:
 			
 			int a = cont.variableMap[left];
 			int b = cont.currentStackOffset;
-			int x = 4*(a-b+1);
+			int x = 4*(b-a+1);
 			ss << "lw $9, " << x << "($sp)\n";
 		}
 	}
