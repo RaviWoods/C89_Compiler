@@ -186,6 +186,7 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		if (e!=NULL) {
+			return "BLAH";
 			return e->codeprint(cont);			
 		}
 	}
