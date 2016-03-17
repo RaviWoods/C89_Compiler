@@ -87,7 +87,7 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << Helper::readVar(name,cont);
-		ss << Helper::storeOnStack(9,cont);
+		ss << "addu $8,$9, $0\n";
 		return ss.str();
 	}
 };
@@ -114,8 +114,7 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		ss << "li $9, " << value << "\n";
-		ss << Helper::storeOnStack(9,cont);
+		ss << "li $8, " << value << "\n";
 		return ss.str();
 	}
 };
@@ -175,6 +174,13 @@ public:
 		}
 		ss << ";\n";
 		return ss.str();
+
+	}
+	std::string codeprint(Context& cont) {
+		cont.variableMap[id] = cont.currentStackOffset;
+		ss << e->codeprint(cont) << "\n";
+		ss << storeOnStack(8,cont) << "\n";
+
 	}
 
 };
@@ -245,8 +251,7 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << e->codeprint(cont);
-		ss << Helper::storeOnStack(9,cont);
-		ss << "addu $2, $9, $0\n";
+		ss << "addu $2, $8, $0\n";
 		ss << "j  $31\n";
 		ss << "nop\n";
 		return ss.str();
