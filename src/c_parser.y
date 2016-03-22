@@ -183,6 +183,8 @@ TIdentifier  {
 } 
 | TIntVal {
   $$ =  new ConstantValue($1);  
+} | TOpenBracket Exp TCloseBracket {
+  $$ =  new ExpStatement($2)
 };
 
 %%
