@@ -5,7 +5,7 @@ rm test/mips_test/tmporig.txt
 rm -rf test/mips_test/assembly
 mkdir test/mips_test/assembly
 clear
-if !make; then
+if ! smake; then
 	echo "NOT MADE"
 	exit
 	exit
