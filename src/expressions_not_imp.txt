@@ -1,0 +1,25 @@
+\-		{ return TMinus; } -1 and 1-1
+\~		{ return TTilde; }
+\!		{ return TBang; }
+\/		{ return TSlash; }
+\% 		{ return TPercent; }
+\?		{ return TQuestion; }
+\:		{ return TColon; }
+\,		{ return TComma; }
+\+\+	{ return TIncrement; } postfix and prefix
+\-\-	{ return TDecrement; } postfix and prefix
+\<\<	{ return TLeftShift; }
+\>\>	{ return TRightShift; }
+\&\&	{ return TLogicalAnd; }
+\|\|	{ return TLogicalOr; }
+\*\=	{ return TStarEquals; }
+\/\=	{ return TSlashEquals; }
+\%\=	{ return TPercentEquals; }
+\+\=	{ return TPlusEquals; }
+\-\=	{ return TMinusEquals; }
+\<\<\=	{ return TLeftShiftEquals; }
+\>\>\=	{ return TRightShiftEquals; }
+\&\=	{ return TAndEquals; }
+\^\=	{ return TCaratEquals; }
+\|\=	{ return TPipeEquals; }
+\.\.\.	{ return TEllipsis; }
