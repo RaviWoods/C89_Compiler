@@ -272,8 +272,8 @@ public:
 			ss << "mul $8,$6, $5\n";
 		} else if(op=="<") {
 			ss << "slt $8,$6, $5\n";
-		} else if(op=="<") {
-			ss << "slt $8,$6, $5\n";
+		} else if(op==">") {
+			ss << "slt $8,$5, $6\n";
 		} 
 		/*TODO: ADD MULT*/
 		return ss.str();
