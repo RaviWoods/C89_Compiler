@@ -1,0 +1,45 @@
+On initial build I get:
+
+    (cd build/rbw14 && make -B bin/c_codegen)
+    make[1]: Entering directory `/vagrant/_dt10_/documents/teaching/2015/compilers/cw/m3-codegen/build/rbw14'
+
+It looks like bin/c_parser is actually doing codegen, so I
+added the rule:
+
+    bin/c_codegen : bin/c_parser
+    		  cp $< $@
+
+On building I then get:
+
+    make[1]: Entering directory `/vagrant/_dt10_/documents/teaching/2015/compilers/cw/m3-codegen/build/rbw14'
+    bison -o bin/c_parser.tab.cpp -d -v src/c_parser.y
+    bison -o bin/c_parser.tab.hpp -d src/c_parser.y
+    src/c_parser.y: warning: conflicting outputs to file ‘bin/c_parser.tab.hpp’ [-Wother]
+    g++ -o bin/c_parser.tab.o -c bin/c_parser.tab.cpp 
+    flex -o bin/c_parser.yy.cpp src/c_lexer.l
+    g++ -o bin/c_parser.yy.o -c bin/c_parser.yy.cpp 
+    g++ -o bin/c_parser bin/c_parser.tab.o bin/c_parser.yy.o        
+    bin/c_parser.yy.o: In function `Helper::storeOnStack(int, Context&)':
+    c_parser.yy.cpp:(.text+0x0): multiple definition of `Helper::storeOnStack(int, Context&)'
+    bin/c_parser.tab.o:c_parser.tab.cpp:(.text+0x0): first defined here
+    bin/c_parser.yy.o: In function `Helper::readVar(std::string, Context&)':
+    c_parser.yy.cpp:(.text+0x10a): multiple definition of `Helper::readVar(std::string, Context&)'
+
+It looks like the problem is the c_parser.tab.hpp vs c_parser.tab.cpp, as
+the rule that generates c_parser.tab.hpp is:
+
+    bin/c_parser.tab.hpp: src/c_parser.y src/ast.hpp
+        bison -o bin/c_parser.tab.hpp -d src/c_parser.y
+
+This means the implementation of the parser ends up in the
+c_parser.tab.hpp file. The correct way is to have the bison
+rule generate both the hpp and the cpp:
+
+    bin/c_parser.tab.cpp bin/c_parser.tab.hpp: src/c_parser.y src/ast.hpp
+             bison -o bin/c_parser.tab.cpp -d src/c_parser.y
+
+After that it compiled fine. It's possible that it was working
+correctly be chance on your system, as it would work fine as
+long as it build the .cpp rule after the .hpp
+
+

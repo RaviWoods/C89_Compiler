@@ -1,4 +1,4 @@
 int f(int a,int b)
 {
-  return a&b;
+  return (10+b)&a;
 }
