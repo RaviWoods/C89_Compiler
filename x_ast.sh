@@ -20,7 +20,7 @@ do
 		echo "UH OH"
 		exit
 	fi
-	./1 > test/mips_test/tmporig.c;
+	./1 > test/ast_test/tmporig.c;
 	fname=$(basename $f .c)
 	if ! cat $f |  ./bin/c_parser > test/ast_test/c_output/$fname.c; then
 		printf "\n-----$f PARSER ERROR-----\n"
