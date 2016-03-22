@@ -50,7 +50,7 @@ namespace Helper {
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
-		int x = 4*(b-a);
+		int x = 4*(b-a+1);
 		ss << "lw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
@@ -59,7 +59,7 @@ namespace Helper {
 		std::stringstream ss;
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
-		int x = 4*(b-a);
+		int x = 4*(b-a+1);
 		ss << "sw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
@@ -270,6 +270,7 @@ public:
 		ss << Helper::popStack(5,cont) << "\n";
 		ss << Helper::popStack(6,cont) << "\n";
 
+		ss << "addu $5,$8, $0\n";
 		if(op=="+") {
 			ss << "addu $8,$6, $5\n";
 		} else if(op=="-") {
@@ -295,7 +296,7 @@ public:
 		} else if(op=="!=") {
 			ss << "sne $8,$6, $5\n";
 		} 
-		/*TODO: ADD MORE*/
+		/*TODO: ADD MULT*/
 		return ss.str();
 	}
 };
@@ -347,10 +348,9 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		
-		cont.variableMap[id] = cont.currentStackOffset;
 		ss << e->codeprint(cont) << "\n";
 		ss << Helper::pushStack(8,cont) << "\n";
-		
+		cont.variableMap[id] = cont.currentStackOffset;
 		return ss.str();
 	}
 
@@ -634,10 +634,9 @@ public:
 		cont.variableMap[param2->getId()] = 2;
 		/*TODO: Add more than 2 params*/
 		for(int i = 4; i <= 7; i++) {
-			cont.currentStackOffset++;
 			ss << "sw  $" << i << ", 0($sp)" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
-			
+			cont.currentStackOffset++;
 		}
 		ss << cs->codeprint(cont);
 		return ss.str();
