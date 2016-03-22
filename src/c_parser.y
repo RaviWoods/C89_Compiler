@@ -132,6 +132,12 @@ AndExp TGreater RelationalExp {
 | AndExp TLess RelationalExp {
   $$ = new BinaryExpression($1,">", $3);
 } 
+| AndExp TGreaterEqual RelationalExp {
+  $$ = new BinaryExpression($1,">=", $3);
+} 
+| AndExp TLessEqual RelationalExp {
+  $$ = new BinaryExpression($1,"<=", $3);
+}
 | AndExp;
 
 AndExp :
