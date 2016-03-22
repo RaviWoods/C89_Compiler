@@ -268,6 +268,8 @@ public:
 			ss << "xor $8,$6, $5\n";
 		} else if(op=="|") {
 			ss << "or $8,$6, $5\n";
+		} else if(op=="*") {
+			ss << "mul $8,$6, $5\n";
 		} 
 		/*TODO: ADD MULT*/
 		return ss.str();
