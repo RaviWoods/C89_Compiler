@@ -111,7 +111,7 @@ AssignmentExp :
 TIdentifier TAssign AssignmentExp { 
   $$ =  new AssignmentExp($1,"=", $3);
 } 
-| AndExp;
+| OrExp;
 
 OrExp :
 XorExp TPipe AndExp {
