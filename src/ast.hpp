@@ -586,7 +586,7 @@ public:
 	std::string codeprint(Context& cont) {
 
 		std::stringstream ss;
-		ss << "#CompoundStat" << id << "\n";
+		ss << "#CompoundStat\n";
 		if (dl != NULL) {
 			ss << dl->codeprint(cont);
 		}
@@ -643,7 +643,7 @@ public:
 		cont.variableMap[param1->getId()] = 1;
 		cont.variableMap[param2->getId()] = 2;
 		/*TODO: Add more than 2 params*/
-		ss << "#Function with Params: " << param1->getId() " " <<  param2->getId() << "\n";
+		ss << "#Function with Params: " << param1->getId() << " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
 			ss << "sw  $" << i << ", 0($sp)" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
