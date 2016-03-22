@@ -8,6 +8,18 @@
 #include <list>
 #include <map>
 
+
+/**********************************************************
+  _______ ____  _____     _____ _                _____ _____ ______  _____ 
+ |__   __/ __ \|  __ \   / ____| |        /\    / ____/ ____|  ____|/ ____|
+    | | | |  | | |__) | | |    | |       /  \  | (___| (___ | |__  | (___  
+    | | | |  | |  ___/  | |    | |      / /\ \  \___ \\___ \|  __|  \___ \ 
+    | | | |__| | |      | |____| |____ / ____ \ ____) |___) | |____ ____) |
+    |_|  \____/|_|       \_____|______/_/    \_\_____/_____/|______|_____/ 
+
+Context, Helper Functions, Node, Statement, Expression
+**********************************************************/
+
 class Context {
 public:
 	int currentStackOffset;
@@ -63,6 +75,19 @@ public:
 		return "#NOT IMPLEMENTED YET\n";
 	}
 };
+
+/**********************************************************
+  _      ______          __  _      ________      ________ _      
+ | |    / __ \ \        / / | |    |  ____\ \    / /  ____| |     
+ | |   | |  | \ \  /\  / /  | |    | |__   \ \  / /| |__  | |     
+ | |   | |  | |\ \/  \/ /   | |    |  __|   \ \/ / |  __| | |     
+ | |___| |__| | \  /\  /    | |____| |____   \  /  | |____| |____ 
+ |______\____/   \/  \/     |______|______|   \/   |______|______|
+
+Identifier 3
+ConstantValue 3
+Parameter 2 : NO CODE PRINT
+**********************************************************/
 
 class Identifier : public Expression {
 private:
@@ -138,10 +163,120 @@ public:
 		ss << type << " " << id;
 		return ss.str();
 	}
+
+	/*TODO: Add Code Print*/
+
 	std::string getId() {
 		return id;
 	}
 };
+
+/**********************************************************
+  ________   _______  _____  ______  _____ _____ _____ ____  _   _ 
+ |  ____\ \ / /  __ \|  __ \|  ____|/ ____/ ____|_   _/ __ \| \ | |
+ | |__   \ V /| |__) | |__) | |__  | (___| (___   | || |  | |  \| |
+ |  __|   > < |  ___/|  _  /|  __|  \___ \\___ \  | || |  | | . ` |
+ | |____ / . \| |    | | \ \| |____ ____) |___) |_| || |__| | |\  |
+ |______/_/ \_\_|    |_|  \_\______|_____/_____/|_____\____/|_| \_|
+                                                                  
+AssignmentExp 3
+BinaryExpression 3 : NOT COMPLETE (MULT)
+**********************************************************/
+
+class AssignmentExp : public Expression { 
+private: 
+	std::string left;
+	std::string op;
+	Expression* right;
+	
+public:
+	AssignmentExp(std::string left_in, const std::string &op_in, Expression *right_in) : 
+	left(left_in), op(op_in) , right(right_in)
+	{};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << "ASSIGN_EXP {" << "\n";
+		ss << left << "\n";
+		ss << op << "\n";
+		ss <<  right->print() << "\n";
+		ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << "(" << left << op << right->cprint() << ")";
+		return ss.str();
+	}
+
+	std::string codeprint(Context& cont) {
+		if(right!=NULL) {
+			std::stringstream ss;
+			ss << right->codeprint(cont) << "\n";
+			ss << "addu $9, $8, $0\n";
+			ss << Helper::writeVar(left, cont);
+			return ss.str();
+
+		}
+	}
+
+
+};
+
+class BinaryExpression : public Expression { 
+private:
+	Expression* left;
+	std::string op;
+	Expression* right;
+	
+public:
+	BinaryExpression(Expression *left_in, const std::string &op_in, Expression *right_in) : 
+	left(left_in), op(op_in) , right(right_in)
+	{};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << "BIN_EXP {" << "\n";
+		ss << left->print() << "\n";
+		ss << op << "\n";
+		ss <<  right->print() << "\n";
+		ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << "(" << left->cprint() << op << right->cprint() << ")";
+		return ss.str();
+	}
+
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << right->codeprint(cont) << "\n";
+		ss << "addu $5,$8, $0\n";
+		ss << left->codeprint(cont) << "\n";
+		ss << "addu $6,$8, $0\n";
+		if(op=="+") {
+			ss << "addu $8,$6, $5\n";
+		} else if(op=="-") {
+			ss << "subu $8,$6, $5\n";
+		}
+		/*TODO: ADD MULT*/
+		return ss.str();
+	}
+};
+
+/**********************************************************
+  _____  ______ _____ _      ______ _____         _______ ____  _____  
+ |  __ \|  ____/ ____| |    |  ____|  __ \     /\|__   __/ __ \|  __ \ 
+ | |  | | |__ | |    | |    | |__  | |__) |   /  \  | | | |  | | |__) |
+ | |  | |  __|| |    | |    |  __| |  _  /   / /\ \ | | | |  | |  _  / 
+ | |__| | |___| |____| |____| |____| | \ \  / ____ \| | | |__| | | \ \ 
+ |_____/|______\_____|______|______|_|  \_\/_/    \_\_|  \____/|_|  \_\                                                           
+
+Declarator 3
+**********************************************************/
 
 class Declarator : public Node {
 private:
@@ -187,6 +322,19 @@ public:
 
 };
 
+/*********************************************************
+   _____ _______    _______ _____ 
+  / ____|__   __|/\|__   __/ ____|
+ | (___    | |  /  \  | | | (___  
+  \___ \   | | / /\ \ | |  \___ \ 
+  ____) |  | |/ ____ \| |  ____) |
+ |_____/   |_/_/    \_\_| |_____/ 
+
+ExpStatement 3
+JumpStatement 3                                         
+
+**********************************************************/
+
 
 class ExpStatement : public Statement { 
 private:
@@ -221,6 +369,7 @@ public:
 	}
 
 };
+
 
 
 class JumpStatement : public Statement { 
@@ -265,89 +414,18 @@ public:
 };
 
 
-class AssignmentExp : public Expression { 
-private:
-	std::string left;
-	std::string op;
-	Expression* right;
-	
-public:
-	AssignmentExp(std::string left_in, const std::string &op_in, Expression *right_in) : 
-	left(left_in), op(op_in) , right(right_in)
-	{};
+/*********************************************************
+   _____  _____ ____  _____  ______ 
+  / ____|/ ____/ __ \|  __ \|  ____|
+ | (___ | |   | |  | | |__) | |__   
+  \___ \| |   | |  | |  ___/|  __|  
+  ____) | |___| |__| | |    | |____ 
+ |_____/ \_____\____/|_|    |______|
 
-	std::string print() {
-		std::stringstream ss;
-		ss << "ASSIGN_EXP {" << "\n";
-		ss << left << "\n";
-		ss << op << "\n";
-		ss <<  right->print() << "\n";
-		ss << "}" << "\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		ss << "(" << left << op << right->cprint() << ")";
-		return ss.str();
-	}
-
-	std::string codeprint(Context& cont) {
-		if(right!=NULL) {
-			std::stringstream ss;
-			ss << right->codeprint(cont) << "\n";
-			ss << "addu $9, $8, $0\n";
-			ss << Helper::writeVar(left, cont);
-			return ss.str();
-		}
-	}
-
-
-};
-
-class BinaryExpression : public Expression { 
-private:
-	Expression* left;
-	std::string op;
-	Expression* right;
-	
-public:
-	BinaryExpression(Expression *left_in, const std::string &op_in, Expression *right_in) : 
-	left(left_in), op(op_in) , right(right_in)
-	{};
-
-	std::string print() {
-		std::stringstream ss;
-		ss << "BIN_EXP {" << "\n";
-		ss << left->print() << "\n";
-		ss << op << "\n";
-		ss <<  right->print() << "\n";
-		ss << "}" << "\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		ss << "(" << left->cprint() << op << right->cprint() << ")";
-		return ss.str();
-	}
-
-	std::string codeprint(Context& cont) {
-		std::stringstream ss;
-		ss << right->codeprint(cont) << "\n";
-		ss << "addu $5,$8, $0\n";
-		ss << left->codeprint(cont) << "\n";
-		ss << "addu $6,$8, $0\n";
-		if(op=="+") {
-			ss << "addu $8,$6, $5\n";
-		} else if(op=="-") {
-			ss << "subu $8,$6, $5\n";
-		}
-		return ss.str();
-	}
-};
-
-
+DecList 3
+StatList 3
+CompoundStatement 3
+**********************************************************/
 
 
 class DecList : public Node {
@@ -475,6 +553,17 @@ public:
 	}
 };
 
+/*********************************************************
+  ______ _    _ _   _  _____ _____  ______ ______ 
+ |  ____| |  | | \ | |/ ____|  __ \|  ____|  ____|
+ | |__  | |  | |  \| | |    | |  | | |__  | |__   
+ |  __| | |  | | . ` | |    | |  | |  __| |  __|  
+ | |    | |__| | |\  | |____| |__| | |____| |     
+ |_|     \____/|_| \_|\_____|_____/|______|_|  
+
+FuncDef 3 : MORE THAN ONE PARAM
+**********************************************************/
+
 class FuncDef : public Node {
 private:
 	std::string returnType;
@@ -509,6 +598,7 @@ public:
 		ss << name << ":\n";
 		cont.variableMap[param1->getId()] = 1;
 		cont.variableMap[param2->getId()] = 2;
+		/*TODO: Add more than 2 params*/
 		for(int i = 4; i <= 7; i++) {
 			ss << "sw  $" << i << ", 0($sp)" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
