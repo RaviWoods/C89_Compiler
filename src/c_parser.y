@@ -133,7 +133,7 @@ EqualityExp TBitwiseAnd AndExp {
 
 EqualityExp :
 RelationalExp TEquals EqualityExp {
-  std::cout << "MATCH ==" << std::endl;
+  std::cout << "#MATCH ==" << std::endl;
   $$ = new BinaryExpression($1,"==", $3);
 }
 | RelationalExp TNotEqual EqualityExp {
