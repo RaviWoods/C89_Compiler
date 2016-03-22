@@ -13,7 +13,7 @@ fi
 for f in $FILES
 do
 	printf "\n--------------------$f START--------------------\n"
-	cat $f
+	#cat $f
 	printf "\n"
 	printf "START OF OUTPUT"
 	printf "\n---------------\n"
