@@ -16,7 +16,7 @@ if [ "$text" == "y" ]; then
 fi
 for f in $FILES
 do
-	if ! gcc -std=c89 test/mips_test/tester.c $f -o ./1; then
+	if ! gcc test/mips_test/tester.c $f -o ./1; then
 		echo "UH OH"
 		exit
 	fi
