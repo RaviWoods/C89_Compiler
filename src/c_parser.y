@@ -112,8 +112,9 @@ TIdentifier TAssign AssignmentExp {
   $$ =  new AssignmentExp($1, $3);
 } 
 | TIdentifier TPlusEquals AssignmentExp { 
-  Expression right = BinaryExpression($1,"+", AssignmentExp);
-  $$ = new AssignmentExp($1, *right);
+  Expression* right;
+  right = new BinaryExpression($1,"+", AssignmentExp);
+  $$ = new AssignmentExp($1, right);
 } 
 | OrExp;
 
