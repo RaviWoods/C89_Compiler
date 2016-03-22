@@ -1,7 +1,7 @@
 #!/bin/bash
 
-rm test/mips_test/tmpfin.c
-rm test/mips_test/tmporig.c
+rm test/mips_test/tmpfin.txt
+rm test/mips_test/tmporig.txt
 rm -rf test/ast_test/c_output
 mkdir test/ast_test/c_output
 make
@@ -20,7 +20,7 @@ do
 		echo "UH OH"
 		exit
 	fi
-	./1 > test/ast_test/tmporig.c;
+	./1 > test/ast_test/tmporig.txt;
 	fname=$(basename $f .c)
 	if ! cat $f |  ./bin/c_parser > test/ast_test/c_output/$fname.c; then
 		printf "\n-----$f PARSER ERROR-----\n"
@@ -40,8 +40,8 @@ do
 		fi
 		exit
 	fi
-	./2 > test/ast_test/tmpfin.c
-	if cmp test/ast_test/tmpfin.c test/ast_test/tmporig.c >/dev/null 2>&1; then
+	./2 > test/ast_test/tmpfin.txt
+	if cmp test/ast_test/tmpfin.txt test/ast_test/tmporig.txt >/dev/null 2>&1; then
 		echo "$f correct"
 		#sdiff test/mips_test/tmporig.txt test/mips_test/tmpfin.txt 
 	else 
@@ -51,12 +51,10 @@ do
 		echo "See diff? [y/n]"
 		read text
 		if [ "$text" == "y" ]; then
-			sdiff test/ast_test/tmpfin.c test/ast_test/tmporig.c 
+			sdiff test/ast_test/tmpfin.txt test/ast_test/tmporig.txt
 		fi
 		exit
 	fi
 	printf "\n---------------End of $f----------------\n"
 done
-
-echo "ALL DONE"
 

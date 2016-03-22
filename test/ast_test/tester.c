@@ -5,11 +5,34 @@
 
 int f(int a, int b);
 
+void signal_handler(int signo)
+{
+  printf("Error (within MIPS program): received signal number %d\n", signo);
+  exit(1);
+}
+
 int main(int argc, char *argv[])
 {
+  signal(SIGINT, signal_handler);
+  signal(SIGILL, signal_handler);
+  signal(SIGSEGV, signal_handler);
+  signal(SIGFPE, signal_handler);
 
-  int r=f(5,7);
-  fprintf(stdout, "%d, %d, %d\n", 5,7,r);
+  fprintf(stdout, "DriverBegin (MIPS driver program starting)\n");
+  fflush(stdout);
 
-  return 0;
+   int vs[]={0,-1,-2,-7,-11,-255,-256,-257,-65535,-65536,-65537,-0x7FFFFF,1,2,7,11,255,256,257,65535,65536,65537,0x7FFFFF};
+   int ns=sizeof(vs)/sizeof(vs[0]);
+
+   for(int i=0;i<ns;i++){
+     for(int j=0;j<ns;j++){
+       int r=f(vs[i],vs[j]);
+       fprintf(stdout, "%s%d, %d, %d\n", argv[1], vs[i],vs[j],r);
+       fflush(stdout);
+     }
+   }
+
+   fprintf(stdout, "DriverFinished (MIPS driver program finishing)\n");
+   fflush(stdout);
+   return 0;
 }
