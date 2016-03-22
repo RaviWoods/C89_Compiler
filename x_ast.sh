@@ -1,57 +1,62 @@
 #!/bin/bash
 
-FILES="test/ast_test/csource/*.c"
-rm test/ast_test/tmporig.txt 2> /dev/null
-rm test/ast_test/tmpparse.txt 2> /dev/null
-rm test/ast_test/diffileerror.txt 2> /dev/null
-rm test/ast_test/compilefileerror.txt 2> /dev/null
-echo "" > test/ast_test/tmporig.txt
-echo "" > test/ast_test/tmpparse.txt
-echo "" > test/ast_test/diffileerror.txt
-echo "" > test/ast_test/compilefileerror.txt
-fileNo=0
-compileFileNo=0
-diffFileNo=0
-correctFileNo=0
+rm test/mips_test/tmpfin.c
+rm test/mips_test/tmporig.c
+rm -rf test/ast_test/c_output
+mkdir test/ast_test/c_output
+make
+clear
+FILES="test/c_files/*.c"
+echo "Specific? [y/n]"
+read text
+if [ "$text" == "y" ]; then
+	echo "Which?"
+	read filename
+	FILES="test/c_files/$filename.c"
+fi
 for f in $FILES
 do
-	fileNo=`expr $fileNo + 1`;
-	printf "\n--------------------$f START--------------------\n"
-	if ! gcc -std=c89 test/ast_test/tester.c $f -o ./1; then
+	if ! gcc test/ast_test/tester.c $f -o ./1; then
 		echo "UH OH"
 		exit
 	fi
-	./1 > test/ast_test/tmporig.txt;
-	make
+	./1 > test/mips_test/tmporig.c;
 	fname=$(basename $f .c)
-	cat $f |  ./bin/c_parser > test/ast_test/parsed_csource/parsed_$fname.c
-	if ! gcc -std=c89 test/ast_test/tester.c test/ast_test/parsed_csource/parsed_$fname.c  -o ./2 >/dev/null 2>&1; then
-		cat test/ast_test/parsed_csource/parsed_$fname.c > test/ast_test/error_files/err_compile_$fname.txt
-		echo $fname >> test/ast_test/compilefileerror.txt;
-		compileFileNo=`expr $compileFileNo + 1`;
+	if ! cat $f |  ./bin/c_parser > test/ast_test/c_output/$fname.c; then
+		printf "\n-----$f PARSER ERROR-----\n"
+		cat $f 
+ 		printf "\n-----$f PARSER ERROR-----\n"
+ 		exit
+	fi
+	if ! gcc test/ast_test/tester.c test/ast_test/c_output/$fname.c -o ./1 >/dev/null 2>&1; then
 		printf "\n-----$f COMPILE ERROR-----\n"
 		cat $f 
  		printf "\n-----$f COMPILE ERROR-----\n"
-		printf "\n--------------------$f END----------------------\n"
-		continue
+		echo "See c output? [y/n]"
+		read text
+		if [ "$text" == "y" ]; then
+			cat test/ast_test/c_output/$fname.c
+			exit
+		fi
+		exit
 	fi
-	./2 > test/ast_test/tmpparse.txt;
-	if cmp test/ast_test/tmpparse.txt test/ast_test/tmporig.txt >/dev/null 2>&1; then
-		correctFileNo=`expr $correctFileNo + 1`;
-
+	cp test/ast_test/c_output/$fname.c test/ast_test/tmpfin.c
+	if cmp test/ast_test/tmpfin.c test/ast_test/tmporig.c >/dev/null 2>&1; then
+		echo "$f correct"
+		#sdiff test/mips_test/tmporig.txt test/mips_test/tmpfin.txt 
 	else 
-		diffFileNo=`expr $diffFileNo + 1`;
-		sdiff test/ast_test/tmpparse.txt test/ast_test/tmporig.txt
 		printf "\n-----$f DIFF ERROR-----\n"
-		cat $f 
+		cat $f
  		printf "\n-----$f DIFF ERROR-----\n"
-		echo $fname >> test/ast_test/diffileerror.txt
+		echo "See diff? [y/n]"
+		read text
+		if [ "$text" == "y" ]; then
+			sdiff test/ast_test/tmpfin.c test/ast_test/tmporig.c 
+		fi
+		exit
 	fi
-	printf "\n--------------------$f END----------------------\n"
+	printf "\n---------------End of $f----------------\n"
 done
-echo "fileNo = $fileNo" 
-echo "compileFileNo = $compileFileNo" 
-echo "diffFileNo = $diffFileNo" 
-echo "correctFileNo = $correctFileNo" 
 
+echo "ALL DONE"
 
