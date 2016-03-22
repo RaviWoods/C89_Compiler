@@ -1,8 +1,6 @@
-\-		{ return TMinus; } -1 and 1-1
+\-		{ return TMinus; } -1 
 \~		{ return TTilde; }
 \!		{ return TBang; }
-\/		{ return TSlash; }
-\% 		{ return TPercent; }
 \?		{ return TQuestion; }
 \:		{ return TColon; }
 \,		{ return TComma; }
