@@ -312,6 +312,13 @@ public:
 		} else if(op=="%") {
 			ss << "div $6, $5\n";
 			ss << "mfhi $8\n";
+		} else if(op=="<<") {
+			ss << "div $6, $5\n";
+			ss << "mfhi $8\n";
+		} else if(op==">>") {
+			ss << "sra $8,$6, $5\n";
+		} else if(op=="<<") {
+			ss << "sll $8,$6, $5\n";
 		} 
 		/*TODO: ADD MULT*/
 		return ss.str();
