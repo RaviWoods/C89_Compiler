@@ -42,6 +42,7 @@ do
 			cat test/mips_test/assembly/$fname.s
 			exit
 		fi
+		exit
 	fi
 	qemu-mips test/mips_test/tester > test/mips_test/tmpfin.txt
 	if cmp test/mips_test/tmpfin.txt test/mips_test/tmporig.txt >/dev/null 2>&1; then
