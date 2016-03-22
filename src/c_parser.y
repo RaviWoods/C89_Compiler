@@ -115,7 +115,7 @@ TIdentifier TAssign AssignmentExp {
 
 
 AndExp :
-AdditiveExp TPlus AndExp {
+AdditiveExp TBitwiseAnd AndExp {
   $$ = new BinaryExpression($1,"&", $3);
 } 
 | AdditiveExp;
