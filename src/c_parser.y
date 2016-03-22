@@ -31,7 +31,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp
+%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp ShiftExp
 %type <StatPtr> ExpStat JumpStat Statement
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
@@ -141,18 +141,27 @@ RelationalExp TEquals EqualityExp {
 | RelationalExp;
 
 RelationalExp :
-AdditiveExp TGreater RelationalExp {
+ShiftExp TGreater RelationalExp {
   $$ = new BinaryExpression($1,"<", $3);
 }
-| AdditiveExp TLess RelationalExp {
+| ShiftExp TLess RelationalExp {
   $$ = new BinaryExpression($1,">", $3);
 } 
-| AdditiveExp TGreaterEqual RelationalExp {
+| ShiftExp TGreaterEqual RelationalExp {
   $$ = new BinaryExpression($1,">=", $3);
 } 
-| AdditiveExp TLessEqual RelationalExp {
+| ShiftExp TLessEqual RelationalExp {
   $$ = new BinaryExpression($1,"<=", $3);
 }
+| ShiftExp;
+ 
+ShiftExp  :
+AdditiveExp TLeftShift ShiftExp {
+  $$ = new BinaryExpression($1,"<<", $3);
+}
+| AdditiveExp TRightShift ShiftExp {
+  $$ = new BinaryExpression($1,">>", $3);
+} 
 | AdditiveExp;
 
 AdditiveExp :  
