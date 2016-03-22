@@ -6,8 +6,6 @@
 \,		{ return TComma; }
 \+\+	{ return TIncrement; } postfix and prefix
 \-\-	{ return TDecrement; } postfix and prefix
-\<\<	{ return TLeftShift; }
-\>\>	{ return TRightShift; }
 \&\&	{ return TLogicalAnd; }
 \|\|	{ return TLogicalOr; }
 \*\=	{ return TStarEquals; }

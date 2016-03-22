@@ -200,12 +200,11 @@ BinaryExpression 3 : NOT COMPLETE (MULT)
 class AssignmentExp : public Expression { 
 private: 
 	std::string left;
-	std::string op;
 	Expression* right;
 	
 public:
-	AssignmentExp(std::string left_in, const std::string &op_in, Expression *right_in) : 
-	left(left_in), op(op_in) , right(right_in)
+	AssignmentExp(std::string left_in, Expression *right_in) : 
+	left(left_in), right(right_in)
 	{};
 
 	std::string print() {
@@ -229,7 +228,7 @@ public:
 			std::stringstream ss;
 			
 			ss << right->codeprint(cont) << "\n";
-			ss << "#AssignExp " << op << "\n";
+			ss << "#AssignExp "<< "\n";
 			ss << "addu $9, $8, $0\n";
 			ss << Helper::writeVar(left, cont);
 			return ss.str();
