@@ -61,7 +61,8 @@ do
 		echo "See diff? [y/n]"
 		read text
 		if [ "$text" == "y" ]; then
-			sdiff test/mips_test/tmporig.txt test/mips_test/tmpfin.txt 
+			sdiff test/mips_test/tmporig.txt test/mips_test/tmpfin.txt > test/mips_test/tmpdiff.txt
+			less test/mips_test/tmpdiff.txt
 		fi
 		exit
 	fi
