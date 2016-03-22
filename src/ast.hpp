@@ -276,8 +276,8 @@ public:
 		ss << Helper::pushStack(8,cont) << "\n";
 
 		ss << Helper::popStack(5,cont) << "\n";
-		ss << "addu $2, $5, $0\n";
-		ss << "j  $31\n";
+		//ss << "addu $2, $5, $0\n";
+		//ss << "j  $31\n";
 
 		ss << Helper::popStack(6,cont) << "\n";
 
