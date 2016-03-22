@@ -31,7 +31,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp
+%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp
 %type <StatPtr> ExpStat JumpStat Statement
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
@@ -122,6 +122,15 @@ XorExp TPipe AndExp {
 XorExp :
 AndExp TCarat AndExp {
   $$ = new BinaryExpression($1,"^", $3);
+} 
+| AndExp;
+
+RelationalExp :
+AndExp TGreater RelationalExp {
+  $$ = new BinaryExpression($1,"<", $3);
+}
+| AndExp TLess RelationalExp {
+  $$ = new BinaryExpression($1,">", $3);
 } 
 | AndExp;
 

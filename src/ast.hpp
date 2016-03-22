@@ -270,6 +270,10 @@ public:
 			ss << "or $8,$6, $5\n";
 		} else if(op=="*") {
 			ss << "mul $8,$6, $5\n";
+		} else if(op=="<") {
+			ss << "slt $8,$6, $5\n";
+		} else if(op=="<") {
+			ss << "slt $8,$6, $5\n";
 		} 
 		/*TODO: ADD MULT*/
 		return ss.str();
