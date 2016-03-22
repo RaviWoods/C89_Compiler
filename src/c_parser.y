@@ -130,13 +130,13 @@ MultExp TPlus AdditiveExp {
 | MultExp;
 
 MultExp :  
-TIdentifier TStar MultExp {
+PrimaryExp TStar MultExp {
 	$$ = new BinaryExpression($1,"*", $3);
 } 
-| TIdentifier TSlash MultExp {
+| PrimaryExp TSlash MultExp {
   $$ = new BinaryExpression($1,"/", $3);
 } 
-| TIdentifier TPercent MultExp {
+| PrimaryExp TPercent MultExp {
   $$ = new BinaryExpression($1,"%", $3);
 } 
 | PrimaryExp;
