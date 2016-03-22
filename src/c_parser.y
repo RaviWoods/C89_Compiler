@@ -31,7 +31,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp
+%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp
 %type <StatPtr> ExpStat JumpStat Statement
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
@@ -114,36 +114,45 @@ TIdentifier TAssign AssignmentExp {
 | OrExp;
 
 OrExp :
-XorExp TPipe AndExp {
+XorExp TPipe OrExp {
   $$ = new BinaryExpression($1,"|", $3);
 } 
 | XorExp;
 
 XorExp :
-AndExp TCarat AndExp {
+AndExp TCarat XorExp {
   $$ = new BinaryExpression($1,"^", $3);
+} 
+| AndExp;
+
+AndExp :
+EqualityExp TBitwiseAnd AndExp {
+  $$ = new BinaryExpression($1,"&", $3);
+} 
+| EqualityExp;
+
+EqualityExp :
+RelationalExp TEquals EqualityExp {
+  $$ = new BinaryExpression($1,"==", $3);
+}
+| RelationalExp TNotEqual EqualityExp {
+  $$ = new BinaryExpression($1,"!=", $3);
 } 
 | RelationalExp;
 
 RelationalExp :
-AndExp TGreater RelationalExp {
+AdditiveExp TGreater RelationalExp {
   $$ = new BinaryExpression($1,"<", $3);
 }
-| AndExp TLess RelationalExp {
+| AdditiveExp TLess RelationalExp {
   $$ = new BinaryExpression($1,">", $3);
 } 
-| AndExp TGreaterEqual RelationalExp {
+| AdditiveExp TGreaterEqual RelationalExp {
   $$ = new BinaryExpression($1,">=", $3);
 } 
-| AndExp TLessEqual RelationalExp {
+| AdditiveExp TLessEqual RelationalExp {
   $$ = new BinaryExpression($1,"<=", $3);
 }
-| AndExp;
-
-AndExp :
-AdditiveExp TBitwiseAnd AndExp {
-  $$ = new BinaryExpression($1,"&", $3);
-} 
 | AdditiveExp;
 
 AdditiveExp :  
@@ -154,6 +163,7 @@ MultExp TPlus AdditiveExp {
   $$ = new BinaryExpression($1,"-", $3);
 } 
 | MultExp;
+
 
 MultExp :  
 PrimaryExp TStar MultExp {
