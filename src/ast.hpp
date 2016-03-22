@@ -309,6 +309,9 @@ public:
 			ss << "sne $8,$6, $5\n";
 		} else if(op=="/") {
 			ss << "div $8,$6, $5\n";
+		} else if(op=="%") {
+			ss << "div $6, $5\n";
+			ss << "mfhi $8"
 		} 
 		/*TODO: ADD MULT*/
 		return ss.str();
