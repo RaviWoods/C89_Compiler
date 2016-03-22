@@ -41,8 +41,9 @@ namespace Helper {
 	}
 	std::string popStack(int reg, Context& cont) {
 		std::stringstream ss;
-		ss << "lw  $" << reg << ", 0($sp)" << "\n";
 		ss << "addiu $sp, $sp, +4\n";
+		ss << "lw  $" << reg << ", 0($sp)" << "\n";
+		
 		cont.currentStackOffset--;
 		return ss.str();
 	}
