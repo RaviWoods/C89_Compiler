@@ -123,7 +123,7 @@ XorExp :
 AndExp TCarat AndExp {
   $$ = new BinaryExpression($1,"^", $3);
 } 
-| AndExp;
+| RelationalExp;
 
 RelationalExp :
 AndExp TGreater RelationalExp {
