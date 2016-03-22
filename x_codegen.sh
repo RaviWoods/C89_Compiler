@@ -50,8 +50,14 @@ do
 		#sdiff test/mips_test/tmporig.txt test/mips_test/tmpfin.txt 
 	else 
 		printf "\n-----$f DIFF ERROR-----\n"
-		cat test/mips_test/assembly/$fname.s
+		cat $f
  		printf "\n-----$f DIFF ERROR-----\n"
+ 		echo "See assembly? [y/n]"
+		read text
+		if [ "$text" == "y" ]; then
+			cat test/mips_test/assembly/$fname.s
+		fi
+
 		echo "See diff? [y/n]"
 		read text
 		if [ "$text" == "y" ]; then
