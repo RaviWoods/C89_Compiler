@@ -275,9 +275,9 @@ public:
 		} else if(op==">") {
 			ss << "slt $8,$5, $6\n";
 		} else if(op==">=") {
-			ss << "sge $8,$5, $6\n";
+			ss << "sge $8,$6, $5\n";
 		} else if(op=="<=") {
-			ss << "sle $8,$5, $6\n";
+			ss << "sle $8,$6, $5\n";
 		} 
 		/*TODO: ADD MULT*/
 		return ss.str();
