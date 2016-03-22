@@ -4,8 +4,12 @@ rm test/mips_test/tmpfin.txt
 rm test/mips_test/tmporig.txt
 rm -rf test/mips_test/assembly
 mkdir test/mips_test/assembly
-make
 clear
+if !make
+	echo "NOT MADE"
+	exit
+	exit
+fi
 FILES="test/c_files/*.c"
 echo "Specific? [y/n]"
 read text
