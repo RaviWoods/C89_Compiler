@@ -28,7 +28,7 @@ do
  		printf "\n-----$f PARSER ERROR-----\n"
  		exit
 	fi
-	if ! gcc test/ast_test/tester.c test/ast_test/c_output/$fname.c -o ./1 >/dev/null 2>&1; then
+	if ! gcc test/ast_test/tester.c test/ast_test/c_output/$fname.c -o ./2 >/dev/null 2>&1; then
 		printf "\n-----$f COMPILE ERROR-----\n"
 		cat $f 
  		printf "\n-----$f COMPILE ERROR-----\n"
@@ -40,7 +40,7 @@ do
 		fi
 		exit
 	fi
-	cp test/ast_test/c_output/$fname.c test/ast_test/tmpfin.c
+	./2 > test/ast_test/tmpfin.c
 	if cmp test/ast_test/tmpfin.c test/ast_test/tmporig.c >/dev/null 2>&1; then
 		echo "$f correct"
 		#sdiff test/mips_test/tmporig.txt test/mips_test/tmpfin.txt 
