@@ -211,7 +211,7 @@ public:
 		std::stringstream ss;
 		ss << "ASSIGN_EXP {" << "\n";
 		ss << left << "\n";
-		ss << op << "\n";
+		ss << "=" << "\n";
 		ss <<  right->print() << "\n";
 		ss << "}" << "\n";
 		return ss.str();
@@ -219,7 +219,7 @@ public:
 
 	std::string cprint() {
 		std::stringstream ss;
-		ss << "(" << left << op << right->cprint() << ")";
+		ss << "(" << left << "=" << right->cprint() << ")";
 		return ss.str();
 	}
 
