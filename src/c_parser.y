@@ -113,6 +113,17 @@ TIdentifier TAssign AssignmentExp {
 } 
 | AndExp;
 
+OrExp :
+XorExp TPipe AndExp {
+  $$ = new BinaryExpression($1,"|", $3);
+} 
+| XorExp;
+
+XorExp :
+AndExp TCarat AndExp {
+  $$ = new BinaryExpression($1,"^", $3);
+} 
+| AndExp;
 
 AndExp :
 AdditiveExp TBitwiseAnd AndExp {

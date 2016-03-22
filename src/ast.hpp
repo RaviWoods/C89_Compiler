@@ -264,6 +264,10 @@ public:
 			ss << "subu $8,$6, $5\n";
 		} else if(op=="&") {
 			ss << "and $8,$6, $5\n";
+		} else if(op=="^") {
+			ss << "xor $8,$6, $5\n";
+		} else if(op=="|") {
+			ss << "or $8,$6, $5\n";
 		} 
 		/*TODO: ADD MULT*/
 		return ss.str();
