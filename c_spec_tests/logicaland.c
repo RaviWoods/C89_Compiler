@@ -1,5 +1,9 @@
+#include <stdio.h>
+
 int main () {
 	int x = 10;
 	int y = 12;
-	return x&&y;
+	int z = x&&y;
+	printf("%s\n", z);
+	return 0;
 }
