@@ -225,8 +225,9 @@ public:
 	std::string codeprint(Context& cont) {
 		if(right!=NULL) {
 			std::stringstream ss;
-			ss << "#AssignExp " << op << "\n";
+			
 			ss << right->codeprint(cont) << "\n";
+			ss << "#AssignExp " << op << "\n";
 			ss << "addu $9, $8, $0\n";
 			ss << Helper::writeVar(left, cont);
 			return ss.str();
@@ -274,6 +275,9 @@ public:
 		ss << Helper::pushStack(8,cont) << "\n";
 
 		ss << Helper::popStack(5,cont) << "\n";
+		ss << "addu $2, $5, $0\n";
+		ss << "j  $31\n";
+
 		ss << Helper::popStack(6,cont) << "\n";
 
 		ss << "addu $5,$8, $0\n";
