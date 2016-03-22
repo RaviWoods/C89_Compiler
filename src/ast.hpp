@@ -586,7 +586,7 @@ public:
 	std::string codeprint(Context& cont) {
 
 		std::stringstream ss;
-		ss << "#CompoundStat id\n";
+		ss << "#CompoundStat" << id << "\n";
 		if (dl != NULL) {
 			ss << dl->codeprint(cont);
 		}
