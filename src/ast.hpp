@@ -270,7 +270,6 @@ public:
 		ss << Helper::popStack(5,cont) << "\n";
 		ss << Helper::popStack(6,cont) << "\n";
 
-		ss << "addu $5,$8, $0\n";
 		if(op=="+") {
 			ss << "addu $8,$6, $5\n";
 		} else if(op=="-") {
