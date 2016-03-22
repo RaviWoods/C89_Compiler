@@ -51,6 +51,7 @@ namespace Helper {
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
+		ss << "#ReadVar name\n";
 		ss << "lw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
@@ -60,6 +61,7 @@ namespace Helper {
 		int a = cont.variableMap[name];
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
+		ss << "#WriteVar name\n";
 		ss << "sw $9, " << x << "($sp)\n";
 		return ss.str();
 	}
@@ -119,6 +121,7 @@ public:
 
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
+		ss << "#LoadID " << name << "\n";
 		ss << Helper::readVar(name,cont);
 		ss << "addu $8,$9, $0\n";
 		return ss.str();
@@ -147,6 +150,7 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
+		ss << "#LoadVal " << value << "\n";
 		ss << "li $8, " << value << "\n";
 		return ss.str();
 	}
@@ -221,6 +225,7 @@ public:
 	std::string codeprint(Context& cont) {
 		if(right!=NULL) {
 			std::stringstream ss;
+			ss << "#AssignExp " << op << "\n";
 			ss << right->codeprint(cont) << "\n";
 			ss << "addu $9, $8, $0\n";
 			ss << Helper::writeVar(left, cont);
@@ -261,6 +266,7 @@ public:
 
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
+		ss << "#BinExp " << op << "\n";
 		ss << left->codeprint(cont) << "\n";
 		ss << Helper::pushStack(8,cont) << "\n";
 
@@ -347,7 +353,7 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		
+		ss << "#Declarator " << id << "\n";
 		ss << e->codeprint(cont) << "\n";
 		ss << Helper::pushStack(8,cont) << "\n";
 		cont.variableMap[id] = cont.currentStackOffset;
@@ -435,6 +441,7 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
+		ss << "#return\n";
 		if (e!=NULL) {
 			ss << e->codeprint(cont);	
 		} else {
@@ -537,6 +544,7 @@ public:
 		std::stringstream ss;
 		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
     		if((*it)!=NULL) {
+    			
     			//std::cerr << "STAT2" << std::endl;
 				ss << ((*it)->codeprint(cont)); 
     		}
@@ -576,7 +584,9 @@ public:
 		return ss.str();
 	}
 	std::string codeprint(Context& cont) {
+
 		std::stringstream ss;
+		ss << "#CompoundStat id\n";
 		if (dl != NULL) {
 			ss << dl->codeprint(cont);
 		}
@@ -633,6 +643,7 @@ public:
 		cont.variableMap[param1->getId()] = 1;
 		cont.variableMap[param2->getId()] = 2;
 		/*TODO: Add more than 2 params*/
+		ss << "#Function with Params: " << param1->getId() " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
 			ss << "sw  $" << i << ", 0($sp)" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
