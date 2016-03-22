@@ -31,7 +31,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp  
+%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp
 %type <StatPtr> ExpStat JumpStat Statement
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
@@ -111,6 +111,13 @@ AssignmentExp :
 TIdentifier TAssign AssignmentExp { 
   $$ =  new AssignmentExp($1,"=", $3);
 } 
+| AndExp;
+
+
+AndExp :
+AdditiveExp TPlus AndExp {
+  $$ = new BinaryExpression($1,"&", $3);
+} 
 | AdditiveExp;
 
 AdditiveExp :  
@@ -123,13 +130,13 @@ MultExp TPlus AdditiveExp {
 | MultExp;
 
 MultExp :  
-PrimaryExp TStar MultExp {
+TIdentifier TStar MultExp {
 	$$ = new BinaryExpression($1,"*", $3);
 } 
-| PrimaryExp TSlash MultExp {
+| TIdentifier TSlash MultExp {
   $$ = new BinaryExpression($1,"/", $3);
 } 
-| PrimaryExp TPercent MultExp {
+| TIdentifier TPercent MultExp {
   $$ = new BinaryExpression($1,"%", $3);
 } 
 | PrimaryExp;
