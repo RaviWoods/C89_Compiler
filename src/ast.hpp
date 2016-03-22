@@ -32,11 +32,18 @@ public:
 };
 
 namespace Helper {
-	std::string storeOnStack(int reg, Context& cont) {
+	std::string pushStack(int reg, Context& cont) {
 		std::stringstream ss;
 		ss << "sw  $" << reg << ", 0($sp)" << "\n";
 		ss << "addiu $sp, $sp, -4\n";
 		cont.currentStackOffset++;
+		return ss.str();
+	}
+	std::string popStack(int reg, Context& cont) {
+		std::stringstream ss;
+		ss << "lw  $" << reg << ", 0($sp)" << "\n";
+		ss << "addiu $sp, $sp, +4\n";
+		cont.currentStackOffset--;
 		return ss.str();
 	}
 	std::string readVar(std::string name, Context& cont) {
@@ -255,10 +262,14 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << left->codeprint(cont) << "\n";
-		
-		ss << "addu $6,$8, $0\n";
+		ss << Helper::pushStack(8,cont) << "\n";
+
 		ss << right->codeprint(cont) << "\n";
-		
+		ss << Helper::pushStack(8,cont) << "\n";
+
+		ss << Helper::popStack(5,cont) << "\n";
+		ss << Helper::popStack(6,cont) << "\n";
+
 		ss << "addu $5,$8, $0\n";
 		if(op=="+") {
 			ss << "addu $8,$6, $5\n";
@@ -285,7 +296,7 @@ public:
 		} else if(op=="!=") {
 			ss << "sne $8,$6, $5\n";
 		} 
-		/*TODO: ADD MULT*/
+		/*TODO: ADD MORE*/
 		return ss.str();
 	}
 };
@@ -338,7 +349,7 @@ public:
 		std::stringstream ss;
 		
 		ss << e->codeprint(cont) << "\n";
-		ss << Helper::storeOnStack(8,cont) << "\n";
+		ss << Helper::pushStack(8,cont) << "\n";
 		cont.variableMap[id] = cont.currentStackOffset;
 		return ss.str();
 	}
