@@ -17,6 +17,6 @@ do
 	printf "\n"
 	printf "START OF OUTPUT"
 	printf "\n---------------\n"
-	cat $f  |  ./bin/c_parser
+	#cat $f  |  ./bin/c_parser
 	printf "\n--------------------$f END----------------------\n"
 done
