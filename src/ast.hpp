@@ -205,11 +205,11 @@ BinaryExpression 3 : NOT COMPLETE (MULT)
 
 class AssignmentExp : public Expression { 
 private: 
-	Identifier* left;
+	Expression* left;
 	Expression* right;
 	
 public:
-	AssignmentExp(Identifier* left_in, Expression *right_in) : 
+	AssignmentExp(Expression* left_in, Expression *right_in) : 
 	left(left_in), right(right_in)
 	{};
 
