@@ -116,6 +116,51 @@ PrimaryExp TAssign AssignmentExp {
   right = new BinaryExpression($1,"+", $3);
   $$ = new AssignmentExp($1, right);
 } 
+| PrimaryExp TStarEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"*", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TSlashEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"/", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TPercentEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"%", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TMinusEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"-", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TLeftShiftEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"<<", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TRightShiftEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,">>", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TAndEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"&", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TCaratEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"^", $3);
+  $$ = new AssignmentExp($1, right);
+} 
+| PrimaryExp TPipeEquals AssignmentExp { 
+  Expression* right;
+  right = new BinaryExpression($1,"|", $3);
+  $$ = new AssignmentExp($1, right);
+} 
 | OrExp;
 
 OrExp :

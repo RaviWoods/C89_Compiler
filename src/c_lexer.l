@@ -116,6 +116,7 @@ sizeof	{ return TSizeof; }
 \!\=	{ return TNotEqual; }
 \&\&	{ return TLogicalAnd; }
 \|\|	{ return TLogicalOr; }
+
 \*\=	{ return TStarEquals; }
 \/\=	{ return TSlashEquals; }
 \%\=	{ return TPercentEquals; }
@@ -126,6 +127,7 @@ sizeof	{ return TSizeof; }
 \&\=	{ return TAndEquals; }
 \^\=	{ return TCaratEquals; }
 \|\=	{ return TPipeEquals; }
+
 \{		{ return TOpenCurlyBrace; }
 \}		{ return TCloseCurlyBrace; }
 \;		{ return TSemicolon; }
