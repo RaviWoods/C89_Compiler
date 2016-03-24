@@ -108,10 +108,10 @@ Exp TSemicolon {
 Exp: AssignmentExp;
 
 AssignmentExp : 
-TIdentifier TAssign AssignmentExp { 
+PrimaryExp TAssign AssignmentExp { 
   $$ =  new AssignmentExp($1, $3);
 } 
-| TIdentifier TPlusEquals AssignmentExp { 
+| PrimaryExp TPlusEquals AssignmentExp { 
   Expression* right;
   right = new BinaryExpression($1,"+", $3);
   $$ = new AssignmentExp($1, right);

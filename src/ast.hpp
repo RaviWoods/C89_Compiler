@@ -109,6 +109,12 @@ public:
 	name(name_in)
 	{};
 
+	std::string getName() {
+		std::stringstream ss;
+		ss << name;
+		return ss.str();
+	}
+
 	std::string cprint() {
 		std::stringstream ss;
 		ss << name;
@@ -199,18 +205,18 @@ BinaryExpression 3 : NOT COMPLETE (MULT)
 
 class AssignmentExp : public Expression { 
 private: 
-	std::string left;
+	Expression* left;
 	Expression* right;
 	
 public:
-	AssignmentExp(std::string left_in, Expression *right_in) : 
+	AssignmentExp(Expression* left_in, Expression *right_in) : 
 	left(left_in), right(right_in)
 	{};
 
 	std::string print() {
 		std::stringstream ss;
 		ss << "ASSIGN_EXP {" << "\n";
-		ss << left << "\n";
+		ss << left->print() << "\n";
 		ss << "=" << "\n";
 		ss <<  right->print() << "\n";
 		ss << "}" << "\n";
@@ -219,7 +225,7 @@ public:
 
 	std::string cprint() {
 		std::stringstream ss;
-		ss << "(" << left << "=" << right->cprint() << ")";
+		ss << "(" << left->print() << "=" << right->cprint() << ")";
 		return ss.str();
 	}
 
@@ -230,7 +236,7 @@ public:
 			ss << right->codeprint(cont) << "\n";
 			ss << "#AssignExp "<< "\n";
 			ss << "addu $9, $8, $0\n";
-			ss << Helper::writeVar(left, cont);
+			ss << Helper::writeVar(left->getName(), cont);
 			return ss.str();
 
 		}
