@@ -11,8 +11,6 @@ int f(int a,int b)
 	}
 	{
 		x += 200;
-		int x = 20;
-		x += 5;
 	}
 	return x;
 }
