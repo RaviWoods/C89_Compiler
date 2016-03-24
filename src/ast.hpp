@@ -236,7 +236,7 @@ public:
 			ss << right->codeprint(cont) << "\n";
 			ss << "#AssignExp "<< "\n";
 			ss << "addu $9, $8, $0\n";
-			ss << Helper::writeVar(left->getName(), cont);
+			ss << Helper::writeVar(left->print(), cont);
 			return ss.str();
 
 		}
