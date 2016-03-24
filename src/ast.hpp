@@ -96,8 +96,9 @@ namespace Helper {
 		ss << "#WriteNEWVar" << name << "\n";
 		ss << "sw $9, 0($sp)\n";
 		ss << "addiu $sp, $sp, -4\n";
-		cont.variableMaps[cont.scopeIndex][name] = cont.currentStackOffset;
 		cont.currentStackOffset++;
+		cont.variableMaps[cont.scopeIndex][name] = cont.currentStackOffset;
+
 		return ss.str();
 	}
 }
