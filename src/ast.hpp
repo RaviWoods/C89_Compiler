@@ -95,7 +95,7 @@ namespace Helper {
 		int b = cont.currentStackOffset;
 		ss << "#WriteNEWVar" << name << "\n";
 		ss << "sw $9, 0($sp)\n";
-		cont.variableMaps[cont.scopeIndex][id] = cont.currentStackOffset;
+		cont.variableMaps[cont.scopeIndex][name] = cont.currentStackOffset;
 		return ss.str();
 	}
 }
