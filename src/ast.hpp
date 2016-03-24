@@ -43,7 +43,8 @@ public:
 	Context() {
 		currentStackOffset = 0;
 		scopeIndex = -1;
-
+		std::map <std::string, int> firstMap;
+		variableMaps.push_back(firstMap);
 	}
 };
 
@@ -637,8 +638,11 @@ public:
 		std::stringstream ss;
 		ss << "#CompoundStat { \n";
 		cont.scopeIndex++;
-		std::map <std::string, int> newMap;
-		cont.variableMaps.push_back(newMap);
+		if(cont.scopeIndex!=0) {
+			std::map <std::string, int> newMap;
+			cont.variableMaps.push_back(newMap);			
+		}
+
 		if (dl != NULL) {
 			ss << dl->codeprint(cont);
 		}
@@ -695,8 +699,8 @@ public:
 		ss << ".ent  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
-		cont.variableMaps[cont.scopeIndex][param1->getId()] = 1;
-		cont.variableMaps[cont.scopeIndex][param2->getId()] = 2;
+		cont.variableMaps[0][param1->getId()] = 1;
+		cont.variableMaps[0][param2->getId()] = 2;
 		/*TODO: Add more than 2 params*/
 		ss << "#Function with Params: " << param1->getId() << " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
