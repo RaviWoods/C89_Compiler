@@ -31,7 +31,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp ShiftExp
+%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp ShiftExp LogicalAndExp
 %type <StatPtr> ExpStat JumpStat Statement
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
@@ -160,6 +160,12 @@ PrimaryExp TAssign AssignmentExp {
   Expression* right;
   right = new BinaryExpression($1,"|", $3);
   $$ = new AssignmentExp($1, right);
+} 
+| LogicalAndExp;
+
+LogicalAndExp :
+OrExp TLogicalAnd LogicalAndExp {
+  $$ = new BinaryExpression($1,"&&", $3);
 } 
 | OrExp;
 

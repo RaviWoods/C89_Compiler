@@ -8,6 +8,18 @@
 #include <list>
 #include <map>
 
+/*REGISTERS:
+$0 = zero
+$2-$3 = results
+$28 = $gp = global pointer
+$29 = $sp = stack pointer
+$30 = $fp = frame pointer
+$31 = return address
+$4-$27 = free ($4-$7 are arguments, but moved to stack immediately)
+$9 = address vars are read into/written from
+$8 = Register for final result of expression
+$5-$6 = temp registers for BinExp
+
 /*TODO: Test aps_11, edge_3 , edge_4, file999 - TERNARY*/
 /*TODO: Test base_3 : - unary*/
 
@@ -321,8 +333,12 @@ public:
 			ss << "sra $8,$6, $5\n";
 		} else if(op=="<<") {
 			ss << "sll $8,$6, $5\n";
+		} else if(op=="&&") {
+			ss << "sne $6, $6, $0\n";
+			ss << "sne $5, $5, $0\n";
+			ss << "and &8, $6, $5\n";
 		} 
-		/*TODO: ADD MULT*/
+		/*TODO: ADD NOT IMP EXPS*/
 		return ss.str();
 	}
 };
