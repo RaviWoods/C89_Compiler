@@ -205,11 +205,11 @@ BinaryExpression 3 : NOT COMPLETE (MULT)
 
 class AssignmentExp : public Expression { 
 private: 
-	Expression* left;
+	Identifier* left;
 	Expression* right;
 	
 public:
-	AssignmentExp(Expression* left_in, Expression *right_in) : 
+	AssignmentExp(Identifier* left_in, Expression *right_in) : 
 	left(left_in), right(right_in)
 	{};
 
@@ -236,7 +236,7 @@ public:
 			ss << right->codeprint(cont) << "\n";
 			ss << "#AssignExp "<< "\n";
 			ss << "addu $9, $8, $0\n";
-			ss << Helper::writeVar((Identifier*)left->getName(), cont);
+			ss << Helper::writeVar(left->getName(), cont);
 			return ss.str();
 
 		}

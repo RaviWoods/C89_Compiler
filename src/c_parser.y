@@ -114,7 +114,7 @@ PrimaryExp TAssign AssignmentExp {
 | PrimaryExp TPlusEquals AssignmentExp { 
   Expression* right;
   right = new BinaryExpression($1,"+", $3);
-  $$ = new AssignmentExp($1, right);
+  $$ = new AssignmentExp((Identifier*)$1, right);
 } 
 | OrExp;
 
