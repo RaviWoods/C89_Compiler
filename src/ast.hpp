@@ -70,10 +70,12 @@ namespace Helper {
 		for (int i = cont.scopeIndex; i >= 0; i--) {
 			if (cont.variableMaps[i].find(name) != cont.variableMaps[i].end()) {
 				a = cont.variableMaps[i][name];
+				ss << "# " << name <<  " = " << a << "\n";
 				break;
 			}
 		}
 		int b = cont.currentStackOffset;
+		ss << "# " << stack <<  " = " << b << "\n";
 		int x = 4*(b-a+1);
 		ss << "#ReadVar name\n";
 		ss << "lw $9, " << x << "($sp)\n";
