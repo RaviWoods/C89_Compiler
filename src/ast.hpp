@@ -39,7 +39,7 @@ class Context {
 public:
 	int currentStackOffset;
 	int scopeIndex;
-	std::vector<std::map <std::string, int>> variableMaps;
+	std::vector<std::map <std::string, int> > variableMaps;
 	Context() {
 		currentStackOffset = 0;
 		scopeIndex = 0;
@@ -67,8 +67,8 @@ namespace Helper {
 	std::string readVar(std::string name, Context& cont) {
 		std::stringstream ss;
 		int a;
-		for (int i = scopeIndex; i >= 0; i--) {
-			if (cont.variableMaps[i][name] != NULL) {
+		for (int i = cont.scopeIndex; i >= 0; i--) {
+			if (cont.variableMaps[i].find(name) != cont.variableMaps[i].end()) {
 				a = cont.variableMaps[i][name];
 			}
 		}
