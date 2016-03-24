@@ -84,6 +84,7 @@ namespace Helper {
 
 	std::string writeVar(std::string name, Context& cont) {
 		std::stringstream ss;
+		int a;
 		for (int i = cont.scopeIndex; i >= 0; i--) {
 			if (cont.variableMaps[i].find(name) != cont.variableMaps[i].end()) {
 				a = cont.variableMaps[i][name];
