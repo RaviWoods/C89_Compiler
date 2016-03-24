@@ -1318,77 +1318,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 119 "src/c_lexer.l"
+#line 120 "src/c_lexer.l"
 { return TStarEquals; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 120 "src/c_lexer.l"
+#line 121 "src/c_lexer.l"
 { return TSlashEquals; }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 121 "src/c_lexer.l"
+#line 122 "src/c_lexer.l"
 { return TPercentEquals; }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 122 "src/c_lexer.l"
+#line 123 "src/c_lexer.l"
 { return TPlusEquals; }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 123 "src/c_lexer.l"
+#line 124 "src/c_lexer.l"
 { return TMinusEquals; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 124 "src/c_lexer.l"
+#line 125 "src/c_lexer.l"
 { return TLeftShiftEquals; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 125 "src/c_lexer.l"
+#line 126 "src/c_lexer.l"
 { return TRightShiftEquals; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 126 "src/c_lexer.l"
+#line 127 "src/c_lexer.l"
 { return TAndEquals; }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 127 "src/c_lexer.l"
+#line 128 "src/c_lexer.l"
 { return TCaratEquals; }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 128 "src/c_lexer.l"
+#line 129 "src/c_lexer.l"
 { return TPipeEquals; }
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 129 "src/c_lexer.l"
+#line 131 "src/c_lexer.l"
 { return TOpenCurlyBrace; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 130 "src/c_lexer.l"
+#line 132 "src/c_lexer.l"
 { return TCloseCurlyBrace; }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 131 "src/c_lexer.l"
+#line 133 "src/c_lexer.l"
 { return TSemicolon; }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 132 "src/c_lexer.l"
+#line 134 "src/c_lexer.l"
 { return TEllipsis; }
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 135 "src/c_lexer.l"
+#line 137 "src/c_lexer.l"
 {
 					yylval.string = strdup(yytext);
 					return TCharConstVal;
@@ -1396,7 +1396,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 140 "src/c_lexer.l"
+#line 142 "src/c_lexer.l"
 {
 					yylval.num = strtol(yytext, NULL, 16);
 					return TIntVal;
@@ -1404,7 +1404,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 145 "src/c_lexer.l"
+#line 147 "src/c_lexer.l"
 {
 					yylval.num = strtol(yytext, NULL, 8);
 					return TIntVal;
@@ -1412,7 +1412,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 150 "src/c_lexer.l"
+#line 152 "src/c_lexer.l"
 {
 					yylval.num = atoi(yytext);
 					return TIntVal;
@@ -1420,7 +1420,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 155 "src/c_lexer.l"
+#line 157 "src/c_lexer.l"
 {
 					yylval.floatnum = atof(yytext);
 					return TFloatVal;
@@ -1428,7 +1428,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 160 "src/c_lexer.l"
+#line 162 "src/c_lexer.l"
 {
 					yylval.string = strdup(yytext);
 					return TStringLit;
@@ -1436,7 +1436,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 165 "src/c_lexer.l"
+#line 167 "src/c_lexer.l"
 {
 					yylval.string = strdup(yytext);
 					return TIdentifier;
@@ -1445,12 +1445,12 @@ YY_RULE_SETUP
 case 87:
 /* rule 87 can match eol */
 YY_RULE_SETUP
-#line 171 "src/c_lexer.l"
+#line 173 "src/c_lexer.l"
 
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 173 "src/c_lexer.l"
+#line 175 "src/c_lexer.l"
 ECHO;
 	YY_BREAK
 #line 1457 "bin/c_parser.yy.cpp"
@@ -2448,7 +2448,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 173 "src/c_lexer.l"
+#line 175 "src/c_lexer.l"
 
 
 
