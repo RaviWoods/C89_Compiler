@@ -68,7 +68,7 @@ namespace Helper {
 		int a;
 		for (int i = 0; i <= cont.scopeIndex; i++) {
 			if (cont.variableMaps[i][name] != NULL) {
-				a = name;
+				a = cont.variableMaps[i][name];
 			}
 		}
 		int b = cont.currentStackOffset;
@@ -635,7 +635,7 @@ public:
 
 		std::stringstream ss;
 		ss << "#CompoundStat { \n";
-		cont.cont.scopeIndex++;
+		cont.scopeIndex++;
 		std::map <std::string, int> newMap;
 		cont.variableMaps.push_front(newMap);
 		if (dl != NULL) {
@@ -644,8 +644,8 @@ public:
 		if (sl != NULL) {
 			ss << sl->codeprint(cont);;
 		}
-		cont.cont.scopeIndex--;
-		cont.variableMaps.pop_front(newMap);
+		cont.scopeIndex--;
+		cont.variableMaps.pop_front();
 		ss << "#CompoundStat } \n";
 		return ss.str();
 	}
@@ -694,8 +694,9 @@ public:
 		ss << ".ent  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
-		cont.variableMaps[0][param1->getId()] = 1;
-		cont.variableMaps[0][param2->getId()] = 2;
+		int i = 0;
+		cont.variableMaps[i][param1->getId()] = 1;
+		cont.variableMaps[i][param2->getId()] = 2;
 		/*TODO: Add more than 2 params*/
 		ss << "#Function with Params: " << param1->getId() << " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
