@@ -54,7 +54,6 @@ ParamDec: TInt TIdentifier {
 CompoundStat: 
 TOpenCurlyBrace Declaratorlist Statementlist TCloseCurlyBrace {
   $$ = new CompoundStatement($3,$2);
-  
 } | TOpenCurlyBrace Statementlist TCloseCurlyBrace {
   $$ = new CompoundStatement($2,NULL);
 } | TOpenCurlyBrace Declaratorlist TCloseCurlyBrace {
@@ -87,7 +86,7 @@ TInt TIdentifier TSemicolon {
   $$ =  new Declarator("int", $2, $4);
 }
 
-Statement : JumpStat | ExpStat ;
+Statement : JumpStat | ExpStat | CompoundStat;
 
 JumpStat : 
 TReturn Exp TSemicolon { 
