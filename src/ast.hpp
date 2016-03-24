@@ -42,9 +42,8 @@ public:
 	std::vector<std::map <std::string, int> > variableMaps;
 	Context() {
 		currentStackOffset = 0;
-		scopeIndex = 0;
-		std::map <std::string, int> firstMap;
-		variableMaps.push_back(firstMap);
+		scopeIndex = -1;
+
 	}
 };
 
@@ -70,6 +69,7 @@ namespace Helper {
 		for (int i = cont.scopeIndex; i >= 0; i--) {
 			if (cont.variableMaps[i].find(name) != cont.variableMaps[i].end()) {
 				a = cont.variableMaps[i][name];
+				break;
 			}
 		}
 		int b = cont.currentStackOffset;
