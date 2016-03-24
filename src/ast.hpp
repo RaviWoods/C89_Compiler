@@ -38,12 +38,12 @@ class Context {
 public:
 	int currentStackOffset;
 	int scopeIndex;
-	std::list<std::map <std::string, int> > variableMaps;
+	std::vector<std::map <std::string, int> > variableMaps;
 	Context() {
 		currentStackOffset = 0;
 		scopeIndex = 0;
 		std::map <std::string, int> firstMap;
-		variableMaps.push_front(firstMap);
+		variableMaps.push_back(firstMap);
 	}
 };
 
@@ -66,7 +66,7 @@ namespace Helper {
 	std::string readVar(std::string name, Context& cont) {
 		std::stringstream ss;
 		int a;
-		for (int i = 0; i <= cont.scopeIndex; i++) {
+		for (int i = scopeIndex; i >= 0; i--) {
 			if (cont.variableMaps[i][name] != NULL) {
 				a = cont.variableMaps[i][name];
 			}
@@ -637,7 +637,7 @@ public:
 		ss << "#CompoundStat { \n";
 		cont.scopeIndex++;
 		std::map <std::string, int> newMap;
-		cont.variableMaps.push_front(newMap);
+		cont.variableMaps.push_back(newMap);
 		if (dl != NULL) {
 			ss << dl->codeprint(cont);
 		}
@@ -645,7 +645,7 @@ public:
 			ss << sl->codeprint(cont);;
 		}
 		cont.scopeIndex--;
-		cont.variableMaps.pop_front();
+		cont.variableMaps.pop_back();
 		ss << "#CompoundStat } \n";
 		return ss.str();
 	}
@@ -694,9 +694,8 @@ public:
 		ss << ".ent  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
-		int i = 0;
-		cont.variableMaps[i][param1->getId()] = 1;
-		cont.variableMaps[i][param2->getId()] = 2;
+		cont.variableMaps[cont.scopeIndex][param1->getId()] = 1;
+		cont.variableMaps[cont.scopeIndex][param2->getId()] = 2;
 		/*TODO: Add more than 2 params*/
 		ss << "#Function with Params: " << param1->getId() << " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
