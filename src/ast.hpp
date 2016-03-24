@@ -336,7 +336,7 @@ public:
 		} else if(op=="&&") {
 			ss << "sne $6, $6, $0\n";
 			ss << "sne $5, $5, $0\n";
-			ss << "and &8, $6, $5\n";
+			ss << "and $8, $6, $5\n";
 		} 
 		/*TODO: ADD NOT IMP EXPS*/
 		return ss.str();
