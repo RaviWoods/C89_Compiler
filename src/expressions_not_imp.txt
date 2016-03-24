@@ -6,16 +6,6 @@
 \,		{ return TComma; }
 \+\+	{ return TIncrement; } postfix and prefix
 \-\-	{ return TDecrement; } postfix and prefix
-\&\&	{ return TLogicalAnd; }
-\|\|	{ return TLogicalOr; }
-\*\=	{ return TStarEquals; }
-\/\=	{ return TSlashEquals; }
-\%\=	{ return TPercentEquals; }
-\+\=	{ return TPlusEquals; }
-\-\=	{ return TMinusEquals; }
-\<\<\=	{ return TLeftShiftEquals; }
-\>\>\=	{ return TRightShiftEquals; }
-\&\=	{ return TAndEquals; }
-\^\=	{ return TCaratEquals; }
-\|\=	{ return TPipeEquals; }
+
+
 \.\.\.	{ return TEllipsis; }
