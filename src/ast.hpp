@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <list>
+#include <vector>
 #include <map>
 
 /*REGISTERS:
@@ -38,7 +39,7 @@ class Context {
 public:
 	int currentStackOffset;
 	int scopeIndex;
-	std::vector<std::map <std::string, int> > variableMaps;
+	std::vector<std::map <std::string, int>> variableMaps;
 	Context() {
 		currentStackOffset = 0;
 		scopeIndex = 0;
