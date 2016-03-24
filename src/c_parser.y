@@ -20,7 +20,6 @@ Node* topNode;
   class Expression* ExpPtr;
   class Statement* StatPtr;
   class StatList* StatListPtr;
-  class CompoundStatement* CompoundStatPtr;
   class Declarator* DecPtr;
   class Parameter* ParamPtr;
   class DecList* DecListPtr;
@@ -32,12 +31,11 @@ Node* topNode;
 %type <string> TIdentifier
 %type <num> TIntVal
 %type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp ShiftExp LogicalAndExp LogicalOrExp
-%type <StatPtr> ExpStat JumpStat Statement
+%type <StatPtr> ExpStat JumpStat Statement CompoundStat
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
 %type <DecListPtr> Declaratorlist
 %type <FuncDefPtr> FunctionDef
-%type <CompoundStatPtr> CompoundStat
 %type <ParamPtr> ParamDec
 %%
 
