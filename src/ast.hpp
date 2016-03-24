@@ -37,10 +37,13 @@ Context, Helper Functions, Node, Statement, Expression
 class Context {
 public:
 	int currentStackOffset;
-	std::map <std::string, int> variableMap;
+	int scopeIndex;
+	std::list<std::map <std::string, int>> variableMaps;
 	Context() {
 		currentStackOffset = 0;
-
+		scopeIndex = 0;
+		std::map <std::string, int> firstMap;
+		variableMaps.push_front(firstMap);
 	}
 };
 
@@ -62,7 +65,11 @@ namespace Helper {
 	}
 	std::string readVar(std::string name, Context& cont) {
 		std::stringstream ss;
-		int a = cont.variableMap[name];
+		for (int i = 0; i <= scopeIndex; i++) {
+			if (cont.variableMaps[i][name] != null) {
+				int a = cont.variableMap[name];
+			}
+		}
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
 		ss << "#ReadVar name\n";
@@ -72,7 +79,7 @@ namespace Helper {
 
 	std::string writeVar(std::string name, Context& cont) {
 		std::stringstream ss;
-		int a = cont.variableMap[name];
+		int a = cont.variableMaps[scopeIndex][name];
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
 		ss << "#WriteVar name\n";
@@ -396,7 +403,7 @@ public:
 		ss << "#Declarator " << id << "\n";
 		ss << e->codeprint(cont) << "\n";
 		ss << Helper::pushStack(8,cont) << "\n";
-		cont.variableMap[id] = cont.currentStackOffset;
+		cont.variableMaps[scopeIndex][id] = cont.currentStackOffset;
 		return ss.str();
 	}
 
@@ -626,13 +633,19 @@ public:
 	std::string codeprint(Context& cont) {
 
 		std::stringstream ss;
-		ss << "#CompoundStat\n";
+		ss << "#CompoundStat { \n";
+		cont.scopeIndex++;
+		std::map <std::string, int> newMap;
+		variableMaps.push_front(newMap);
 		if (dl != NULL) {
 			ss << dl->codeprint(cont);
 		}
 		if (sl != NULL) {
 			ss << sl->codeprint(cont);;
 		}
+		cont.scopeIndex--;
+		variableMaps.pop_front(newMap);
+		ss << "#CompoundStat } \n";
 		return ss.str();
 	}
 };
@@ -680,8 +693,8 @@ public:
 		ss << ".ent  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
-		cont.variableMap[param1->getId()] = 1;
-		cont.variableMap[param2->getId()] = 2;
+		cont.variableMaps[0][param1->getId()] = 1;
+		cont.variableMaps[0][param2->getId()] = 2;
 		/*TODO: Add more than 2 params*/
 		ss << "#Function with Params: " << param1->getId() << " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
