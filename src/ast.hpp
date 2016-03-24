@@ -85,8 +85,17 @@ namespace Helper {
 		int a = cont.variableMaps[cont.scopeIndex][name];
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
-		ss << "#WriteVar name\n";
+		ss << "#WriteVar" << name << "\n";
 		ss << "sw $9, " << x << "($sp)\n";
+		return ss.str();
+	}
+
+	std::string writeNewVar(std::string name, Context& cont) {
+		std::stringstream ss;
+		int b = cont.currentStackOffset;
+		ss << "#WriteNEWVar" << name << "\n";
+		ss << "sw $9, 0($sp)\n";
+		cont.variableMaps[cont.scopeIndex][id] = cont.currentStackOffset;
 		return ss.str();
 	}
 }
@@ -405,8 +414,8 @@ public:
 		std::stringstream ss;
 		ss << "#Declarator " << id << "\n";
 		ss << e->codeprint(cont) << "\n";
-		ss << Helper::pushStack(8,cont) << "\n";
-		cont.variableMaps[cont.scopeIndex][id] = cont.currentStackOffset;
+		ss << "addu $9, $8, $0\n";
+		ss << Helper::writeNewVar(id,cont) << "\n";
 		return ss.str();
 	}
 
