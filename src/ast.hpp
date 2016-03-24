@@ -75,7 +75,7 @@ namespace Helper {
 			}
 		}
 		int b = cont.currentStackOffset;
-		ss << "# " << stack <<  " = " << b << "\n";
+		ss << "# " << "stack" <<  " = " << b << "\n";
 		int x = 4*(b-a+1);
 		ss << "#ReadVar name\n";
 		ss << "lw $9, " << x << "($sp)\n";
