@@ -654,9 +654,9 @@ private:
 	std::string name;
 	Parameter* param1;
 	Parameter* param2;
-	CompoundStatement* cs;
+	Statement* cs;
 public:
-	FuncDef(std::string returnType_in, std::string name_in, Parameter* param1_in, Parameter* param2_in, CompoundStatement* cs_in) :
+	FuncDef(std::string returnType_in, std::string name_in, Parameter* param1_in, Parameter* param2_in, Statement* cs_in) :
 	returnType(returnType_in), name(name_in), param1(param1_in), param2(param2_in), cs(cs_in)
 	{};
 
