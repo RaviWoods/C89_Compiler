@@ -38,7 +38,7 @@ class Context {
 public:
 	int currentStackOffset;
 	int scopeIndex;
-	std::list<std::map <std::string, int>> variableMaps;
+	std::list<std::map <std::string, int> > variableMaps;
 	Context() {
 		currentStackOffset = 0;
 		scopeIndex = 0;
@@ -65,9 +65,10 @@ namespace Helper {
 	}
 	std::string readVar(std::string name, Context& cont) {
 		std::stringstream ss;
-		for (int i = 0; i <= scopeIndex; i++) {
-			if (cont.variableMaps[i][name] != null) {
-				int a = cont.variableMap[name];
+		int a;
+		for (int i = 0; i <= cont.scopeIndex; i++) {
+			if (cont.variableMaps[i][name] != NULL) {
+				a = name;
 			}
 		}
 		int b = cont.currentStackOffset;
@@ -79,7 +80,7 @@ namespace Helper {
 
 	std::string writeVar(std::string name, Context& cont) {
 		std::stringstream ss;
-		int a = cont.variableMaps[scopeIndex][name];
+		int a = cont.variableMaps[cont.scopeIndex][name];
 		int b = cont.currentStackOffset;
 		int x = 4*(b-a+1);
 		ss << "#WriteVar name\n";
@@ -403,7 +404,7 @@ public:
 		ss << "#Declarator " << id << "\n";
 		ss << e->codeprint(cont) << "\n";
 		ss << Helper::pushStack(8,cont) << "\n";
-		cont.variableMaps[scopeIndex][id] = cont.currentStackOffset;
+		cont.variableMaps[cont.scopeIndex][id] = cont.currentStackOffset;
 		return ss.str();
 	}
 
@@ -634,17 +635,17 @@ public:
 
 		std::stringstream ss;
 		ss << "#CompoundStat { \n";
-		cont.scopeIndex++;
+		cont.cont.scopeIndex++;
 		std::map <std::string, int> newMap;
-		variableMaps.push_front(newMap);
+		cont.variableMaps.push_front(newMap);
 		if (dl != NULL) {
 			ss << dl->codeprint(cont);
 		}
 		if (sl != NULL) {
 			ss << sl->codeprint(cont);;
 		}
-		cont.scopeIndex--;
-		variableMaps.pop_front(newMap);
+		cont.cont.scopeIndex--;
+		cont.variableMaps.pop_front(newMap);
 		ss << "#CompoundStat } \n";
 		return ss.str();
 	}
