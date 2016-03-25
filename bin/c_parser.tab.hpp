@@ -145,7 +145,7 @@ union YYSTYPE
   class Expression* ExpPtr;
   class Statement* StatPtr;
   class StatList* StatListPtr;
-  class CompoundStatement* CompoundStatPtr;
+  class PaList* ParamListPtr;
   class Declarator* DecPtr;
   class Parameter* ParamPtr;
   class DecList* DecListPtr;

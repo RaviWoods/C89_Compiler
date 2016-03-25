@@ -32,7 +32,7 @@ Node* topNode;
 %type <string> TIdentifier
 %type <num> TIntVal
 %type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp ShiftExp LogicalAndExp LogicalOrExp
-%type <StatPtr> ExpStat JumpStat Statement CompoundStat
+%type <StatPtr> ExpStat JumpStat Statement CompoundStat IterStat
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
 %type <DecListPtr> Declaratorlist
@@ -94,14 +94,10 @@ TInt TIdentifier TSemicolon {
   $$ =  new Declarator("int", $2, $4);
 }
 
-Statement : JumpStat | ExpStat | SelectStat | CompoundStat;
+Statement : JumpStat | ExpStat | IterStat | CompoundStat;
 
-SelectStat : 
-TIf TOpenBracket Expression TCloseBracket CompoundStat TElse CompoundStat {
-  
-}
-| TIf TOpenBracket Expression TCloseBracket CompoundStat {
-  
+IterStat : TWhile TOpenBracket Exp TCloseBracket CompoundStat {
+  $$ = new WhileStat($3,(CompoundStatement*)$5);
 }
 
 JumpStat : 

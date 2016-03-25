@@ -444,130 +444,6 @@ public:
 
 };
 
-/*********************************************************
-   _____ _______    _______ _____ 
-  / ____|__   __|/\|__   __/ ____|
- | (___    | |  /  \  | | | (___  
-  \___ \   | | / /\ \ | |  \___ \ 
-  ____) |  | |/ ____ \| |  ____) |
- |_____/   |_/_/    \_\_| |_____/ 
-
-ExpStatement 3
-JumpStatement 3                                         
-
-**********************************************************/
-
-
-class ExpStatement : public Statement { 
-private:
-	Expression* e;
-	
-public:
-	ExpStatement(Expression* e_in) : e(e_in) {};
-
-	std::string print() {
-		std::stringstream ss;
-		ss << "EXP_STAT {" << "\n";
-		if(e!=NULL) {
-			ss << e->print() << "\n";
-		}
-		ss << "}" << "\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		if(e!=NULL) {
-			ss << e->cprint();
-		}
-		ss << ";\n";
-		return ss.str();
-	}
-	std::string codeprint(Context& cont) {
-		if (e!=NULL) {
-			std::string x = e->codeprint(cont);
-			return x;			
-		}
-	}
-
-};
-
-
-
-class JumpStatement : public Statement { 
-private:
-	Expression* e;
-	std::string keyword;
-public:
-	JumpStatement(std::string keyword_in, Expression* e_in) : keyword(keyword_in), e(e_in) {};
-
-	std::string print() {
-		std::stringstream ss;
-		ss << "JUMP_STAT {" << "\n";
-		ss <<  keyword << "\n";
-		if(e!=NULL) {
-			ss << e->print() << "\n";
-		}
-		ss << "}" << "\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		ss <<  keyword << " ";
-		if(e!=NULL) {
-			ss << e->cprint();
-		}
-		ss << ";\n";
-		return ss.str();
-	}
-	std::string codeprint(Context& cont) {
-		std::stringstream ss;
-		ss << "#return\n";
-		if (e!=NULL) {
-			ss << e->codeprint(cont);	
-		} else {
-			ss << "addu $8, $0, $0\n";
-		}	
-		ss << "addu $2, $8, $0\n";
-		ss << "j  $31\n";
-		ss << "nop\n";
-		return ss.str();
-	}
-};
-
-class WhileStat : public Statement { 
-private:
-	Expression* e;
-	CompoundStatement* cs;
-public:
-	WhileStat(Expression* e_in, CompoundStatement* cs_in) : e(e_in), cs(cs_in) {};
-
-	std::string print() {
-		std::stringstream ss;
-		ss << "WHILE\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		ss << "WHILE\n";
-		return ss.str();
-	}
-	std::string codeprint(Context& cont) {
-		std::stringstream ss;
-		ss << "#while\n";
-		ss << "label" << cont.labelNum << "a:\n";
-		ss << e->codeprint(cont);
-		ss << "beq $8, $0, " << "label" << cont.labelNum << "c\n";
-		ss << "label" << cont.labelNum << "b:\n";
-		ss << cs->codeprint(cont);
-		ss << "j label" << cont.labelNum << "b:\n";
-		ss << "label" << cont.labelNum << "c:\n";
-		cont.labelNum++;
-	}
-};
-
 
 /*********************************************************
    _____  _____ ____  _____  ______ 
@@ -716,6 +592,130 @@ public:
 		cont.variableMaps.pop_back();
 		ss << "#CompoundStat } \n";
 		return ss.str();
+	}
+};
+
+/*********************************************************
+   _____ _______    _______ _____ 
+  / ____|__   __|/\|__   __/ ____|
+ | (___    | |  /  \  | | | (___  
+  \___ \   | | / /\ \ | |  \___ \ 
+  ____) |  | |/ ____ \| |  ____) |
+ |_____/   |_/_/    \_\_| |_____/ 
+
+ExpStatement 3
+JumpStatement 3                                         
+
+**********************************************************/
+
+
+class ExpStatement : public Statement { 
+private:
+	Expression* e;
+	
+public:
+	ExpStatement(Expression* e_in) : e(e_in) {};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << "EXP_STAT {" << "\n";
+		if(e!=NULL) {
+			ss << e->print() << "\n";
+		}
+		ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		if(e!=NULL) {
+			ss << e->cprint();
+		}
+		ss << ";\n";
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		if (e!=NULL) {
+			std::string x = e->codeprint(cont);
+			return x;			
+		}
+	}
+
+};
+
+
+
+class JumpStatement : public Statement { 
+private:
+	Expression* e;
+	std::string keyword;
+public:
+	JumpStatement(std::string keyword_in, Expression* e_in) : keyword(keyword_in), e(e_in) {};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << "JUMP_STAT {" << "\n";
+		ss <<  keyword << "\n";
+		if(e!=NULL) {
+			ss << e->print() << "\n";
+		}
+		ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss <<  keyword << " ";
+		if(e!=NULL) {
+			ss << e->cprint();
+		}
+		ss << ";\n";
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << "#return\n";
+		if (e!=NULL) {
+			ss << e->codeprint(cont);	
+		} else {
+			ss << "addu $8, $0, $0\n";
+		}	
+		ss << "addu $2, $8, $0\n";
+		ss << "j  $31\n";
+		ss << "nop\n";
+		return ss.str();
+	}
+};
+
+class WhileStat : public Statement { 
+private:
+	Expression* e;
+	CompoundStatement* cs;
+public:
+	WhileStat(Expression* e_in, CompoundStatement* cs_in) : e(e_in), cs(cs_in) {};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << "WHILE\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << "WHILE\n";
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << "#while\n";
+		ss << "label" << cont.labelNum << "a:\n";
+		ss << e->codeprint(cont);
+		ss << "beq $8, $0, " << "label" << cont.labelNum << "c\n";
+		ss << "label" << cont.labelNum << "b:\n";
+		ss << cs->codeprint(cont);
+		ss << "j label" << cont.labelNum << "b:\n";
+		ss << "label" << cont.labelNum << "c:\n";
+		cont.labelNum++;
 	}
 };
 
