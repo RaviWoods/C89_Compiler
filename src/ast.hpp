@@ -713,7 +713,7 @@ public:
 		ss << "beq $8, $0, " << "label" << cont.labelNum << "c\n";
 		ss << "label" << cont.labelNum << "b:\n";
 		ss << s->codeprint(cont);
-		ss << "j label" << cont.labelNum << "b\n";
+		ss << "j label" << cont.labelNum << "a\n";
 		ss << "label" << cont.labelNum << "c:\n";
 		cont.labelNum++;
 		return ss.str();
