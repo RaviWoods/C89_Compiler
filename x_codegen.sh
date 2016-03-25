@@ -30,7 +30,7 @@ do
 		echo "UH OH"
 		exit
 	fi
-	if ! cat $f |  ./bin/c_parser > test/mips_test/assembly/$fname.s; then
+	if ! cat $f |  ./bin/c_compiler > test/mips_test/assembly/$fname.s; then
 		printf "\n-----$f PARSER ERROR-----\n"
 		cat $f 
  		printf "\n-----$f PARSER ERROR-----\n"

@@ -11,20 +11,21 @@ addiu $sp, $sp, -4
 sw  $5, 0($sp)
 addiu $sp, $sp, -4
 #CompoundStat { 
-#Declarator x
+#return
+#BinExp &
 #BinExp +
-#LoadID a
-# a = 1
-# stack = 2
-#ReadVar name
-lw $9, 8($sp)
-addu $8,$9, $0
+#LoadVal 10
+li $8, 10
 
 sw  $8, 0($sp)
 addiu $sp, $sp, -4
 
-#LoadVal 5
-li $8, 5
+#LoadID b
+# b = 2
+# stack = 3
+#ReadVar name
+lw $9, 8($sp)
+addu $8,$9, $0
 
 sw  $8, 0($sp)
 addiu $sp, $sp, -4
@@ -38,18 +39,27 @@ lw  $6, 0($sp)
 addu $5,$8, $0
 addu $8,$6, $5
 
-addu $9, $8, $0
-#WriteNEWVarx
-sw $9, 0($sp)
+sw  $8, 0($sp)
 addiu $sp, $sp, -4
 
-#return
-#LoadID x
-# x = 3
+#LoadID a
+# a = 1
 # stack = 3
 #ReadVar name
-lw $9, 4($sp)
+lw $9, 12($sp)
 addu $8,$9, $0
+
+sw  $8, 0($sp)
+addiu $sp, $sp, -4
+
+addiu $sp, $sp, +4
+lw  $5, 0($sp)
+
+addiu $sp, $sp, +4
+lw  $6, 0($sp)
+
+addu $5,$8, $0
+and $8,$6, $5
 addu $2, $8, $0
 j  $31
 nop

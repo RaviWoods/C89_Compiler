@@ -4,28 +4,50 @@
 .ent  f
 .type  f, @function
 f:
+#WriteNEWParam
 sw  $4, 0($sp)
 addiu $sp, $sp, -4
+#WriteNEWParam
 sw  $5, 0($sp)
 addiu $sp, $sp, -4
-sw  $6, 0($sp)
-addiu $sp, $sp, -4
-sw  $7, 0($sp)
-addiu $sp, $sp, -4
-li $8, 20
-
-addu $5,$8, $0
+#CompoundStat { 
+#Declarator x
+#BinExp +
+#LoadVal 10
 li $8, 10
-
-addu $6,$8, $0
-addu $8,$6, $5
 
 sw  $8, 0($sp)
 addiu $sp, $sp, -4
 
+#LoadVal 20
+li $8, 20
+
+sw  $8, 0($sp)
+addiu $sp, $sp, -4
+
+addiu $sp, $sp, +4
+lw  $5, 0($sp)
+
+addiu $sp, $sp, +4
+lw  $6, 0($sp)
+
+addu $5,$8, $0
+addu $8,$6, $5
+
+addu $9, $8, $0
+#WriteNEWVarx
+sw $9, 0($sp)
+addiu $sp, $sp, -4
+
+#return
+#LoadID x
+# x = 3
+# stack = 3
+#ReadVar name
 lw $9, 4($sp)
 addu $8,$9, $0
 addu $2, $8, $0
 j  $31
 nop
+#CompoundStat } 
 
