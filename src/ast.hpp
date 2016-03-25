@@ -732,6 +732,7 @@ public:
 		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
 			if(i<=7) {
 				ss << "#WriteNEWParam\n";
+				ss << "sw  $" << i << ", 0($sp)" << "\n";
 				ss << "addiu $sp, $sp, -4\n";
 				cont.currentStackOffset++;
 				
