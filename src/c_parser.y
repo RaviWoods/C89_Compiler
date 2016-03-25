@@ -42,8 +42,8 @@ Node* topNode;
 %%
 
 
-FunctionDef: TInt TIdentifier TOpenBracket ParamDec TComma ParamDec TCloseBracket CompoundStat {
-  $$ = new FuncDef("int", $2, $4, $6, $8);
+FunctionDef: TInt TIdentifier TOpenBracket ParamList TCloseBracket CompoundStat {
+  $$ = new FuncDef("int", $2, $4, $6);
   topNode = $$;
 }
 

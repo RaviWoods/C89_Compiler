@@ -730,7 +730,7 @@ public:
 		int i = 4;
 		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
 			if(i<=7) {
-				ss << "#WriteNEWParam" << name << "\n";
+				ss << "#WriteNEWParam\n";
 				ss << "addiu $sp, $sp, -4\n";
 				cont.currentStackOffset++;
 				cont.variableMaps[cont.scopeIndex][name] = cont.currentStackOffset;
@@ -758,14 +758,14 @@ public:
 
 	std::string print() {
 		std::stringstream ss;
-		ss << returnType << " " << name << "(" << param1->print() << ", " << param2->print() << ")\n";
+		ss << p->print();
 		ss << cs->print();
 		return ss.str();
 	}
 
 	std::string cprint() {
 		std::stringstream ss;
-		ss << returnType << " " << name << "(" << param1->cprint() << ", " << param2->cprint() << ")\n";
+		ss << p->cprint();
 		ss << cs->cprint();
 		return ss.str();
 	}
