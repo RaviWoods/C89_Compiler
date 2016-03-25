@@ -730,6 +730,7 @@ public:
 		int i = 4;
 		std::cerr << "IN" << std::endl;
 		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+			std::cerr << "2" << std::endl;
 			if(i<=7) {
 				ss << "#WriteNEWParam\n";
 				ss << "addiu $sp, $sp, -4\n";
