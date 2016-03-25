@@ -173,25 +173,28 @@ PrimaryExp TAssign AssignmentExp {
   $$ = new AssignmentExp($1, right);
 } 
 | PrimaryExp TIncrement {
-  Expression* right, one;
+  Expression* right;
+  Expression* one;
   one = new ConstantValue(1); 
   right = new BinaryExpression($1,"+", one);
   $$ = new AssignmentExp($1, right);
 }
 | TIncrement PrimaryExp {
-  Expression* right, one;
+  Expression* right;
+  Expression* one;
   one = new ConstantValue(1); 
   right = new BinaryExpression($2,"+", one);
   $$ = new AssignmentExp($2, right);
 }
 | TDecrement PrimaryExp {
-  Expression* right, one;
+  Expression* right;
+  Expression* one;
   one = new ConstantValue(1); 
   right = new BinaryExpression($2,"-", one);
   $$ = new AssignmentExp($2, right);
 } 
 | PrimaryExp TDecrement {
-  Expression* right
+  Expression* right;
   Expression* one;
   one = new ConstantValue(1); 
   right = new BinaryExpression($1,"-", one);
