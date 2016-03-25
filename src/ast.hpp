@@ -229,8 +229,11 @@ public:
 
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		ss << "addu $9, $0, $0\n";
-		ss << Helper::writeNewVar(id,cont) << "\n";
+		ss << "#WriteNEWParam\n";
+		ss << "addiu $sp, $sp, -4\n";
+		cont.currentStackOffset++;
+		std::cerr << id << std::endl;
+		cont.variableMaps[0][id] = cont.currentStackOffset;
 		return ss.str();
 	}
 
