@@ -690,9 +690,9 @@ public:
 class WhileStat : public Statement { 
 private:
 	Expression* e;
-	CompoundStatement* cs;
+	Statement* s;
 public:
-	WhileStat(Expression* e_in, CompoundStatement* cs_in) : e(e_in), cs(cs_in) {};
+	WhileStat(Expression* e_in, Statement* s_in) : e(e_in), s(s_in) {};
 
 	std::string print() {
 		std::stringstream ss;
@@ -712,7 +712,7 @@ public:
 		ss << e->codeprint(cont);
 		ss << "beq $8, $0, " << "label" << cont.labelNum << "c\n";
 		ss << "label" << cont.labelNum << "b:\n";
-		ss << cs->codeprint(cont);
+		ss << s->codeprint(cont);
 		ss << "j label" << cont.labelNum << "b:\n";
 		ss << "label" << cont.labelNum << "c:\n";
 		cont.labelNum++;

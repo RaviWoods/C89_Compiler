@@ -1530,7 +1530,7 @@ yyreduce:
   case 19:
 #line 99 "src/c_parser.y" /* yacc.c:1646  */
     {
-  (yyval.StatPtr) = new WhileStat((yyvsp[-2].ExpPtr),(CompoundStatement*)(yyvsp[0].StatPtr));
+  (yyval.StatPtr) = new WhileStat((yyvsp[-2].ExpPtr),(yyvsp[0].StatPtr));
 }
 #line 1536 "bin/c_parser.tab.cpp" /* yacc.c:1646  */
     break;

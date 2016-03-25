@@ -97,7 +97,7 @@ TInt TIdentifier TSemicolon {
 Statement : JumpStat | ExpStat | IterStat | CompoundStat;
 
 IterStat : TWhile TOpenBracket Exp TCloseBracket CompoundStat {
-  $$ = new WhileStat($3,(CompoundStatement*)$5);
+  $$ = new WhileStat($3,$5);
 }
 
 JumpStat : 
