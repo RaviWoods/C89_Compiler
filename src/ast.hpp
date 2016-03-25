@@ -727,9 +727,16 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
+		int i = 4;
 		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
-    		if((*it)!=NULL) {
-    			
+			if(i<=7) {
+				ss << "#WriteNEWParam" << name << "\n";
+				ss << "addiu $sp, $sp, -4\n";
+				cont.currentStackOffset++;
+				cont.variableMaps[cont.scopeIndex][name] = cont.currentStackOffset;
+				i++;
+			} else {
+				if((*it)!=NULL) {		
     			//std::cerr << "STAT2" << std::endl;
 				ss << ((*it)->codeprint(cont)); 
     		}
@@ -742,12 +749,11 @@ class FuncDef : public Node {
 private:
 	std::string returnType;
 	std::string name;
-	Parameter* param1;
-	Parameter* param2;
+	ParamList* p;
 	Statement* cs;
 public:
-	FuncDef(std::string returnType_in, std::string name_in, Parameter* param1_in, Parameter* param2_in, Statement* cs_in) :
-	returnType(returnType_in), name(name_in), param1(param1_in), param2(param2_in), cs(cs_in)
+	FuncDef(std::string returnType_in, std::string name_in, ParamList* p_in, Statement* cs_in) :
+	returnType(returnType_in), name(name_in), p(p_in), cs(cs_in)
 	{};
 
 	std::string print() {
@@ -770,15 +776,16 @@ public:
 		ss << ".ent  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
+		ss << p->codeprint(cont);
+		/*
 		cont.variableMaps[0][param1->getId()] = 1;
 		cont.variableMaps[0][param2->getId()] = 2;
-		/*TODO: Add more than 2 params*/
-		ss << "#Function with Params: " << param1->getId() << " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
 			ss << "sw  $" << i << ", 0($sp)" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
 			cont.currentStackOffset++;
 		}
+		*/
 		ss << cs->codeprint(cont);
 		return ss.str();
 	}
