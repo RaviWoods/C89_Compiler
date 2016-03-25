@@ -217,7 +217,7 @@ public:
 
 	std::string print() {
 		std::stringstream ss;
-		ss << "PARAM" << " " << type << " " << id;
+		ss << id;
 		return ss.str();
 	}
 
@@ -733,7 +733,7 @@ public:
 				ss << "#WriteNEWParam\n";
 				ss << "addiu $sp, $sp, -4\n";
 				cont.currentStackOffset++;
-				cont.variableMaps[cont.scopeIndex][name] = cont.currentStackOffset;
+				cont.variableMaps[cont.scopeIndex][(*it).print()] = cont.currentStackOffset;
 				i++;
 			} else {
 				if((*it)!=NULL) {		
