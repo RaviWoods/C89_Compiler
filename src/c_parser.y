@@ -20,7 +20,7 @@ Node* topNode;
   class Expression* ExpPtr;
   class Statement* StatPtr;
   class StatList* StatListPtr;
-  class ParamList* ParamListPtr;
+  class PaList* ParamListPtr;
   class Declarator* DecPtr;
   class Parameter* ParamPtr;
   class DecList* DecListPtr;
@@ -49,7 +49,7 @@ FunctionDef: TInt TIdentifier TOpenBracket Paraml TCloseBracket CompoundStat {
 
 Paraml : 
 ParamDec {
-  $$ = new ParamList();
+  $$ = new PaList();
   $$->addToList($1);
 }| Paraml ParamDec {
   $$->addToList($2);
