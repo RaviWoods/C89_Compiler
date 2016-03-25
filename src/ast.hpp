@@ -20,7 +20,7 @@ $4-$27 = free ($4-$7 are arguments, but moved to stack immediately)
 $9 = address vars are read into/written from
 $8 = Register for final result of expression
 $5-$6 = temp registers for BinExp
-
+$10 = temp for unary
 /*TODO: Test aps_11, edge_3 , edge_4, file999 - TERNARY*/
 /*TODO: Test base_3 : - unary*/
 
@@ -321,6 +321,15 @@ public:
 		ss << e->codeprint(cont) << "\n";
 		if(op=="-") {
 			ss << "subu $8,$0, $8\n";
+		} else if(op=="~") {
+			ss << "negu $8,$0, $8\n";
+		} else if(op=="!") {
+			ss << "seq $8,$8, $0\n";
+			ss << "bne $8, $0, label" << cont.labelNum << "\n";
+			ss << "addu $8, $8, $0\n";
+			ss << "label" << cont.labelNum << ":\n";
+			cont.labelNum++;
+
 		} 
 		return ss.str();
 	}
