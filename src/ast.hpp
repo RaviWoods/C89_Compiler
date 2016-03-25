@@ -695,13 +695,13 @@ public:
 FuncDef 3 : MORE THAN ONE PARAM
 **********************************************************/
 
-class ParamList : public Node {
+class PaList : public Node {
 private:
 	std::list<Parameter*> plist;
 public:
-	ParamList() {};
+	PaList() {};
 	void addToList(Parameter* param_in) {
-		plist.push_back(param_in);
+		PaList.push_back(param_in);
 		return;
 	}
 	std::string print() {
@@ -749,10 +749,10 @@ class FuncDef : public Node {
 private:
 	std::string returnType;
 	std::string name;
-	ParamList* p;
+	PaList* p;
 	Statement* cs;
 public:
-	FuncDef(std::string returnType_in, std::string name_in, ParamList* p_in, Statement* cs_in) :
+	FuncDef(std::string returnType_in, std::string name_in, PaList* p_in, Statement* cs_in) :
 	returnType(returnType_in), name(name_in), p(p_in), cs(cs_in)
 	{};
 
