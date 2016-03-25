@@ -701,7 +701,7 @@ private:
 public:
 	PaList() {};
 	void addToList(Parameter* param_in) {
-		PaList.push_back(param_in);
+		plist.push_back(param_in);
 		return;
 	}
 	std::string print() {
@@ -793,3 +793,4 @@ public:
 
 #endif
 
+ 

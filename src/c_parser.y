@@ -53,11 +53,11 @@ ParamDec {
   $$->addToList($1);
 }| Paraml ParamDec {
   $$->addToList($2);
-};
+}
 
 ParamDec: TInt TIdentifier {
   $$ =  new Parameter("int",$2);
-};
+}
 
 CompoundStat: 
 TOpenCurlyBrace Declaratorlist Statementlist TCloseCurlyBrace {
