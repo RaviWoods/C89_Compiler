@@ -217,7 +217,7 @@ public:
 
 	std::string print() {
 		std::stringstream ss;
-		ss << "PARAM" << " " << type << " " << id;
+		ss << id;
 		return ss.str();
 	}
 
@@ -227,7 +227,12 @@ public:
 		return ss.str();
 	}
 
-	/*TODO: Add Code Print*/
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << "addu $9, $0, $0\n";
+		ss << Helper::writeNewVar(id,cont) << "\n";
+		return ss.str();
+	}
 
 	std::string getId() {
 		return id;
@@ -425,7 +430,9 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << "#Declarator " << id << "\n";
-		ss << e->codeprint(cont) << "\n";
+		if(e!=NULL) {
+			ss << e->codeprint(cont) << "\n";
+		}
 		ss << "addu $9, $8, $0\n";
 		ss << Helper::writeNewVar(id,cont) << "\n";
 		return ss.str();
@@ -688,28 +695,77 @@ public:
 FuncDef 3 : MORE THAN ONE PARAM
 **********************************************************/
 
+class ParamList : public Node {
+private:
+	std::list<Parameter*> plist;
+public:
+	ParamList() {};
+	void addToList(Parameter* param_in) {
+		plist.push_back(param_in);
+		return;
+	}
+	std::string print() {
+		std::stringstream ss;
+		//ss << "STAT_LIST {" << "\n";
+		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->print()) << "\n";   			
+    		}		
+		} 
+		//ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->cprint());   			
+    		}
+		}
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		int i = 4;
+		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+			if(i<=7) {
+				ss << "#WriteNEWParam\n";
+				ss << "addiu $sp, $sp, -4\n";
+				cont.currentStackOffset++;
+				cont.variableMaps[cont.scopeIndex][(*it)->print()] = cont.currentStackOffset;
+				i++;
+			} else {
+				if((*it)!=NULL) {		
+    			//std::cerr << "STAT2" << std::endl;
+				ss << ((*it)->codeprint(cont)); 
+    		}
+		}
+		return ss.str();
+	}
+};
+
 class FuncDef : public Node {
 private:
 	std::string returnType;
 	std::string name;
-	Parameter* param1;
-	Parameter* param2;
+	ParamList* p;
 	Statement* cs;
 public:
-	FuncDef(std::string returnType_in, std::string name_in, Parameter* param1_in, Parameter* param2_in, Statement* cs_in) :
-	returnType(returnType_in), name(name_in), param1(param1_in), param2(param2_in), cs(cs_in)
+	FuncDef(std::string returnType_in, std::string name_in, ParamList* p_in, Statement* cs_in) :
+	returnType(returnType_in), name(name_in), p(p_in), cs(cs_in)
 	{};
 
 	std::string print() {
 		std::stringstream ss;
-		ss << returnType << " " << name << "(" << param1->print() << ", " << param2->print() << ")\n";
+		ss << p->print();
 		ss << cs->print();
 		return ss.str();
 	}
 
 	std::string cprint() {
 		std::stringstream ss;
-		ss << returnType << " " << name << "(" << param1->cprint() << ", " << param2->cprint() << ")\n";
+		ss << p->cprint();
 		ss << cs->cprint();
 		return ss.str();
 	}
@@ -720,15 +776,16 @@ public:
 		ss << ".ent  " << name << "\n";
 		ss << ".type  " << name << ", @function" << "\n";
 		ss << name << ":\n";
+		ss << p->codeprint(cont);
+		/*
 		cont.variableMaps[0][param1->getId()] = 1;
 		cont.variableMaps[0][param2->getId()] = 2;
-		/*TODO: Add more than 2 params*/
-		ss << "#Function with Params: " << param1->getId() << " " <<  param2->getId() << "\n";
 		for(int i = 4; i <= 7; i++) {
 			ss << "sw  $" << i << ", 0($sp)" << "\n";
 			ss << "addiu $sp, $sp, -4\n";
 			cont.currentStackOffset++;
 		}
+		*/
 		ss << cs->codeprint(cont);
 		return ss.str();
 	}
