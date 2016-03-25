@@ -728,14 +728,15 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		int i = 4;
-		std::cerr << "IN" << std::endl;
+		
 		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
-			std::cerr << "2" << std::endl;
 			if(i<=7) {
 				ss << "#WriteNEWParam\n";
 				ss << "addiu $sp, $sp, -4\n";
 				cont.currentStackOffset++;
+				
 				std::string x = ((*it)->cprint()); 
+				std::cerr << x << std::endl;
 				cont.variableMaps[0][x] = cont.currentStackOffset;
 				i++;
 			} else {
