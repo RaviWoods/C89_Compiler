@@ -37,21 +37,21 @@ Node* topNode;
 %type <StatListPtr> Statementlist
 %type <DecListPtr> Declaratorlist
 %type <FuncDefPtr> FunctionDef
-%type <ParamListPtr> ParamList
+%type <ParamListPtr> Paraml
 %type <ParamPtr> ParamDec
 %%
 
 
-FunctionDef: TInt TIdentifier TOpenBracket ParamList TCloseBracket CompoundStat {
+FunctionDef: TInt TIdentifier TOpenBracket Paraml TCloseBracket CompoundStat {
   $$ = new FuncDef("int", $2, $4, $6);
   topNode = $$;
 }
 
-ParamList : 
+Paraml : 
 ParamDec {
   $$ = new ParamList();
   $$->addToList($1);
-}| ParamList ParamDec {
+}| Paraml ParamDec {
   $$->addToList($2);
 };
 
