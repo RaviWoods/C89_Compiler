@@ -191,7 +191,8 @@ PrimaryExp TAssign AssignmentExp {
   $$ = new AssignmentExp($2, right);
 } 
 | PrimaryExp TDecrement {
-  Expression* right, one;
+  Expression* right
+  Expression* one;
   one = new ConstantValue(1); 
   right = new BinaryExpression($1,"-", one);
   $$ = new AssignmentExp($1, right);
