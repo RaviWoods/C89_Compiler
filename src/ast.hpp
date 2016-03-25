@@ -737,8 +737,9 @@ public:
 				i++;
 			} else {
 				if((*it)!=NULL) {		
-    			//std::cerr << "STAT2" << std::endl;
-				ss << ((*it)->codeprint(cont)); 
+	    			//std::cerr << "STAT2" << std::endl;
+					ss << ((*it)->codeprint(cont)); 
+				}
     		}
 		}
 		return ss.str();
