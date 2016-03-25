@@ -52,7 +52,7 @@ ParamDec {
   $$ = new PaList();
   $$->addToList($1);
 }| Paraml TComma ParamDec {
-  $$->addToList($2);
+  $$->addToList($3);
 }
 
 ParamDec: TInt TIdentifier {
