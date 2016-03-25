@@ -735,6 +735,7 @@ public:
 				ss << "#WriteNEWParam\n";
 				ss << "addiu $sp, $sp, -4\n";
 				cont.currentStackOffset++;
+				std::string = ((*it)->cprint()); 
 				//cont.variableMaps[cont.scopeIndex][(*it)->print()] = cont.currentStackOffset;
 				i++;
 			} else {
