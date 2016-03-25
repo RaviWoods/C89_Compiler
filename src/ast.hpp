@@ -728,7 +728,7 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		int i = 4;
-		cout << "IN";
+		std::cout << "IN";
 		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
 			if(i<=7) {
 				ss << "#WriteNEWParam\n";
