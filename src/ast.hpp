@@ -699,7 +699,7 @@ class ParamList : public Node {
 private:
 	std::list<Parameter*> plist;
 public:
-	StatList() {};
+	ParamList() {};
 	void addToList(Parameter* param_in) {
 		plist.push_back(param_in);
 		return;
@@ -707,7 +707,7 @@ public:
 	std::string print() {
 		std::stringstream ss;
 		//ss << "STAT_LIST {" << "\n";
-		for (std::list<Statement*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
     		if((*it)!=NULL) {
     			ss << ((*it)->print()) << "\n";   			
     		}		
@@ -718,7 +718,7 @@ public:
 
 	std::string cprint() {
 		std::stringstream ss;
-		for (std::list<Statement*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
     		if((*it)!=NULL) {
     			ss << ((*it)->cprint());   			
     		}
@@ -727,7 +727,7 @@ public:
 	}
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
-		for (std::list<Statement*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+		for (std::list<Parameter*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
     		if((*it)!=NULL) {
     			
     			//std::cerr << "STAT2" << std::endl;
