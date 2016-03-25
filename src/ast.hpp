@@ -297,6 +297,36 @@ public:
 
 };
 
+class UnaryExpression : public Expression { 
+private:
+	std::string op;
+	Expression* e;
+	
+public:
+	UnaryExpression(const std::string &op_in, Expression *e) : 
+	op(op_in) , e(e)
+	{};
+
+	std::string print() {
+		return "UNARY";
+	}
+
+	std::string cprint() {
+		return "UNARY";
+	}
+
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << "#UnaryExp " << op << "\n";
+		ss << e->codeprint(cont) << "\n";
+		if(op=="-") {
+			ss << "subu $8,$0, $8\n";
+		} 
+		return ss.str();
+	}
+};
+
+
 class BinaryExpression : public Expression { 
 private:
 	Expression* left;

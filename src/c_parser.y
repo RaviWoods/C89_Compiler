@@ -31,7 +31,7 @@ Node* topNode;
 
 %type <string> TIdentifier
 %type <num> TIntVal
-%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp ShiftExp LogicalAndExp LogicalOrExp
+%type <ExpPtr> PrimaryExp Exp AssignmentExp AdditiveExp MultExp AndExp OrExp XorExp RelationalExp EqualityExp ShiftExp LogicalAndExp LogicalOrExp UnaryExp
 %type <StatPtr> ExpStat JumpStat Statement CompoundStat IterStat
 %type <DecPtr> Declarator
 %type <StatListPtr> Statementlist
@@ -285,7 +285,14 @@ PrimaryExp TStar MultExp {
 | PrimaryExp TPercent MultExp {
   $$ = new BinaryExpression($1,"%", $3);
 } 
-| PrimaryExp;
+| UnaryExp;
+
+UnaryExp:
+TMinus MultExp {
+  $$ = new UnaryExpression("-", $2);
+} | TPlus MultExp {
+  $$ = new UnaryExpression("+", $2);
+} | PrimaryExp;
 
 PrimaryExp :  
 TIdentifier  { 
