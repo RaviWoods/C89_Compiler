@@ -733,7 +733,7 @@ public:
 				ss << "#WriteNEWParam\n";
 				ss << "addiu $sp, $sp, -4\n";
 				cont.currentStackOffset++;
-				cont.variableMaps[cont.scopeIndex][(*it).print()] = cont.currentStackOffset;
+				cont.variableMaps[cont.scopeIndex][(*it)->print()] = cont.currentStackOffset;
 				i++;
 			} else {
 				if((*it)!=NULL) {		
