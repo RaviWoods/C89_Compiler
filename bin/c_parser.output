@@ -32,8 +32,6 @@ Terminals unused in grammar
    TOpenSqBracket
    TCloseSqBracket
    TDot
-   TTilde
-   TBang
    TQuestion
    TColon
    TArrow
@@ -140,11 +138,13 @@ Grammar
 
    68 UnaryExp: TMinus MultExp
    69         | TPlus MultExp
-   70         | PrimaryExp
+   70         | TBang MultExp
+   71         | TTilde MultExp
+   72         | PrimaryExp
 
-   71 PrimaryExp: TIdentifier
-   72           | TIntVal
-   73           | TOpenBracket Exp TCloseBracket
+   73 PrimaryExp: TIdentifier
+   74           | TIntVal
+   75           | TOpenBracket Exp TCloseBracket
 
 
 Terminals, with rules where they appear
@@ -185,15 +185,15 @@ TWhile (288) 18
 TSizeof (289)
 TOpenSqBracket (290)
 TCloseSqBracket (291)
-TOpenBracket (292) 1 18 73
-TCloseBracket (293) 1 18 73
+TOpenBracket (292) 1 18 75
+TCloseBracket (293) 1 18 75
 TDot (294)
 TBitwiseAnd (295) 48
 TStar (296) 64
 TPlus (297) 61 69
 TMinus (298) 62 68
-TTilde (299)
-TBang (300)
+TTilde (299) 71
+TBang (300) 70
 TSlash (301) 65
 TPercent (302) 66
 TGreater (303) 53
@@ -230,10 +230,10 @@ TCloseCurlyBrace (333) 5 6 7
 TSemicolon (334) 12 13 19 20 21 22
 TEllipsis (335)
 TCharConstVal (336)
-TIntVal (337) 72
+TIntVal (337) 74
 TFloatVal (338)
 TStringLit (339)
-TIdentifier (340) 1 4 12 13 71
+TIdentifier (340) 1 4 12 13 73
 TNewline (341)
 
 
@@ -264,7 +264,7 @@ JumpStat (97)
 ExpStat (98)
     on left: 21 22, on right: 15
 Exp (99)
-    on left: 23, on right: 13 18 19 21 73
+    on left: 23, on right: 13 18 19 21 75
 AssignmentExp (100)
     on left: 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39, on right:
     23 24 25 26 27 28 29 30 31 32 33 34
@@ -287,12 +287,12 @@ ShiftExp (108)
 AdditiveExp (109)
     on left: 61 62 63, on right: 58 59 60 61 62
 MultExp (110)
-    on left: 64 65 66 67, on right: 61 62 63 64 65 66 68 69
+    on left: 64 65 66 67, on right: 61 62 63 64 65 66 68 69 70 71
 UnaryExp (111)
-    on left: 68 69 70, on right: 67
+    on left: 68 69 70 71 72, on right: 67
 PrimaryExp (112)
-    on left: 71 72 73, on right: 24 25 26 27 28 29 30 31 32 33 34 35
-    36 37 38 64 65 66 70
+    on left: 73 74 75, on right: 24 25 26 27 28 29 30 31 32 33 34 35
+    36 37 38 64 65 66 72
 
 
 State 0
@@ -402,35 +402,37 @@ State 12
     TOpenBracket     shift, and go to state 18
     TPlus            shift, and go to state 19
     TMinus           shift, and go to state 20
-    TIncrement       shift, and go to state 21
-    TDecrement       shift, and go to state 22
+    TTilde           shift, and go to state 21
+    TBang            shift, and go to state 22
+    TIncrement       shift, and go to state 23
+    TDecrement       shift, and go to state 24
     TOpenCurlyBrace  shift, and go to state 12
-    TSemicolon       shift, and go to state 23
-    TIntVal          shift, and go to state 24
-    TIdentifier      shift, and go to state 25
+    TSemicolon       shift, and go to state 25
+    TIntVal          shift, and go to state 26
+    TIdentifier      shift, and go to state 27
 
-    CompoundStat    go to state 26
-    Statementlist   go to state 27
-    Declaratorlist  go to state 28
-    Declarator      go to state 29
-    Statement       go to state 30
-    IterStat        go to state 31
-    JumpStat        go to state 32
-    ExpStat         go to state 33
-    Exp             go to state 34
-    AssignmentExp   go to state 35
-    LogicalOrExp    go to state 36
-    LogicalAndExp   go to state 37
-    OrExp           go to state 38
-    XorExp          go to state 39
-    AndExp          go to state 40
-    EqualityExp     go to state 41
-    RelationalExp   go to state 42
-    ShiftExp        go to state 43
-    AdditiveExp     go to state 44
-    MultExp         go to state 45
-    UnaryExp        go to state 46
-    PrimaryExp      go to state 47
+    CompoundStat    go to state 28
+    Statementlist   go to state 29
+    Declaratorlist  go to state 30
+    Declarator      go to state 31
+    Statement       go to state 32
+    IterStat        go to state 33
+    JumpStat        go to state 34
+    ExpStat         go to state 35
+    Exp             go to state 36
+    AssignmentExp   go to state 37
+    LogicalOrExp    go to state 38
+    LogicalAndExp   go to state 39
+    OrExp           go to state 40
+    XorExp          go to state 41
+    AndExp          go to state 42
+    EqualityExp     go to state 43
+    RelationalExp   go to state 44
+    ShiftExp        go to state 45
+    AdditiveExp     go to state 46
+    MultExp         go to state 47
+    UnaryExp        go to state 48
+    PrimaryExp      go to state 49
 
 
 State 13
@@ -452,7 +454,7 @@ State 15
    12 Declarator: TInt . TIdentifier TSemicolon
    13           | TInt . TIdentifier TAssign Exp TSemicolon
 
-    TIdentifier  shift, and go to state 48
+    TIdentifier  shift, and go to state 50
 
 
 State 16
@@ -463,61 +465,65 @@ State 16
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TSemicolon    shift, and go to state 49
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TSemicolon    shift, and go to state 51
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    Exp            go to state 50
-    AssignmentExp  go to state 35
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    Exp            go to state 52
+    AssignmentExp  go to state 37
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
 State 17
 
    18 IterStat: TWhile . TOpenBracket Exp TCloseBracket CompoundStat
 
-    TOpenBracket  shift, and go to state 51
+    TOpenBracket  shift, and go to state 53
 
 
 State 18
 
-   73 PrimaryExp: TOpenBracket . Exp TCloseBracket
+   75 PrimaryExp: TOpenBracket . Exp TCloseBracket
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    Exp            go to state 52
-    AssignmentExp  go to state 35
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    Exp            go to state 54
+    AssignmentExp  go to state 37
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
 State 19
@@ -527,12 +533,14 @@ State 19
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    MultExp     go to state 53
-    UnaryExp    go to state 46
-    PrimaryExp  go to state 54
+    MultExp     go to state 55
+    UnaryExp    go to state 48
+    PrimaryExp  go to state 56
 
 
 State 20
@@ -542,65 +550,101 @@ State 20
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    MultExp     go to state 55
-    UnaryExp    go to state 46
-    PrimaryExp  go to state 54
+    MultExp     go to state 57
+    UnaryExp    go to state 48
+    PrimaryExp  go to state 56
 
 
 State 21
 
-   36 AssignmentExp: TIncrement . PrimaryExp
+   71 UnaryExp: TTilde . MultExp
 
     TOpenBracket  shift, and go to state 18
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TPlus         shift, and go to state 19
+    TMinus        shift, and go to state 20
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
+    MultExp     go to state 58
+    UnaryExp    go to state 48
     PrimaryExp  go to state 56
 
 
 State 22
 
-   37 AssignmentExp: TDecrement . PrimaryExp
+   70 UnaryExp: TBang . MultExp
 
     TOpenBracket  shift, and go to state 18
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TPlus         shift, and go to state 19
+    TMinus        shift, and go to state 20
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    PrimaryExp  go to state 57
+    MultExp     go to state 59
+    UnaryExp    go to state 48
+    PrimaryExp  go to state 56
 
 
 State 23
+
+   36 AssignmentExp: TIncrement . PrimaryExp
+
+    TOpenBracket  shift, and go to state 18
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
+
+    PrimaryExp  go to state 60
+
+
+State 24
+
+   37 AssignmentExp: TDecrement . PrimaryExp
+
+    TOpenBracket  shift, and go to state 18
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
+
+    PrimaryExp  go to state 61
+
+
+State 25
 
    22 ExpStat: TSemicolon .
 
     $default  reduce using rule 22 (ExpStat)
 
 
-State 24
-
-   72 PrimaryExp: TIntVal .
-
-    $default  reduce using rule 72 (PrimaryExp)
-
-
-State 25
-
-   71 PrimaryExp: TIdentifier .
-
-    $default  reduce using rule 71 (PrimaryExp)
-
-
 State 26
+
+   74 PrimaryExp: TIntVal .
+
+    $default  reduce using rule 74 (PrimaryExp)
+
+
+State 27
+
+   73 PrimaryExp: TIdentifier .
+
+    $default  reduce using rule 73 (PrimaryExp)
+
+
+State 28
 
    17 Statement: CompoundStat .
 
     $default  reduce using rule 17 (Statement)
 
 
-State 27
+State 29
 
     6 CompoundStat: TOpenCurlyBrace Statementlist . TCloseCurlyBrace
     9 Statementlist: Statementlist . Statement
@@ -610,36 +654,38 @@ State 27
     TOpenBracket      shift, and go to state 18
     TPlus             shift, and go to state 19
     TMinus            shift, and go to state 20
-    TIncrement        shift, and go to state 21
-    TDecrement        shift, and go to state 22
+    TTilde            shift, and go to state 21
+    TBang             shift, and go to state 22
+    TIncrement        shift, and go to state 23
+    TDecrement        shift, and go to state 24
     TOpenCurlyBrace   shift, and go to state 12
-    TCloseCurlyBrace  shift, and go to state 58
-    TSemicolon        shift, and go to state 23
-    TIntVal           shift, and go to state 24
-    TIdentifier       shift, and go to state 25
+    TCloseCurlyBrace  shift, and go to state 62
+    TSemicolon        shift, and go to state 25
+    TIntVal           shift, and go to state 26
+    TIdentifier       shift, and go to state 27
 
-    CompoundStat   go to state 26
-    Statement      go to state 59
-    IterStat       go to state 31
-    JumpStat       go to state 32
-    ExpStat        go to state 33
-    Exp            go to state 34
-    AssignmentExp  go to state 35
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    CompoundStat   go to state 28
+    Statement      go to state 63
+    IterStat       go to state 33
+    JumpStat       go to state 34
+    ExpStat        go to state 35
+    Exp            go to state 36
+    AssignmentExp  go to state 37
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 28
+State 30
 
     5 CompoundStat: TOpenCurlyBrace Declaratorlist . Statementlist TCloseCurlyBrace
     7             | TOpenCurlyBrace Declaratorlist . TCloseCurlyBrace
@@ -651,156 +697,158 @@ State 28
     TOpenBracket      shift, and go to state 18
     TPlus             shift, and go to state 19
     TMinus            shift, and go to state 20
-    TIncrement        shift, and go to state 21
-    TDecrement        shift, and go to state 22
+    TTilde            shift, and go to state 21
+    TBang             shift, and go to state 22
+    TIncrement        shift, and go to state 23
+    TDecrement        shift, and go to state 24
     TOpenCurlyBrace   shift, and go to state 12
-    TCloseCurlyBrace  shift, and go to state 60
-    TSemicolon        shift, and go to state 23
-    TIntVal           shift, and go to state 24
-    TIdentifier       shift, and go to state 25
+    TCloseCurlyBrace  shift, and go to state 64
+    TSemicolon        shift, and go to state 25
+    TIntVal           shift, and go to state 26
+    TIdentifier       shift, and go to state 27
 
-    CompoundStat   go to state 26
-    Statementlist  go to state 61
-    Declarator     go to state 62
-    Statement      go to state 30
-    IterStat       go to state 31
-    JumpStat       go to state 32
-    ExpStat        go to state 33
-    Exp            go to state 34
-    AssignmentExp  go to state 35
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    CompoundStat   go to state 28
+    Statementlist  go to state 65
+    Declarator     go to state 66
+    Statement      go to state 32
+    IterStat       go to state 33
+    JumpStat       go to state 34
+    ExpStat        go to state 35
+    Exp            go to state 36
+    AssignmentExp  go to state 37
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 29
+State 31
 
    10 Declaratorlist: Declarator .
 
     $default  reduce using rule 10 (Declaratorlist)
 
 
-State 30
+State 32
 
     8 Statementlist: Statement .
 
     $default  reduce using rule 8 (Statementlist)
 
 
-State 31
+State 33
 
    16 Statement: IterStat .
 
     $default  reduce using rule 16 (Statement)
 
 
-State 32
+State 34
 
    14 Statement: JumpStat .
 
     $default  reduce using rule 14 (Statement)
 
 
-State 33
+State 35
 
    15 Statement: ExpStat .
 
     $default  reduce using rule 15 (Statement)
 
 
-State 34
+State 36
 
    21 ExpStat: Exp . TSemicolon
 
-    TSemicolon  shift, and go to state 63
+    TSemicolon  shift, and go to state 67
 
 
-State 35
+State 37
 
    23 Exp: AssignmentExp .
 
     $default  reduce using rule 23 (Exp)
 
 
-State 36
+State 38
 
    39 AssignmentExp: LogicalOrExp .
 
     $default  reduce using rule 39 (AssignmentExp)
 
 
-State 37
+State 39
 
    40 LogicalOrExp: LogicalAndExp . TLogicalOr LogicalOrExp
    41             | LogicalAndExp .
 
-    TLogicalOr  shift, and go to state 64
+    TLogicalOr  shift, and go to state 68
 
     $default  reduce using rule 41 (LogicalOrExp)
 
 
-State 38
+State 40
 
    42 LogicalAndExp: OrExp . TLogicalAnd LogicalAndExp
    43              | OrExp .
 
-    TLogicalAnd  shift, and go to state 65
+    TLogicalAnd  shift, and go to state 69
 
     $default  reduce using rule 43 (LogicalAndExp)
 
 
-State 39
+State 41
 
    44 OrExp: XorExp . TPipe OrExp
    45      | XorExp .
 
-    TPipe  shift, and go to state 66
+    TPipe  shift, and go to state 70
 
     $default  reduce using rule 45 (OrExp)
 
 
-State 40
+State 42
 
    46 XorExp: AndExp . TCarat XorExp
    47       | AndExp .
 
-    TCarat  shift, and go to state 67
+    TCarat  shift, and go to state 71
 
     $default  reduce using rule 47 (XorExp)
 
 
-State 41
+State 43
 
    48 AndExp: EqualityExp . TBitwiseAnd AndExp
    49       | EqualityExp .
 
-    TBitwiseAnd  shift, and go to state 68
+    TBitwiseAnd  shift, and go to state 72
 
     $default  reduce using rule 49 (AndExp)
 
 
-State 42
+State 44
 
    50 EqualityExp: RelationalExp . TEquals EqualityExp
    51            | RelationalExp . TNotEqual EqualityExp
    52            | RelationalExp .
 
-    TEquals    shift, and go to state 69
-    TNotEqual  shift, and go to state 70
+    TEquals    shift, and go to state 73
+    TNotEqual  shift, and go to state 74
 
     $default  reduce using rule 52 (EqualityExp)
 
 
-State 43
+State 45
 
    53 RelationalExp: ShiftExp . TGreater RelationalExp
    54              | ShiftExp . TLess RelationalExp
@@ -808,46 +856,46 @@ State 43
    56              | ShiftExp . TLessEqual RelationalExp
    57              | ShiftExp .
 
-    TGreater       shift, and go to state 71
-    TLess          shift, and go to state 72
-    TLessEqual     shift, and go to state 73
-    TGreaterEqual  shift, and go to state 74
+    TGreater       shift, and go to state 75
+    TLess          shift, and go to state 76
+    TLessEqual     shift, and go to state 77
+    TGreaterEqual  shift, and go to state 78
 
     $default  reduce using rule 57 (RelationalExp)
 
 
-State 44
+State 46
 
    58 ShiftExp: AdditiveExp . TLeftShift ShiftExp
    59         | AdditiveExp . TRightShift ShiftExp
    60         | AdditiveExp .
 
-    TLeftShift   shift, and go to state 75
-    TRightShift  shift, and go to state 76
+    TLeftShift   shift, and go to state 79
+    TRightShift  shift, and go to state 80
 
     $default  reduce using rule 60 (ShiftExp)
 
 
-State 45
+State 47
 
    61 AdditiveExp: MultExp . TPlus AdditiveExp
    62            | MultExp . TMinus AdditiveExp
    63            | MultExp .
 
-    TPlus   shift, and go to state 77
-    TMinus  shift, and go to state 78
+    TPlus   shift, and go to state 81
+    TMinus  shift, and go to state 82
 
     $default  reduce using rule 63 (AdditiveExp)
 
 
-State 46
+State 48
 
    67 MultExp: UnaryExp .
 
     $default  reduce using rule 67 (MultExp)
 
 
-State 47
+State 49
 
    24 AssignmentExp: PrimaryExp . TAssign AssignmentExp
    25              | PrimaryExp . TPlusEquals AssignmentExp
@@ -865,150 +913,166 @@ State 47
    64 MultExp: PrimaryExp . TStar MultExp
    65        | PrimaryExp . TSlash MultExp
    66        | PrimaryExp . TPercent MultExp
-   70 UnaryExp: PrimaryExp .
+   72 UnaryExp: PrimaryExp .
 
-    TStar              shift, and go to state 79
-    TSlash             shift, and go to state 80
-    TPercent           shift, and go to state 81
-    TAssign            shift, and go to state 82
-    TIncrement         shift, and go to state 83
-    TDecrement         shift, and go to state 84
-    TStarEquals        shift, and go to state 85
-    TSlashEquals       shift, and go to state 86
-    TPercentEquals     shift, and go to state 87
-    TPlusEquals        shift, and go to state 88
-    TMinusEquals       shift, and go to state 89
-    TLeftShiftEquals   shift, and go to state 90
-    TRightShiftEquals  shift, and go to state 91
-    TAndEquals         shift, and go to state 92
-    TCaratEquals       shift, and go to state 93
-    TPipeEquals        shift, and go to state 94
+    TStar              shift, and go to state 83
+    TSlash             shift, and go to state 84
+    TPercent           shift, and go to state 85
+    TAssign            shift, and go to state 86
+    TIncrement         shift, and go to state 87
+    TDecrement         shift, and go to state 88
+    TStarEquals        shift, and go to state 89
+    TSlashEquals       shift, and go to state 90
+    TPercentEquals     shift, and go to state 91
+    TPlusEquals        shift, and go to state 92
+    TMinusEquals       shift, and go to state 93
+    TLeftShiftEquals   shift, and go to state 94
+    TRightShiftEquals  shift, and go to state 95
+    TAndEquals         shift, and go to state 96
+    TCaratEquals       shift, and go to state 97
+    TPipeEquals        shift, and go to state 98
 
-    $default  reduce using rule 70 (UnaryExp)
+    $default  reduce using rule 72 (UnaryExp)
 
 
-State 48
+State 50
 
    12 Declarator: TInt TIdentifier . TSemicolon
    13           | TInt TIdentifier . TAssign Exp TSemicolon
 
-    TAssign     shift, and go to state 95
-    TSemicolon  shift, and go to state 96
+    TAssign     shift, and go to state 99
+    TSemicolon  shift, and go to state 100
 
 
-State 49
+State 51
 
    20 JumpStat: TReturn TSemicolon .
 
     $default  reduce using rule 20 (JumpStat)
 
 
-State 50
+State 52
 
    19 JumpStat: TReturn Exp . TSemicolon
 
-    TSemicolon  shift, and go to state 97
+    TSemicolon  shift, and go to state 101
 
 
-State 51
+State 53
 
    18 IterStat: TWhile TOpenBracket . Exp TCloseBracket CompoundStat
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    Exp            go to state 98
-    AssignmentExp  go to state 35
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
-
-
-State 52
-
-   73 PrimaryExp: TOpenBracket Exp . TCloseBracket
-
-    TCloseBracket  shift, and go to state 99
+    Exp            go to state 102
+    AssignmentExp  go to state 37
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 53
+State 54
+
+   75 PrimaryExp: TOpenBracket Exp . TCloseBracket
+
+    TCloseBracket  shift, and go to state 103
+
+
+State 55
 
    69 UnaryExp: TPlus MultExp .
 
     $default  reduce using rule 69 (UnaryExp)
 
 
-State 54
+State 56
 
    64 MultExp: PrimaryExp . TStar MultExp
    65        | PrimaryExp . TSlash MultExp
    66        | PrimaryExp . TPercent MultExp
-   70 UnaryExp: PrimaryExp .
+   72 UnaryExp: PrimaryExp .
 
-    TStar     shift, and go to state 79
-    TSlash    shift, and go to state 80
-    TPercent  shift, and go to state 81
+    TStar     shift, and go to state 83
+    TSlash    shift, and go to state 84
+    TPercent  shift, and go to state 85
 
-    $default  reduce using rule 70 (UnaryExp)
+    $default  reduce using rule 72 (UnaryExp)
 
 
-State 55
+State 57
 
    68 UnaryExp: TMinus MultExp .
 
     $default  reduce using rule 68 (UnaryExp)
 
 
-State 56
+State 58
+
+   71 UnaryExp: TTilde MultExp .
+
+    $default  reduce using rule 71 (UnaryExp)
+
+
+State 59
+
+   70 UnaryExp: TBang MultExp .
+
+    $default  reduce using rule 70 (UnaryExp)
+
+
+State 60
 
    36 AssignmentExp: TIncrement PrimaryExp .
 
     $default  reduce using rule 36 (AssignmentExp)
 
 
-State 57
+State 61
 
    37 AssignmentExp: TDecrement PrimaryExp .
 
     $default  reduce using rule 37 (AssignmentExp)
 
 
-State 58
+State 62
 
     6 CompoundStat: TOpenCurlyBrace Statementlist TCloseCurlyBrace .
 
     $default  reduce using rule 6 (CompoundStat)
 
 
-State 59
+State 63
 
     9 Statementlist: Statementlist Statement .
 
     $default  reduce using rule 9 (Statementlist)
 
 
-State 60
+State 64
 
     7 CompoundStat: TOpenCurlyBrace Declaratorlist TCloseCurlyBrace .
 
     $default  reduce using rule 7 (CompoundStat)
 
 
-State 61
+State 65
 
     5 CompoundStat: TOpenCurlyBrace Declaratorlist Statementlist . TCloseCurlyBrace
     9 Statementlist: Statementlist . Statement
@@ -1018,981 +1082,1043 @@ State 61
     TOpenBracket      shift, and go to state 18
     TPlus             shift, and go to state 19
     TMinus            shift, and go to state 20
-    TIncrement        shift, and go to state 21
-    TDecrement        shift, and go to state 22
+    TTilde            shift, and go to state 21
+    TBang             shift, and go to state 22
+    TIncrement        shift, and go to state 23
+    TDecrement        shift, and go to state 24
     TOpenCurlyBrace   shift, and go to state 12
-    TCloseCurlyBrace  shift, and go to state 100
-    TSemicolon        shift, and go to state 23
-    TIntVal           shift, and go to state 24
-    TIdentifier       shift, and go to state 25
+    TCloseCurlyBrace  shift, and go to state 104
+    TSemicolon        shift, and go to state 25
+    TIntVal           shift, and go to state 26
+    TIdentifier       shift, and go to state 27
 
-    CompoundStat   go to state 26
-    Statement      go to state 59
-    IterStat       go to state 31
-    JumpStat       go to state 32
-    ExpStat        go to state 33
-    Exp            go to state 34
-    AssignmentExp  go to state 35
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    CompoundStat   go to state 28
+    Statement      go to state 63
+    IterStat       go to state 33
+    JumpStat       go to state 34
+    ExpStat        go to state 35
+    Exp            go to state 36
+    AssignmentExp  go to state 37
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 62
+State 66
 
    11 Declaratorlist: Declaratorlist Declarator .
 
     $default  reduce using rule 11 (Declaratorlist)
 
 
-State 63
+State 67
 
    21 ExpStat: Exp TSemicolon .
 
     $default  reduce using rule 21 (ExpStat)
 
 
-State 64
+State 68
 
    40 LogicalOrExp: LogicalAndExp TLogicalOr . LogicalOrExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    LogicalOrExp   go to state 101
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    LogicalOrExp   go to state 105
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 65
+State 69
 
    42 LogicalAndExp: OrExp TLogicalAnd . LogicalAndExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    LogicalAndExp  go to state 102
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    LogicalAndExp  go to state 106
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 66
+State 70
 
    44 OrExp: XorExp TPipe . OrExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    OrExp          go to state 103
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    OrExp          go to state 107
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 67
+State 71
 
    46 XorExp: AndExp TCarat . XorExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    XorExp         go to state 104
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    XorExp         go to state 108
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 68
+State 72
 
    48 AndExp: EqualityExp TBitwiseAnd . AndExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AndExp         go to state 105
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    AndExp         go to state 109
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 69
+State 73
 
    50 EqualityExp: RelationalExp TEquals . EqualityExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    EqualityExp    go to state 106
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    EqualityExp    go to state 110
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 70
+State 74
 
    51 EqualityExp: RelationalExp TNotEqual . EqualityExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    EqualityExp    go to state 107
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    EqualityExp    go to state 111
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 71
+State 75
 
    53 RelationalExp: ShiftExp TGreater . RelationalExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    RelationalExp  go to state 108
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    RelationalExp  go to state 112
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 72
+State 76
 
    54 RelationalExp: ShiftExp TLess . RelationalExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    RelationalExp  go to state 109
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    RelationalExp  go to state 113
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 73
+State 77
 
    56 RelationalExp: ShiftExp TLessEqual . RelationalExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    RelationalExp  go to state 110
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    RelationalExp  go to state 114
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 74
+State 78
 
    55 RelationalExp: ShiftExp TGreaterEqual . RelationalExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    RelationalExp  go to state 111
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 54
+    RelationalExp  go to state 115
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 56
 
 
-State 75
+State 79
 
    58 ShiftExp: AdditiveExp TLeftShift . ShiftExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    ShiftExp     go to state 112
-    AdditiveExp  go to state 44
-    MultExp      go to state 45
-    UnaryExp     go to state 46
-    PrimaryExp   go to state 54
+    ShiftExp     go to state 116
+    AdditiveExp  go to state 46
+    MultExp      go to state 47
+    UnaryExp     go to state 48
+    PrimaryExp   go to state 56
 
 
-State 76
+State 80
 
    59 ShiftExp: AdditiveExp TRightShift . ShiftExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    ShiftExp     go to state 113
-    AdditiveExp  go to state 44
-    MultExp      go to state 45
-    UnaryExp     go to state 46
-    PrimaryExp   go to state 54
+    ShiftExp     go to state 117
+    AdditiveExp  go to state 46
+    MultExp      go to state 47
+    UnaryExp     go to state 48
+    PrimaryExp   go to state 56
 
 
-State 77
+State 81
 
    61 AdditiveExp: MultExp TPlus . AdditiveExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AdditiveExp  go to state 114
-    MultExp      go to state 45
-    UnaryExp     go to state 46
-    PrimaryExp   go to state 54
+    AdditiveExp  go to state 118
+    MultExp      go to state 47
+    UnaryExp     go to state 48
+    PrimaryExp   go to state 56
 
 
-State 78
+State 82
 
    62 AdditiveExp: MultExp TMinus . AdditiveExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AdditiveExp  go to state 115
-    MultExp      go to state 45
-    UnaryExp     go to state 46
-    PrimaryExp   go to state 54
+    AdditiveExp  go to state 119
+    MultExp      go to state 47
+    UnaryExp     go to state 48
+    PrimaryExp   go to state 56
 
 
-State 79
+State 83
 
    64 MultExp: PrimaryExp TStar . MultExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    MultExp     go to state 116
-    UnaryExp    go to state 46
-    PrimaryExp  go to state 54
+    MultExp     go to state 120
+    UnaryExp    go to state 48
+    PrimaryExp  go to state 56
 
 
-State 80
+State 84
 
    65 MultExp: PrimaryExp TSlash . MultExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    MultExp     go to state 117
-    UnaryExp    go to state 46
-    PrimaryExp  go to state 54
+    MultExp     go to state 121
+    UnaryExp    go to state 48
+    PrimaryExp  go to state 56
 
 
-State 81
+State 85
 
    66 MultExp: PrimaryExp TPercent . MultExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    MultExp     go to state 118
-    UnaryExp    go to state 46
-    PrimaryExp  go to state 54
+    MultExp     go to state 122
+    UnaryExp    go to state 48
+    PrimaryExp  go to state 56
 
 
-State 82
+State 86
 
    24 AssignmentExp: PrimaryExp TAssign . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 119
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 123
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 83
+State 87
 
    35 AssignmentExp: PrimaryExp TIncrement .
 
     $default  reduce using rule 35 (AssignmentExp)
 
 
-State 84
+State 88
 
    38 AssignmentExp: PrimaryExp TDecrement .
 
     $default  reduce using rule 38 (AssignmentExp)
 
 
-State 85
+State 89
 
    26 AssignmentExp: PrimaryExp TStarEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 120
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 124
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 86
+State 90
 
    27 AssignmentExp: PrimaryExp TSlashEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 121
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 125
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 87
+State 91
 
    28 AssignmentExp: PrimaryExp TPercentEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 122
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 126
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 88
+State 92
 
    25 AssignmentExp: PrimaryExp TPlusEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 123
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 127
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 89
+State 93
 
    29 AssignmentExp: PrimaryExp TMinusEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 124
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 128
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 90
+State 94
 
    30 AssignmentExp: PrimaryExp TLeftShiftEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 125
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 129
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 91
+State 95
 
    31 AssignmentExp: PrimaryExp TRightShiftEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 126
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 130
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 92
+State 96
 
    32 AssignmentExp: PrimaryExp TAndEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 127
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 131
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 93
+State 97
 
    33 AssignmentExp: PrimaryExp TCaratEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 128
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 132
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 94
+State 98
 
    34 AssignmentExp: PrimaryExp TPipeEquals . AssignmentExp
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    AssignmentExp  go to state 129
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    AssignmentExp  go to state 133
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 95
+State 99
 
    13 Declarator: TInt TIdentifier TAssign . Exp TSemicolon
 
     TOpenBracket  shift, and go to state 18
     TPlus         shift, and go to state 19
     TMinus        shift, and go to state 20
-    TIncrement    shift, and go to state 21
-    TDecrement    shift, and go to state 22
-    TIntVal       shift, and go to state 24
-    TIdentifier   shift, and go to state 25
+    TTilde        shift, and go to state 21
+    TBang         shift, and go to state 22
+    TIncrement    shift, and go to state 23
+    TDecrement    shift, and go to state 24
+    TIntVal       shift, and go to state 26
+    TIdentifier   shift, and go to state 27
 
-    Exp            go to state 130
-    AssignmentExp  go to state 35
-    LogicalOrExp   go to state 36
-    LogicalAndExp  go to state 37
-    OrExp          go to state 38
-    XorExp         go to state 39
-    AndExp         go to state 40
-    EqualityExp    go to state 41
-    RelationalExp  go to state 42
-    ShiftExp       go to state 43
-    AdditiveExp    go to state 44
-    MultExp        go to state 45
-    UnaryExp       go to state 46
-    PrimaryExp     go to state 47
+    Exp            go to state 134
+    AssignmentExp  go to state 37
+    LogicalOrExp   go to state 38
+    LogicalAndExp  go to state 39
+    OrExp          go to state 40
+    XorExp         go to state 41
+    AndExp         go to state 42
+    EqualityExp    go to state 43
+    RelationalExp  go to state 44
+    ShiftExp       go to state 45
+    AdditiveExp    go to state 46
+    MultExp        go to state 47
+    UnaryExp       go to state 48
+    PrimaryExp     go to state 49
 
 
-State 96
+State 100
 
    12 Declarator: TInt TIdentifier TSemicolon .
 
     $default  reduce using rule 12 (Declarator)
 
 
-State 97
+State 101
 
    19 JumpStat: TReturn Exp TSemicolon .
 
     $default  reduce using rule 19 (JumpStat)
 
 
-State 98
+State 102
 
    18 IterStat: TWhile TOpenBracket Exp . TCloseBracket CompoundStat
 
-    TCloseBracket  shift, and go to state 131
+    TCloseBracket  shift, and go to state 135
 
 
-State 99
+State 103
 
-   73 PrimaryExp: TOpenBracket Exp TCloseBracket .
+   75 PrimaryExp: TOpenBracket Exp TCloseBracket .
 
-    $default  reduce using rule 73 (PrimaryExp)
+    $default  reduce using rule 75 (PrimaryExp)
 
 
-State 100
+State 104
 
     5 CompoundStat: TOpenCurlyBrace Declaratorlist Statementlist TCloseCurlyBrace .
 
     $default  reduce using rule 5 (CompoundStat)
 
 
-State 101
+State 105
 
    40 LogicalOrExp: LogicalAndExp TLogicalOr LogicalOrExp .
 
     $default  reduce using rule 40 (LogicalOrExp)
 
 
-State 102
+State 106
 
    42 LogicalAndExp: OrExp TLogicalAnd LogicalAndExp .
 
     $default  reduce using rule 42 (LogicalAndExp)
 
 
-State 103
+State 107
 
    44 OrExp: XorExp TPipe OrExp .
 
     $default  reduce using rule 44 (OrExp)
 
 
-State 104
+State 108
 
    46 XorExp: AndExp TCarat XorExp .
 
     $default  reduce using rule 46 (XorExp)
 
 
-State 105
+State 109
 
    48 AndExp: EqualityExp TBitwiseAnd AndExp .
 
     $default  reduce using rule 48 (AndExp)
 
 
-State 106
+State 110
 
    50 EqualityExp: RelationalExp TEquals EqualityExp .
 
     $default  reduce using rule 50 (EqualityExp)
 
 
-State 107
+State 111
 
    51 EqualityExp: RelationalExp TNotEqual EqualityExp .
 
     $default  reduce using rule 51 (EqualityExp)
 
 
-State 108
+State 112
 
    53 RelationalExp: ShiftExp TGreater RelationalExp .
 
     $default  reduce using rule 53 (RelationalExp)
 
 
-State 109
+State 113
 
    54 RelationalExp: ShiftExp TLess RelationalExp .
 
     $default  reduce using rule 54 (RelationalExp)
 
 
-State 110
+State 114
 
    56 RelationalExp: ShiftExp TLessEqual RelationalExp .
 
     $default  reduce using rule 56 (RelationalExp)
 
 
-State 111
+State 115
 
    55 RelationalExp: ShiftExp TGreaterEqual RelationalExp .
 
     $default  reduce using rule 55 (RelationalExp)
 
 
-State 112
+State 116
 
    58 ShiftExp: AdditiveExp TLeftShift ShiftExp .
 
     $default  reduce using rule 58 (ShiftExp)
 
 
-State 113
+State 117
 
    59 ShiftExp: AdditiveExp TRightShift ShiftExp .
 
     $default  reduce using rule 59 (ShiftExp)
 
 
-State 114
+State 118
 
    61 AdditiveExp: MultExp TPlus AdditiveExp .
 
     $default  reduce using rule 61 (AdditiveExp)
 
 
-State 115
+State 119
 
    62 AdditiveExp: MultExp TMinus AdditiveExp .
 
     $default  reduce using rule 62 (AdditiveExp)
 
 
-State 116
+State 120
 
    64 MultExp: PrimaryExp TStar MultExp .
 
     $default  reduce using rule 64 (MultExp)
 
 
-State 117
+State 121
 
    65 MultExp: PrimaryExp TSlash MultExp .
 
     $default  reduce using rule 65 (MultExp)
 
 
-State 118
+State 122
 
    66 MultExp: PrimaryExp TPercent MultExp .
 
     $default  reduce using rule 66 (MultExp)
 
 
-State 119
+State 123
 
    24 AssignmentExp: PrimaryExp TAssign AssignmentExp .
 
     $default  reduce using rule 24 (AssignmentExp)
 
 
-State 120
+State 124
 
    26 AssignmentExp: PrimaryExp TStarEquals AssignmentExp .
 
     $default  reduce using rule 26 (AssignmentExp)
 
 
-State 121
+State 125
 
    27 AssignmentExp: PrimaryExp TSlashEquals AssignmentExp .
 
     $default  reduce using rule 27 (AssignmentExp)
 
 
-State 122
+State 126
 
    28 AssignmentExp: PrimaryExp TPercentEquals AssignmentExp .
 
     $default  reduce using rule 28 (AssignmentExp)
 
 
-State 123
+State 127
 
    25 AssignmentExp: PrimaryExp TPlusEquals AssignmentExp .
 
     $default  reduce using rule 25 (AssignmentExp)
 
 
-State 124
+State 128
 
    29 AssignmentExp: PrimaryExp TMinusEquals AssignmentExp .
 
     $default  reduce using rule 29 (AssignmentExp)
 
 
-State 125
+State 129
 
    30 AssignmentExp: PrimaryExp TLeftShiftEquals AssignmentExp .
 
     $default  reduce using rule 30 (AssignmentExp)
 
 
-State 126
+State 130
 
    31 AssignmentExp: PrimaryExp TRightShiftEquals AssignmentExp .
 
     $default  reduce using rule 31 (AssignmentExp)
 
 
-State 127
+State 131
 
    32 AssignmentExp: PrimaryExp TAndEquals AssignmentExp .
 
     $default  reduce using rule 32 (AssignmentExp)
 
 
-State 128
+State 132
 
    33 AssignmentExp: PrimaryExp TCaratEquals AssignmentExp .
 
     $default  reduce using rule 33 (AssignmentExp)
 
 
-State 129
+State 133
 
    34 AssignmentExp: PrimaryExp TPipeEquals AssignmentExp .
 
     $default  reduce using rule 34 (AssignmentExp)
 
 
-State 130
+State 134
 
    13 Declarator: TInt TIdentifier TAssign Exp . TSemicolon
 
-    TSemicolon  shift, and go to state 132
+    TSemicolon  shift, and go to state 136
 
 
-State 131
+State 135
 
    18 IterStat: TWhile TOpenBracket Exp TCloseBracket . CompoundStat
 
     TOpenCurlyBrace  shift, and go to state 12
 
-    CompoundStat  go to state 133
+    CompoundStat  go to state 137
 
 
-State 132
+State 136
 
    13 Declarator: TInt TIdentifier TAssign Exp TSemicolon .
 
     $default  reduce using rule 13 (Declarator)
 
 
-State 133
+State 137
 
    18 IterStat: TWhile TOpenBracket Exp TCloseBracket CompoundStat .
 

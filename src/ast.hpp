@@ -322,7 +322,8 @@ public:
 		if(op=="-") {
 			ss << "subu $8,$0, $8\n";
 		} else if(op=="~") {
-			ss << "negu $8,$0, $8\n";
+			ss << "li $10 0xFFFFFFFF\n";
+			ss << "xor $8,$8, $10\n";
 		} else if(op=="!") {
 			ss << "seq $8,$8, $0\n";
 			ss << "bne $8, $0, label" << cont.labelNum << "\n";
