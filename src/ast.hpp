@@ -227,7 +227,12 @@ public:
 		return ss.str();
 	}
 
-	/*TODO: Add Code Print*/
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << "addu $9, $0, $0\n";
+		ss << Helper::writeNewVar(id,cont) << "\n";
+		return ss.str();
+	}
 
 	std::string getId() {
 		return id;
@@ -425,7 +430,9 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << "#Declarator " << id << "\n";
-		ss << e->codeprint(cont) << "\n";
+		if(e!=NULL) {
+			ss << e->codeprint(cont) << "\n";
+		}
 		ss << "addu $9, $8, $0\n";
 		ss << Helper::writeNewVar(id,cont) << "\n";
 		return ss.str();
@@ -687,6 +694,49 @@ public:
 
 FuncDef 3 : MORE THAN ONE PARAM
 **********************************************************/
+
+class ParamList : public Node {
+private:
+	std::list<Parameter*> plist;
+public:
+	StatList() {};
+	void addToList(Parameter* param_in) {
+		plist.push_back(param_in);
+		return;
+	}
+	std::string print() {
+		std::stringstream ss;
+		//ss << "STAT_LIST {" << "\n";
+		for (std::list<Statement*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->print()) << "\n";   			
+    		}		
+		} 
+		//ss << "}" << "\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		for (std::list<Statement*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			ss << ((*it)->cprint());   			
+    		}
+		}
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		for (std::list<Statement*>::iterator it=plist.begin(); it!=plist.end(); ++it) {
+    		if((*it)!=NULL) {
+    			
+    			//std::cerr << "STAT2" << std::endl;
+				ss << ((*it)->codeprint(cont)); 
+    		}
+		}
+		return ss.str();
+	}
+};
 
 class FuncDef : public Node {
 private:
