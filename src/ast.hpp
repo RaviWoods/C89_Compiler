@@ -39,9 +39,11 @@ class Context {
 public:
 	int currentStackOffset;
 	int scopeIndex;
+	int labelNum;
 	std::vector<std::map <std::string, int> > variableMaps;
 	Context() {
 		currentStackOffset = 0;
+		labelNum = 1;
 		scopeIndex = -1;
 		std::map <std::string, int> firstMap;
 		variableMaps.push_back(firstMap);
@@ -232,7 +234,6 @@ public:
 		ss << "#WriteNEWParam\n";
 		ss << "addiu $sp, $sp, -4\n";
 		cont.currentStackOffset++;
-		std::cerr << id << std::endl;
 		cont.variableMaps[0][id] = cont.currentStackOffset;
 		return ss.str();
 	}
@@ -535,6 +536,38 @@ public:
 	}
 };
 
+class WhileStat : public Statement { 
+private:
+	Expression* e;
+	CompoundStatement* cs;
+public:
+	WhileStat(Expression* e_in, CompoundStatement* cs_in) : e(e_in), cs(cs_in) {};
+
+	std::string print() {
+		std::stringstream ss;
+		ss << "WHILE\n";
+		return ss.str();
+	}
+
+	std::string cprint() {
+		std::stringstream ss;
+		ss << "WHILE\n";
+		return ss.str();
+	}
+	std::string codeprint(Context& cont) {
+		std::stringstream ss;
+		ss << "#while\n";
+		ss << "label" << cont.labelNum << "a:\n";
+		ss << e->codeprint(cont);
+		ss << "beq $8, $0, " << "label" << cont.labelNum << "c\n";
+		ss << "label" << cont.labelNum << "b:\n";
+		ss << cs->codeprint(cont);
+		ss << "j label" << cont.labelNum << "b:\n";
+		ss << "label" << cont.labelNum << "c:\n";
+		cont.labelNum++;
+	}
+};
+
 
 /*********************************************************
    _____  _____ ____  _____  ______ 
@@ -626,7 +659,6 @@ public:
 		for (std::list<Statement*>::iterator it=slist.begin(); it!=slist.end(); ++it) {
     		if((*it)!=NULL) {
     			
-    			//std::cerr << "STAT2" << std::endl;
 				ss << ((*it)->codeprint(cont)); 
     		}
 		}
@@ -740,12 +772,10 @@ public:
 				cont.currentStackOffset++;
 				
 				std::string x = ((*it)->print()); 
-				std::cerr << x << std::endl;
 				cont.variableMaps[0][x] = cont.currentStackOffset;
 				i++;
 			} else {
 				if((*it)!=NULL) {		
-	    			//std::cerr << "STAT2" << std::endl;
 					ss << ((*it)->codeprint(cont)); 
 				}
     		}

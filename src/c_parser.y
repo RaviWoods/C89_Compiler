@@ -94,7 +94,15 @@ TInt TIdentifier TSemicolon {
   $$ =  new Declarator("int", $2, $4);
 }
 
-Statement : JumpStat | ExpStat | CompoundStat;
+Statement : JumpStat | ExpStat | SelectStat | CompoundStat;
+
+SelectStat : 
+TIf TOpenBracket Expression TCloseBracket CompoundStat TElse CompoundStat {
+  
+}
+| TIf TOpenBracket Expression TCloseBracket CompoundStat {
+  
+}
 
 JumpStat : 
 TReturn Exp TSemicolon { 
