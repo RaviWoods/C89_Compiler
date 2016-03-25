@@ -96,9 +96,9 @@ TInt TIdentifier TSemicolon {
 
 Statement : JumpStat | ExpStat | IterStat | CompoundStat;
 
-IterStat : TWhile TOpenBracket Exp TCloseBracket Statement {
+IterStat : TWhile TOpenBracket Exp TCloseBracket CompoundStat {
   $$ = new WhileStat($3,$5);
-} | TDo Statement TWhile TOpenBracket Exp TCloseBracket {
+} | TDo CompoundStat TWhile TOpenBracket Exp TCloseBracket {
   $$ = new doWhileStat($5,$2);
 }
 

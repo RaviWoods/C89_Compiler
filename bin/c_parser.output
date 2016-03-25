@@ -70,8 +70,8 @@ Grammar
    16          | IterStat
    17          | CompoundStat
 
-   18 IterStat: TWhile TOpenBracket Exp TCloseBracket Statement
-   19         | TDo Statement TWhile TOpenBracket Exp TCloseBracket
+   18 IterStat: TWhile TOpenBracket Exp TCloseBracket CompoundStat
+   19         | TDo CompoundStat TWhile TOpenBracket Exp TCloseBracket
 
    20 JumpStat: TReturn Exp TSemicolon
    21         | TReturn TSemicolon
@@ -248,7 +248,7 @@ Paraml (89)
 ParamDec (90)
     on left: 4, on right: 2 3
 CompoundStat (91)
-    on left: 5 6 7, on right: 1 17
+    on left: 5 6 7, on right: 1 17 18 19
 Statementlist (92)
     on left: 8 9, on right: 5 6 9
 Declaratorlist (93)
@@ -256,7 +256,7 @@ Declaratorlist (93)
 Declarator (94)
     on left: 12 13, on right: 10 11
 Statement (95)
-    on left: 14 15 16 17, on right: 8 9 18 19
+    on left: 14 15 16 17, on right: 8 9
 IterStat (96)
     on left: 18 19, on right: 16
 JumpStat (97)
@@ -492,47 +492,16 @@ State 16
 
 State 17
 
-   19 IterStat: TDo . Statement TWhile TOpenBracket Exp TCloseBracket
+   19 IterStat: TDo . CompoundStat TWhile TOpenBracket Exp TCloseBracket
 
-    TReturn          shift, and go to state 16
-    TDo              shift, and go to state 17
-    TWhile           shift, and go to state 18
-    TOpenBracket     shift, and go to state 19
-    TPlus            shift, and go to state 20
-    TMinus           shift, and go to state 21
-    TTilde           shift, and go to state 22
-    TBang            shift, and go to state 23
-    TIncrement       shift, and go to state 24
-    TDecrement       shift, and go to state 25
     TOpenCurlyBrace  shift, and go to state 12
-    TSemicolon       shift, and go to state 26
-    TIntVal          shift, and go to state 27
-    TIdentifier      shift, and go to state 28
 
-    CompoundStat   go to state 29
-    Statement      go to state 54
-    IterStat       go to state 34
-    JumpStat       go to state 35
-    ExpStat        go to state 36
-    Exp            go to state 37
-    AssignmentExp  go to state 38
-    LogicalOrExp   go to state 39
-    LogicalAndExp  go to state 40
-    OrExp          go to state 41
-    XorExp         go to state 42
-    AndExp         go to state 43
-    EqualityExp    go to state 44
-    RelationalExp  go to state 45
-    ShiftExp       go to state 46
-    AdditiveExp    go to state 47
-    MultExp        go to state 48
-    UnaryExp       go to state 49
-    PrimaryExp     go to state 50
+    CompoundStat  go to state 54
 
 
 State 18
 
-   18 IterStat: TWhile . TOpenBracket Exp TCloseBracket Statement
+   18 IterStat: TWhile . TOpenBracket Exp TCloseBracket CompoundStat
 
     TOpenBracket  shift, and go to state 55
 
@@ -1003,14 +972,14 @@ State 53
 
 State 54
 
-   19 IterStat: TDo Statement . TWhile TOpenBracket Exp TCloseBracket
+   19 IterStat: TDo CompoundStat . TWhile TOpenBracket Exp TCloseBracket
 
     TWhile  shift, and go to state 104
 
 
 State 55
 
-   18 IterStat: TWhile TOpenBracket . Exp TCloseBracket Statement
+   18 IterStat: TWhile TOpenBracket . Exp TCloseBracket CompoundStat
 
     TOpenBracket  shift, and go to state 19
     TPlus         shift, and go to state 20
@@ -1924,14 +1893,14 @@ State 103
 
 State 104
 
-   19 IterStat: TDo Statement TWhile . TOpenBracket Exp TCloseBracket
+   19 IterStat: TDo CompoundStat TWhile . TOpenBracket Exp TCloseBracket
 
     TOpenBracket  shift, and go to state 138
 
 
 State 105
 
-   18 IterStat: TWhile TOpenBracket Exp . TCloseBracket Statement
+   18 IterStat: TWhile TOpenBracket Exp . TCloseBracket CompoundStat
 
     TCloseBracket  shift, and go to state 139
 
@@ -2162,7 +2131,7 @@ State 137
 
 State 138
 
-   19 IterStat: TDo Statement TWhile TOpenBracket . Exp TCloseBracket
+   19 IterStat: TDo CompoundStat TWhile TOpenBracket . Exp TCloseBracket
 
     TOpenBracket  shift, and go to state 19
     TPlus         shift, and go to state 20
@@ -2192,42 +2161,11 @@ State 138
 
 State 139
 
-   18 IterStat: TWhile TOpenBracket Exp TCloseBracket . Statement
+   18 IterStat: TWhile TOpenBracket Exp TCloseBracket . CompoundStat
 
-    TReturn          shift, and go to state 16
-    TDo              shift, and go to state 17
-    TWhile           shift, and go to state 18
-    TOpenBracket     shift, and go to state 19
-    TPlus            shift, and go to state 20
-    TMinus           shift, and go to state 21
-    TTilde           shift, and go to state 22
-    TBang            shift, and go to state 23
-    TIncrement       shift, and go to state 24
-    TDecrement       shift, and go to state 25
     TOpenCurlyBrace  shift, and go to state 12
-    TSemicolon       shift, and go to state 26
-    TIntVal          shift, and go to state 27
-    TIdentifier      shift, and go to state 28
 
-    CompoundStat   go to state 29
-    Statement      go to state 142
-    IterStat       go to state 34
-    JumpStat       go to state 35
-    ExpStat        go to state 36
-    Exp            go to state 37
-    AssignmentExp  go to state 38
-    LogicalOrExp   go to state 39
-    LogicalAndExp  go to state 40
-    OrExp          go to state 41
-    XorExp         go to state 42
-    AndExp         go to state 43
-    EqualityExp    go to state 44
-    RelationalExp  go to state 45
-    ShiftExp       go to state 46
-    AdditiveExp    go to state 47
-    MultExp        go to state 48
-    UnaryExp       go to state 49
-    PrimaryExp     go to state 50
+    CompoundStat  go to state 142
 
 
 State 140
@@ -2239,20 +2177,20 @@ State 140
 
 State 141
 
-   19 IterStat: TDo Statement TWhile TOpenBracket Exp . TCloseBracket
+   19 IterStat: TDo CompoundStat TWhile TOpenBracket Exp . TCloseBracket
 
     TCloseBracket  shift, and go to state 143
 
 
 State 142
 
-   18 IterStat: TWhile TOpenBracket Exp TCloseBracket Statement .
+   18 IterStat: TWhile TOpenBracket Exp TCloseBracket CompoundStat .
 
     $default  reduce using rule 18 (IterStat)
 
 
 State 143
 
-   19 IterStat: TDo Statement TWhile TOpenBracket Exp TCloseBracket .
+   19 IterStat: TDo CompoundStat TWhile TOpenBracket Exp TCloseBracket .
 
     $default  reduce using rule 19 (IterStat)
