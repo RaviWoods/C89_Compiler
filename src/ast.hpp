@@ -716,6 +716,7 @@ public:
 		ss << "j label" << cont.labelNum << "b:\n";
 		ss << "label" << cont.labelNum << "c:\n";
 		cont.labelNum++;
+		return ss.str();
 	}
 };
 
