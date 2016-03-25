@@ -20,7 +20,6 @@ Node* topNode;
   class Expression* ExpPtr;
   class Statement* StatPtr;
   class StatList* StatListPtr;
-  class ParamList* ParamListPtr;
   class Declarator* DecPtr;
   class Parameter* ParamPtr;
   class DecList* DecListPtr;
@@ -37,27 +36,18 @@ Node* topNode;
 %type <StatListPtr> Statementlist
 %type <DecListPtr> Declaratorlist
 %type <FuncDefPtr> FunctionDef
-%type <ParamListPtr> Paraml
 %type <ParamPtr> ParamDec
 %%
 
 
-FunctionDef: TInt TIdentifier TOpenBracket Paraml TCloseBracket CompoundStat {
-  $$ = new FuncDef("int", $2, $4, $6);
+FunctionDef: TInt TIdentifier TOpenBracket ParamDec TComma ParamDec TCloseBracket CompoundStat {
+  $$ = new FuncDef("int", $2, $4, $6, $8);
   topNode = $$;
 }
 
-Paraml : 
-ParamDec {
-  $$ = new ParamList();
-  $$->addToList($1);
-}| Paraml ParamDec {
-  $$->addToList($2);
-};
-
 ParamDec: TInt TIdentifier {
   $$ =  new Parameter("int",$2);
-};
+}
 
 CompoundStat: 
 TOpenCurlyBrace Declaratorlist Statementlist TCloseCurlyBrace {
