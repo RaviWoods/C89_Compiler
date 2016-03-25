@@ -292,6 +292,10 @@ TMinus MultExp {
   $$ = new UnaryExpression("-", $2);
 } | TPlus MultExp {
   $$ = new UnaryExpression("+", $2);
+} | TBang MultExp {
+  $$ = new UnaryExpression("!", $2);
+} | TTilde MultExp {
+  $$ = new UnaryExpression("~", $2);
 } | PrimaryExp;
 
 PrimaryExp :  
