@@ -765,41 +765,6 @@ public:
 	}
 };
 
-class doWhileStat : public Statement { 
-private:
-	Expression* e;
-	Statement* s;
-public:
-	doWhileStat(Expression* e_in, Statement* s_in) : e(e_in), s(s_in) {};
-
-	std::string print() {
-		std::stringstream ss;
-		ss << "DOWHILE\n";
-		return ss.str();
-	}
-
-	std::string cprint() {
-		std::stringstream ss;
-		ss << "DOWHILE\n";
-		return ss.str();
-	}
-	std::string codeprint(Context& cont) {
-		std::stringstream ss;
-		ss << "#dowhile\n";
-		int x = cont.labelNum;
-		cont.labelNum++;
-
-		ss << "label" << x << "a:\n";
-		ss << s->codeprint(cont);
-		ss << "label" << x << "b:\n";
-		ss << e->codeprint(cont);
-		ss << "beq $8, $0, " << "label" << x << "c\n";
-		ss << "j label" << x << "a\n";
-		ss << "label" << x << "c:\n";
-		
-		return ss.str();
-	}
-};
 
 /*********************************************************
   ______ _    _ _   _  _____ _____  ______ ______ 

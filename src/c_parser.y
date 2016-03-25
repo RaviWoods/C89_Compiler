@@ -98,8 +98,6 @@ Statement : JumpStat | ExpStat | IterStat | CompoundStat;
 
 IterStat : TWhile TOpenBracket Exp TCloseBracket CompoundStat {
   $$ = new WhileStat($3,$5);
-} | TDo CompoundStat TWhile TOpenBracket Exp TCloseBracket {
-  $$ = new doWhileStat($5,$2);
 }
 
 JumpStat : 
