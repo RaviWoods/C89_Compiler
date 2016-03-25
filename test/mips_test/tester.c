@@ -3,7 +3,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-int f(int a, int b, int c);
+int f(int a, int b, int c, int d, int e);
 
 void signal_handler(int signo)
 {
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
    for(int i=0;i<ns;i++){
      for(int j=0;j<ns;j++){
-       int r=f(vs[i],vs[j],(vs[i]*2));
+       int r=f(vs[i],vs[j],(vs[i]*2),100,25);
        fprintf(stdout, "%s%d, %d, %d: %d\n", argv[1], vs[i],vs[j], (vs[i]*2),r);
        fflush(stdout);
      }
