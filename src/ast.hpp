@@ -322,7 +322,8 @@ public:
 		if(op=="-") {
 			ss << "subu $8,$0, $8\n";
 		} else if(op=="~") {
-			ss << "li $10 FFFFFFFF\n";
+			ss << "lui  $10, 0xffff\n";
+			ss << "sra  $10,$10,16";
 			ss << "xor $8,$8, $10\n";
 		} else if(op=="!") {
 			int x = cont.labelNum;
