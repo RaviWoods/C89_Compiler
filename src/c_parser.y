@@ -279,6 +279,6 @@ int yyerror(const char* s){
 int main(void) {
   int success = yyparse();
   if (success == 0) {
-    cout << topNode->codeprint(cont) << endl;
+    cout << topNode->cprint() << endl;
   }
 }
