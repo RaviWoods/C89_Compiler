@@ -4,5 +4,6 @@ int f(int a, int b) {
 		++a;
 		x--;
 	}
-	return a++;
+	a++;
+	return a;
 }

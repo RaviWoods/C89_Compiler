@@ -36,7 +36,7 @@ do
  		printf "\n-----$f PARSER ERROR-----\n"
  		exit
 	fi
-	if ! mips-linux-gnu-gcc  -static test/mips_test/assembly/$fname.s test/mips_test/tester.s -o test/mips_test/tester ; then
+	if ! mips-linux-gnu-gcc  -static test/mips_test/assembly/$fname.s test/mips_test/tester.s -o test/mips_test/tester >/dev/null 2>&1 ; then
 		printf "\n-----$f COMPILE ERROR-----\n"
 		cat $f 
  		printf "\n-----$f COMPILE ERROR-----\n"
