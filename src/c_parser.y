@@ -51,7 +51,7 @@ Paraml :
 ParamDec {
   $$ = new PaList();
   $$->addToList($1);
-}| Paraml ParamDec {
+}| Paraml TComma ParamDec {
   $$->addToList($2);
 }
 
