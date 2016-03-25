@@ -325,11 +325,13 @@ public:
 			ss << "li $10 0xFFFFFFFF\n";
 			ss << "xor $8,$8, $10\n";
 		} else if(op=="!") {
-			ss << "seq $8,$8, $0\n";
-			ss << "bne $8, $0, label" << cont.labelNum << "\n";
-			ss << "addu $8, $8, $0\n";
-			ss << "label" << cont.labelNum << ":\n";
+			int x = cont.labelNum;
 			cont.labelNum++;
+			ss << "seq $8,$8, $0\n";
+			ss << "bne $8, $0, label" << x << "\n";
+			ss << "addu $8, $8, $0\n";
+			ss << "label" << x << ":\n";
+			
 
 		} 
 		return ss.str();
@@ -748,14 +750,16 @@ public:
 	std::string codeprint(Context& cont) {
 		std::stringstream ss;
 		ss << "#while\n";
-		ss << "label" << cont.labelNum << "a:\n";
-		ss << e->codeprint(cont);
-		ss << "beq $8, $0, " << "label" << cont.labelNum << "c\n";
-		ss << "label" << cont.labelNum << "b:\n";
-		ss << s->codeprint(cont);
-		ss << "j label" << cont.labelNum << "a\n";
-		ss << "label" << cont.labelNum << "c:\n";
+		int x = cont.labelNum;
 		cont.labelNum++;
+		ss << "label" << x << "a:\n";
+		ss << e->codeprint(cont);
+		ss << "beq $8, $0, " << "label" << x << "c\n";
+		ss << "label" << x << "b:\n";
+		ss << s->codeprint(cont);
+		ss << "j label" << x << "a\n";
+		ss << "label" << x << "c:\n";
+		
 		return ss.str();
 	}
 };
